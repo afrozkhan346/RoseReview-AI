@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log in — RoseReview</title>
+  <meta name="description" content="Log in to RoseReview — AI-powered code review assistant for engineering teams." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/auth.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🌹</text></svg>" />
+</head>
+<body class="auth-page auth-page--login">
+
+  <!-- Ambient Background -->
+  <div class="auth-ambient">
+    <div class="auth-orb auth-orb--1"></div>
+    <div class="auth-orb auth-orb--2"></div>
+    <div class="auth-orb auth-orb--3"></div>
+  </div>
+
+  <div class="auth-layout">
+    <!-- ═══════════ Left Panel — Branding + Dashboard ═══════════ -->
+    <div class="auth-left">
+      <div class="auth-left-inner">
+        <!-- Logo -->
+        <a href="/" class="auth-logo">
+          <svg class="auth-logo-icon" viewBox="0 0 28 28" fill="none">
+            <path d="M14 2C8 2 4 6.5 4 11c0 5 4 8 6 10s4 5 4 5 2-3 4-5 6-5 6-10c0-4.5-4-9-10-9z" fill="url(#rlg1)" opacity="0.9"/>
+            <path d="M14 6c-3 0-5.5 2.5-5.5 5.5 0 3 2 4.5 3.5 6s2 3 2 3 .5-1.5 2-3 3.5-3 3.5-6C19.5 8.5 17 6 14 6z" fill="url(#rlg2)" opacity="0.7"/>
+            <defs>
+              <linearGradient id="rlg1" x1="4" y1="2" x2="24" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#f43f5e"/><stop offset="1" stop-color="#e11d48"/></linearGradient>
+              <linearGradient id="rlg2" x1="8.5" y1="6" x2="19.5" y2="20" gradientUnits="userSpaceOnUse"><stop stop-color="#fb7185"/><stop offset="1" stop-color="#f43f5e"/></linearGradient>
+            </defs>
+          </svg>
+          <span>RoseReview</span>
+        </a>
+
+        <!-- Hero Text -->
+        <div class="auth-left-hero">
+          <h1 class="auth-left-title">Welcome back to the<br/><span class="auth-gradient-text">future of code review</span></h1>
+          <p class="auth-left-subtitle">Your AI-powered engineering intelligence platform is ready. Pick up where you left off.</p>
+        </div>
+
+        <!-- Dashboard Preview -->
+        <div class="auth-dashboard-preview">
+          <div class="auth-dash-chrome">
+            <div class="auth-dash-topbar">
+              <div class="auth-dash-dots">
+                <span class="adot adot--r"></span>
+                <span class="adot adot--y"></span>
+                <span class="adot adot--g"></span>
+              </div>
+              <div class="auth-dash-tabs">
+                <span class="auth-dash-tab active">PR Analysis</span>
+                <span class="auth-dash-tab">Risk Engine</span>
+              </div>
+              <div class="auth-dash-live">
+                <span class="auth-live-dot"></span>
+                <span>Live</span>
+              </div>
+            </div>
+
+            <div class="auth-dash-body">
+              <!-- Metrics Row -->
+              <div class="auth-dash-metrics">
+                <div class="auth-dash-metric">
+                  <div class="auth-dash-metric-label">PR Health</div>
+                  <div class="auth-dash-metric-val">
+                    <svg class="auth-ring" viewBox="0 0 40 40">
+                      <circle cx="20" cy="20" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"/>
+                      <circle cx="20" cy="20" r="16" fill="none" stroke="#22c55e" stroke-width="3" stroke-dasharray="85 100" stroke-linecap="round" transform="rotate(-90 20 20)" class="auth-ring-anim"/>
+                    </svg>
+                    <span class="auth-metric-num auth-text-green">84</span>
+                  </div>
+                </div>
+                <div class="auth-dash-metric">
+                  <div class="auth-dash-metric-label">Deploy Conf.</div>
+                  <div class="auth-dash-metric-val">
+                    <svg class="auth-ring" viewBox="0 0 40 40">
+                      <circle cx="20" cy="20" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"/>
+                      <circle cx="20" cy="20" r="16" fill="none" stroke="#3b82f6" stroke-width="3" stroke-dasharray="73 100" stroke-linecap="round" transform="rotate(-90 20 20)" class="auth-ring-anim"/>
+                    </svg>
+                    <span class="auth-metric-num auth-text-blue">73%</span>
+                  </div>
+                </div>
+                <div class="auth-dash-metric">
+                  <div class="auth-dash-metric-label">Merge Ready</div>
+                  <div class="auth-dash-metric-val">
+                    <svg class="auth-ring" viewBox="0 0 40 40">
+                      <circle cx="20" cy="20" r="16" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3"/>
+                      <circle cx="20" cy="20" r="16" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="89 100" stroke-linecap="round" transform="rotate(-90 20 20)" class="auth-ring-anim"/>
+                    </svg>
+                    <span class="auth-metric-num auth-text-amber">89%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI Review Insight -->
+              <div class="auth-dash-panel">
+                <div class="auth-dash-panel-head">
+                  <span class="auth-dash-panel-title">AI Review Insight</span>
+                  <span class="auth-ai-tag"><span class="auth-ai-dot"></span>AI</span>
+                </div>
+                <div class="auth-dash-insight">
+                  <span class="auth-severity-badge auth-severity--critical">Critical</span>
+                  Missing rate limiter on <code>/auth/login</code> — brute-force vulnerability detected. Auto-fix available.
+                </div>
+              </div>
+
+              <!-- Mini Chart -->
+              <div class="auth-dash-panel">
+                <div class="auth-dash-panel-head">
+                  <span class="auth-dash-panel-title">Code Health Trend</span>
+                  <span class="auth-dash-period">30d</span>
+                </div>
+                <svg class="auth-mini-chart" viewBox="0 0 240 50">
+                  <defs>
+                    <linearGradient id="acg" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,40 C20,38 40,30 60,32 S100,26 120,20 S160,22 180,15 S220,12 240,8 L240,50 L0,50Z" fill="url(#acg)"/>
+                  <path d="M0,40 C20,38 40,30 60,32 S100,26 120,20 S160,22 180,15 S220,12 240,8" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" class="auth-chart-line"/>
+                </svg>
+              </div>
+
+              <!-- Terminal Log -->
+              <div class="auth-dash-terminal">
+                <div class="auth-term-line"><span class="auth-term-pre">▸</span> <span class="auth-term-dim">Analyzing repository structure...</span> <span class="auth-term-ok">✓</span></div>
+                <div class="auth-term-line"><span class="auth-term-pre">▸</span> <span class="auth-term-dim">Running risk prediction...</span> <span class="auth-term-ok">✓</span></div>
+                <div class="auth-term-line auth-term-active"><span class="auth-term-pre">▸</span> Generating review insights... <span class="auth-term-spinner">⠋</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Indicators -->
+        <div class="auth-trust-row">
+          <div class="auth-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            <span>2,400+ teams</span>
+          </div>
+          <div class="auth-trust-divider"></div>
+          <div class="auth-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>SOC 2 Compliant</span>
+          </div>
+          <div class="auth-trust-divider"></div>
+          <div class="auth-trust-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <span>99.9% Uptime</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ Right Panel — Login Form ═══════════ -->
+    <div class="auth-right">
+      <div class="auth-right-inner">
+        <!-- Mobile Logo -->
+        <a href="/" class="auth-mobile-logo">
+          <svg class="auth-logo-icon" viewBox="0 0 28 28" fill="none">
+            <path d="M14 2C8 2 4 6.5 4 11c0 5 4 8 6 10s4 5 4 5 2-3 4-5 6-5 6-10c0-4.5-4-9-10-9z" fill="url(#rlg1m)" opacity="0.9"/>
+            <defs><linearGradient id="rlg1m" x1="4" y1="2" x2="24" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#f43f5e"/><stop offset="1" stop-color="#e11d48"/></linearGradient></defs>
+          </svg>
+          <span>RoseReview</span>
+        </a>
+
+        <div class="auth-card" id="login-card">
+          <div class="auth-card-header">
+            <h2 class="auth-card-title">Welcome back</h2>
+            <p class="auth-card-subtitle">Sign in to your account to continue reviewing PRs with AI intelligence.</p>
+          </div>
+
+          <!-- OAuth Buttons -->
+          <div class="auth-oauth-group">
+            <button class="auth-oauth-btn" id="btn-github-oauth" type="button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              Continue with GitHub
+            </button>
+            <button class="auth-oauth-btn" id="btn-google-oauth" type="button">
+              <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Continue with Google
+            </button>
+          </div>
+
+          <div class="auth-divider">
+            <span>or continue with email</span>
+          </div>
+
+          <!-- Login Form -->
+          <form class="auth-form" id="login-form" novalidate>
+            <!-- Email -->
+            <div class="auth-field" id="field-email">
+              <label class="auth-label" for="login-email">Email address</label>
+              <div class="auth-input-wrap">
+                <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <input class="auth-input" type="email" id="login-email" placeholder="you@company.com" autocomplete="email" required />
+              </div>
+              <span class="auth-field-error" id="email-error"></span>
+            </div>
+
+            <!-- Password -->
+            <div class="auth-field" id="field-password">
+              <div class="auth-label-row">
+                <label class="auth-label" for="login-password">Password</label>
+                <a href="#" class="auth-forgot-link" id="forgot-password-link">Forgot password?</a>
+              </div>
+              <div class="auth-input-wrap">
+                <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                <input class="auth-input" type="password" id="login-password" placeholder="Enter your password" autocomplete="current-password" required />
+                <button type="button" class="auth-toggle-pw" id="toggle-password" aria-label="Toggle password visibility">
+                  <svg class="pw-icon-show" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <svg class="pw-icon-hide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </button>
+              </div>
+              <span class="auth-field-error" id="password-error"></span>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="auth-options-row">
+              <label class="auth-checkbox-wrap" for="remember-me">
+                <input type="checkbox" id="remember-me" class="auth-checkbox" />
+                <span class="auth-checkmark"></span>
+                <span class="auth-checkbox-label">Remember me</span>
+              </label>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="auth-submit-btn" id="btn-login">
+              <span class="auth-btn-text">Sign in</span>
+              <span class="auth-btn-loader" style="display:none">
+                <span class="auth-spinner"></span>
+                Signing in...
+              </span>
+            </button>
+          </form>
+
+          <!-- Redirect -->
+          <p class="auth-redirect">
+            Don't have an account? <a href="/signup.html" class="auth-redirect-link">Create one</a>
+          </p>
+        </div>
+
+        <!-- Security note -->
+        <div class="auth-security-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Secured with end-to-end encryption</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/auth.js"></script>
+</body>
+</html>

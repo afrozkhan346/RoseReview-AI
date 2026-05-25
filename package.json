@@ -1,0 +1,15 @@
+{
+  "name": "rosereview",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9",
+ "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "pnpm --filter @rosereview/web dev",
+    "dev:api": "pnpm --filter @rosereview/api dev",
+    "install:all": "pnpm install"
+  }
+}
