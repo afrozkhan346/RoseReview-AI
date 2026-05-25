@@ -1,5 +1,6 @@
 import './design-system.css';
 import './responsive.js';
+import { initRepoState } from './repo-state.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // ─────────────────────────────────────────────
@@ -62,32 +63,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ─────────────────────────────────────────────
-  // 3. Dropdown Selector Click Handlers
-  // ─────────────────────────────────────────────
-  const dsSwitcher = document.getElementById('ds-repo-switcher');
-  const dsDropdown = document.getElementById('ds-repo-dropdown');
+  // Initialize Repo State for the header
+  initRepoState();
 
-  if (dsSwitcher && dsDropdown) {
-    dsSwitcher.addEventListener('click', (e) => {
-      e.stopPropagation();
-      dsDropdown.classList.toggle('open');
-    });
+  // Listen for global repo changes
+  window.addEventListener('repoChanged', (e) => {
+    const { fullName } = e.detail;
+    
+    // Shift data pseudo-randomly
+    let hash = 0;
+    for (let i = 0; i < fullName.length; i++) {
+      hash = fullName.charCodeAt(i) + ((hash << 5) - hash);
+    }
 
-    document.addEventListener('click', () => {
-      dsDropdown.classList.remove('open');
-    });
-
-    const options = dsDropdown.querySelectorAll('.repo-option');
-    const label = dsSwitcher.querySelector('.current-repo');
-    options.forEach(opt => {
-      opt.addEventListener('click', () => {
-        options.forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-        if (label) label.textContent = opt.textContent;
-      });
-    });
-  }
+    const scanLine = document.getElementById('scanner-line-bar');
+    if (scanLine) {
+      scanLine.style.width = String(50 + (Math.abs(hash) % 45)) + '%';
+    }
+  });
 
   // ─────────────────────────────────────────────
   // 4. AI Ingest Scanner Simulator

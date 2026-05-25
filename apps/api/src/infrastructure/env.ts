@@ -24,6 +24,11 @@ const envSchema = z.object({
   GROQ_MODEL: z.string().default("llama-3.1-70b-versatile"),
   GITHUB_TOKEN: z.string().min(1, "GITHUB_TOKEN is required").optional(),
   
+  // GitHub OAuth
+  GITHUB_CLIENT_ID: z.string().optional(),
+  GITHUB_CLIENT_SECRET: z.string().optional(),
+  FRONTEND_URL: z.string().url().default("http://localhost:5173"),
+  
   // API Config
   API_PREFIX: z.string().default("/api"),
   API_VERSION: z.string().default("v1"),

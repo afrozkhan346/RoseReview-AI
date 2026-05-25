@@ -6,8 +6,8 @@ import { AppError } from "../../lib/errors";
 export class GitHubClient {
   private octokit: Octokit;
 
-  constructor(private logger: FastifyBaseLogger) {
-    this.octokit = new Octokit({ auth: env.GITHUB_TOKEN });
+  constructor(private logger: FastifyBaseLogger, token?: string) {
+    this.octokit = new Octokit({ auth: token || env.GITHUB_TOKEN });
   }
 
   private async withGitHubCall<T>(name: string, fn: () => Promise<T>) {

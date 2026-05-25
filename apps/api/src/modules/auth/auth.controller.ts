@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { authService } from "./auth.service";
 import { RegisterSchema, LoginSchema } from "./auth.schemas";
 import { successResponse, errorResponse } from "../../infrastructure/api-response";
+import { env } from "../../infrastructure/env";
 
 export class AuthController {
   async register(request: FastifyRequest, reply: FastifyReply) {
@@ -60,6 +61,40 @@ export class AuthController {
       return reply.status(404).send(errorResponse("NOT_FOUND", "User not found", null, request.id));
     }
     return reply.send(successResponse(user, "User profile retrieved", undefined, request.id));
+  }
+
+  async githubLogin(request: FastifyRequest, reply: FastifyReply) {
+    if (!env.GITHUB_CLIENT_ID) {
+      return reply.status(500).send(errorResponse("INTERNAL_SERVER_ERROR", "GitHub OAuth is not configured", null, request.id));
+    }
+    
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&scope=user:email,repo`;
+    return reply.redirect(githubAuthUrl);
+  }
+
+  async githubCallback(request: FastifyRequest<{ Querystring: { code: string } }>, reply: FastifyReply) {
+    const { code } = request.query;
+
+    if (!code) {
+      return reply.redirect(`${env.FRONTEND_URL}/login?error=missing_code`);
+    }
+
+    try {
+      const user = await authService.handleGithubCallback(code);
+      const token = await reply.jwtSign({ id: user.id, email: user.email, name: user.name });
+
+      reply.setCookie("rosereview_token", token, {
+        path: "/",
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+      });
+
+      return reply.redirect(`${env.FRONTEND_URL}/dashboard`);
+    } catch (error: any) {
+      return reply.redirect(`${env.FRONTEND_URL}/login?error=${encodeURIComponent(error.message)}`);
+    }
   }
 }
 

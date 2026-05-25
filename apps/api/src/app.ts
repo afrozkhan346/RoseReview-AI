@@ -1,5 +1,4 @@
 import fastify, { FastifyInstance } from "fastify";
-import { logger } from "./infrastructure/logger";
 import { env } from "./infrastructure/env";
 import { globalErrorHandler } from "./infrastructure/error-handler";
 import { securityPlugin } from "./infrastructure/security";
@@ -13,10 +12,25 @@ import { notificationRoutes } from "./modules/notifications/notification.routes"
 import { activityRoutes } from "./modules/activity/activity.routes";
 import { timelineRoutes } from "./modules/timeline/timeline.routes";
 import { demoRoutes } from "./demo/demo.routes";
+import { githubRoutes } from "./modules/github/github.routes";
 
 export function buildApp(): FastifyInstance {
   const app = fastify({
-    logger: env.NODE_ENV === "development" ? logger : true,
+    logger:
+      env.NODE_ENV === "development"
+        ? {
+            level: env.LOG_LEVEL,
+            transport: {
+              target: "pino-pretty",
+              options: {
+                colorize: true,
+                translateTime: "SYS:standard",
+                ignore: "pid,hostname",
+                singleLine: true,
+              },
+            },
+          }
+        : true,
     disableRequestLogging: true, 
   });
 
@@ -40,17 +54,19 @@ export function buildApp(): FastifyInstance {
   // Register Routes
   app.register(registerHealthRoutes);
   
+  // Fallback for GitHub OAuth if the app is configured without /api/v1 prefix
+  app.get("/auth/github/callback", (req, reply) => {
+    const code = (req.query as any).code;
+    return reply.redirect(`/api/v1/auth/github/callback?code=${code}`);
+  });
+  
   app.register(async (api) => {
     api.register(authRoutes, { prefix: "/auth" });
     api.register(workspaceRoutes, { prefix: "/workspaces" });
     api.register(repositoryRoutes, { prefix: "/repositories" });
     api.register(notificationRoutes, { prefix: "/notifications" });
     api.register(demoRoutes, { prefix: "/demo" });
-    api.register(activityRoutes, { prefix: "/activity" }); // We use /activity, but inside it binds to /workspaces/... internally, wait!
-    // Actually in activity.routes.ts I wrote: fastify.get("/workspaces/:workspaceId/activity")
-    // If I prefix it with /activity, the route becomes /api/v1/activity/workspaces/:workspaceId/activity
-    // It is better to mount it without a prefix or change the route in activity.routes.ts
-    // For now I'll register timeline and activity without prefix if they have complex structures
+    api.register(githubRoutes, { prefix: "/github" });
   }, { prefix: "/api/v1" });
 
   app.register(async (api2) => {
