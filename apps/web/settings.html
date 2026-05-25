@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings & Workspace Management — RoseReview</title>
+  <meta name="description" content="RoseReview Platform Settings & Team Management — Customize AI review sensitivity, set repository compliance benchmarks, manage team ownership, and configure webhook integrations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles.css" />
+  <link rel="stylesheet" href="/src/dashboard.css" />
+  <link rel="stylesheet" href="/src/settings.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🌹</text></svg>" />
+</head>
+<body class="dash-layout-body settings-layout-body">
+
+  <!-- Ambient Gradient Background Orbs -->
+  <div class="dash-ambient-bg">
+    <div class="dash-orb dash-orb--rose"></div>
+    <div class="dash-orb dash-orb--purple"></div>
+    <div class="dash-orb dash-orb--blue"></div>
+  </div>
+
+  <!-- ═══════════════ Collapsible Sidebar Navigation ═══════════════ -->
+  <aside class="dash-sidebar" id="dash-sidebar">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-logo">
+        <svg class="sidebar-logo-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2C8 2 4 6.5 4 11c0 5 4 8 6 10s4 5 4 5 2-3 4-5 6-5 6-10c0-4.5-4-9-10-9z" fill="url(#slogo-grad-se)" opacity="0.9"/>
+          <path d="M14 6c-3 0-5.5 2.5-5.5 5.5 0 3 2 4.5 3.5 6s2 3 2 3 .5-1.5 2-3 3.5-3 3.5-6C19.5 8.5 17 6 14 6z" fill="url(#slogo-grad2-se)" opacity="0.7"/>
+          <defs>
+            <linearGradient id="slogo-grad-se" x1="4" y1="2" x2="24" y2="26" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#f43f5e"/><stop offset="1" stop-color="#e11d48"/>
+            </linearGradient>
+            <linearGradient id="slogo-grad2-se" x1="8.5" y1="6" x2="19.5" y2="20" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#fb7185"/><stop offset="1" stop-color="#f43f5e"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="sidebar-logo-text">RoseReview</span>
+      </a>
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul class="nav-menu">
+        <li>
+          <a href="/dashboard.html" class="nav-menu-item" data-nav-target="dashboard">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span class="nav-menu-label">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/dashboard.html#pull-requests" class="nav-menu-item" data-nav-target="prs">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6a2 2 0 00-2-2H4"/><path d="M6 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M18 22a3 3 0 100-6 3 3 0 000 6z"/><path d="M6 14v2a2 2 0 002 2h8"/></svg>
+            <span class="nav-menu-label">Pull Requests</span>
+            <span class="nav-badge">4</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html#risk-center" class="nav-menu-item" data-nav-target="risk">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span class="nav-menu-label">Risk Center</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html" class="nav-menu-item" data-nav-target="intelligence">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            <span class="nav-menu-label">Repo Intelligence</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html#benchmarks" class="nav-menu-item" data-nav-target="benchmarks">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span class="nav-menu-label">Benchmarks</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html#contributors" class="nav-menu-item" data-nav-target="team">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            <span class="nav-menu-label">Contributors</span>
+          </a>
+        </li>
+        <li>
+          <a href="/settings.html" class="nav-menu-item active" data-nav-target="settings">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83-2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <span class="nav-menu-label">Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-avatar">RR</div>
+      <div class="sidebar-user-info">
+        <span class="user-name">Acme Dev Team</span>
+        <span class="user-role">Premium Plan</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════ Main Dashboard Wrapper ═══════════════ -->
+  <main class="dash-main-container">
+
+    <!-- ═══════════════ Top Header Navigation ═══════════════ -->
+    <header class="dash-header">
+      <div class="header-left">
+        <div class="repo-switcher">
+          <svg class="repo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          <span class="current-repo">RoseReview-AI</span>
+          <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+
+        <div class="ai-status">
+          <span class="ai-status-pulse"></span>
+          <span class="ai-status-text">Settings Mode: Synced</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Global Search -->
+        <div class="global-search">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search settings, keys, rules..." aria-label="Search Settings" />
+          <span class="search-kbd">⌘K</span>
+        </div>
+
+        <!-- Notification Center -->
+        <div class="notification-center">
+          <button class="icon-btn" id="notification-toggle" aria-label="Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span class="notification-badge"></span>
+          </button>
+        </div>
+
+        <!-- Profile Menu -->
+        <div class="profile-menu">
+          <button class="profile-btn" id="profile-toggle" aria-label="Profile Menu">
+            <div class="profile-avatar">AK</div>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══════════════ Sticky Settings Two-Column Viewport ═══════════════ -->
+    <div class="dash-scroll-view">
+      <div class="settings-view-wrapper">
+
+        <!-- Left Pane: Sticky Navigation Menu -->
+        <aside class="settings-nav-pane">
+          <div class="sticky-nav-card">
+            <div class="nav-pane-header">Workspace Config</div>
+            <ul class="settings-nav-list" id="settings-nav">
+              <li><a href="#overview" class="se-nav-item active">Workspace Overview</a></li>
+              <li><a href="#integrations" class="se-nav-item">Repository Integrations</a></li>
+              <li><a href="#benchmarks" class="se-nav-item">Benchmark Standards</a></li>
+              <li><a href="#ai-behavior" class="se-nav-item">AI Review Settings</a></li>
+              <li><a href="#team" class="se-nav-item">Team Management</a></li>
+              <li><a href="#notifications" class="se-nav-item">Notification Intelligence</a></li>
+              <li><a href="#security" class="se-nav-item">Security & Compliance</a></li>
+              <li><a href="#personalization" class="se-nav-item">Workspace Customization</a></li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Right Pane: Scrollable Configuration Panels -->
+        <div class="settings-panels-pane" id="panels-container">
+
+          <!-- ═══════════════ PANEL 1: WORKSPACE OVERVIEW ═══════════════ -->
+          <section class="se-section-panel" id="overview">
+            <div class="se-panel-header">
+              <h2 class="se-panel-title">Workspace Overview</h2>
+              <p class="se-panel-desc font-mono">WORKSPACE TELEMETRY • ORG: ACME-DEV-CORP</p>
+            </div>
+
+            <!-- Dashboard Style Metrics -->
+            <div class="overview-metrics-grid">
+              <div class="metric-mini-card">
+                <span class="lbl">Connected Repos</span>
+                <span class="val text-blue">14</span>
+                <span class="status text-green">● 100% active</span>
+              </div>
+              <div class="metric-mini-card">
+                <span class="lbl">Active Members</span>
+                <span class="val text-purple">12</span>
+                <span class="status">2 Owners • 10 Devs</span>
+              </div>
+              <div class="metric-mini-card">
+                <span class="lbl">Benchmark Compliance</span>
+                <span class="val text-rose">88%</span>
+                <span class="status text-rose">▲ 3.2% (30d)</span>
+              </div>
+              <div class="metric-mini-card">
+                <span class="lbl">AI Review Loads</span>
+                <span class="val">429</span>
+                <span class="status text-blue">⚡ ~3.8s turnaround</span>
+              </div>
+            </div>
+
+            <div class="overview-metadata-list">
+              <div class="meta-row">
+                <span class="meta-label">Organization Name</span>
+                <span class="meta-value font-weight-bold">Acme Dev Corp</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Billing Plan</span>
+                <span class="meta-value text-rose font-weight-bold">Enterprise Dedicated (SLA Active)</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Primary Region</span>
+                <span class="meta-value font-mono">us-east-1 (Vercel Edge Proxy Sync)</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Deployment Safety Engine</span>
+                <span class="meta-value text-green font-weight-bold">✓ Active (12 pipelines synced)</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ PANEL 2: REPOSITORY INTEGRATIONS ═══════════════ -->
+          <section class="se-section-panel" id="integrations">
+            <div class="se-panel-header">
+              <h2 class="se-panel-title">Repository Integrations</h2>
+              <p class="se-panel-desc">Manage API endpoints, webhooks, and synchronization tunnels across connected tools.</p>
+            </div>
+
+            <div class="integrations-card-list">
+              <!-- Integration Card 1: GitHub -->
+              <div class="integration-item-card">
+                <div class="int-header">
+                  <div class="int-info">
+                    <svg class="int-logo-icon fill-white" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    <div>
+                      <span class="int-name">GitHub Cloud</span>
+                      <span class="int-scope font-mono">All Repositories Scope</span>
+                    </div>
+                  </div>
+                  <span class="int-status-badge badge-active"><span class="status-pulse-green"></span>Active Sync</span>
+                </div>
+                <div class="int-metadata font-mono">
+                  <div class="int-meta-col"><span>Sync Health:</span> <strong class="text-green">99.8%</strong></div>
+                  <div class="int-meta-col"><span>Webhook:</span> <strong class="text-green">Connected</strong></div>
+                  <div class="int-meta-col"><span>Last sync:</span> <span>3 mins ago</span></div>
+                </div>
+              </div>
+
+              <!-- Integration Card 2: Vercel Pipelines -->
+              <div class="integration-item-card">
+                <div class="int-header">
+                  <div class="int-info">
+                    <svg class="int-logo-icon fill-white" viewBox="0 0 512 512" width="24" height="24"><path d="M256,48,496,464H16Z"/></svg>
+                    <div>
+                      <span class="int-name">Vercel Deployments</span>
+                      <span class="int-scope font-mono">Production Rollback triggers</span>
+                    </div>
+                  </div>
+                  <span class="int-status-badge badge-active"><span class="status-pulse-green"></span>Connected</span>
+                </div>
+                <div class="int-metadata font-mono">
+                  <div class="int-meta-col"><span>Pipelines:</span> <strong>8 active paths</strong></div>
+                  <div class="int-meta-col"><span>Token:</span> <span class="text-secondary">ver_sec_***9a2</span></div>
+                  <div class="int-meta-col"><span>Last deploy sync:</span> <span>1 hr ago</span></div>
+                </div>
+              </div>
+
+              <!-- Integration Card 3: Slack Notifications -->
+              <div class="integration-item-card">
+                <div class="int-header">
+                  <div class="int-info">
+                    <svg class="int-logo-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523 2.528 2.528 0 0 1-2.522-2.523 2.528 2.528 0 0 1 2.522-2.52h2.52v2.52zm1.261 0a2.528 2.528 0 0 1 2.52-2.52h5.043a2.528 2.528 0 0 1 2.522 2.52v5.043a2.528 2.528 0 0 1-2.522 2.52H8.823a2.528 2.528 0 0 1-2.52-2.52v-5.043zm0-6.33a2.528 2.528 0 0 1 2.52-2.522 2.528 2.528 0 0 1 2.522 2.522v2.52h-5.043v-2.52zm0-1.261a2.528 2.528 0 0 1 2.52-2.522 2.528 2.528 0 0 1 2.522 2.522v5.043a2.528 2.528 0 0 1-2.522 2.52H8.823a2.528 2.528 0 0 1-2.52-2.52V7.574zm6.33 1.261a2.528 2.528 0 0 1 2.522-2.522 2.528 2.528 0 0 1 2.52 2.522v2.52h-2.52v-2.52zm1.262-1.261a2.528 2.528 0 0 1 2.52-2.522 2.528 2.528 0 0 1 2.522 2.522v5.043a2.528 2.528 0 0 1-2.522 2.52h-5.043a2.528 2.528 0 0 1-2.52-2.52V7.574zm-1.262 11.332a2.528 2.528 0 0 1 2.52-2.52h2.52v2.52a2.528 2.528 0 0 1-2.52 2.523 2.528 2.528 0 0 1-2.52-2.523zm-5.043 0a2.528 2.528 0 0 1 2.522-2.52h5.043a2.528 2.528 0 0 1 2.52 2.52v5.043a2.528 2.528 0 0 1-2.522 2.52H11.38a2.528 2.528 0 0 1-2.52-2.52v-5.043z"/></svg>
+                    <div>
+                      <span class="int-name">Slack Alerts</span>
+                      <span class="int-scope font-mono">#engineering-reviews alerts</span>
+                    </div>
+                  </div>
+                  <span class="int-status-badge badge-active"><span class="status-pulse-green"></span>Connected</span>
+                </div>
+                <div class="int-metadata font-mono">
+                  <div class="int-meta-col"><span>Channel:</span> <span>#ops-telemetry</span></div>
+                  <div class="int-meta-col"><span>Alert Type:</span> <span>Critical Issues</span></div>
+                  <div class="int-meta-col"><span>Last Ping:</span> <span>5 mins ago</span></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Floating Guidance Card 1 -->
+          <div class="floating-ai-guidance">
+            <span class="ai-guidance-badge">AI INSIGHT</span>
+            <p class="ai-guidance-text">“Integrating Slack alert webhooks directly feeds PR latency warning diagnostics straight to the team's triage channel, lowering risk turnaround paths.”</p>
+          </div>
+
+          <!-- ═══════════════ PANEL 3: ENGINEERING BENCHMARKS ═══════════════ -->
+          <section class="se-section-panel" id="benchmarks">
+            <div class="se-panel-header">
+              <h2 class="se-panel-title">Engineering Benchmark Standards</h2>
+              <p class="se-panel-desc">Configure code review compliance metrics, test thresholds, and repository rules.</p>
+            </div>
+
+            <!-- Rule Builder Interface -->
+            <div class="se-rule-builder-box">
+              <div class="rule-box-header">Repository Rule Policies</div>
+              
+              <!-- Rule Row 1: Coverage -->
+              <div class="rule-row">
+                <div class="rule-desc">
+                  <span class="rule-title font-mono">MINIMUM_TEST_COVERAGE</span>
+                  <p class="rule-sub font-sans">Blocks pull request merges if automated testing coverage falls below threshold limits.</p>
+                </div>
+                <div class="rule-control">
+                  <input type="number" value="80" class="rule-input-num" id="input-rule-coverage" />
+                  <span class="rule-unit">%</span>
+                  <label class="se-switch">
+                    <input type="checkbox" checked id="toggle-rule-coverage" />
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Rule Row 2: Naming standards -->
+              <div class="rule-row">
+                <div class="rule-desc">
+                  <span class="rule-title font-mono">NAMING_CONVENTIONS</span>
+                  <p class="rule-sub font-sans">Enforce camelCase for local variable descriptors and PascalCase for export classes.</p>
+                </div>
+                <div class="rule-control">
+                  <select class="rule-select" id="select-naming-rules">
+                    <option value="strict">Strict (Fail PR)</option>
+                    <option value="warn" selected>Warn on mismatch</option>
+                    <option value="disabled">Disabled</option>
+                  </select>
+                  <label class="se-switch">
+                    <input type="checkbox" checked />
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Rule Row 3: Circular Imports -->
+              <div class="rule-row">
+                <div class="rule-desc">
+                  <span class="rule-title font-mono">ARCHITECTURE_COUPLING_LIMITS</span>
+                  <p class="rule-sub font-sans">Forbid circular package imports and enforce transactional database boundary separations.</p>
+                </div>
+                <div class="rule-control">
+                  <label class="se-switch">
+                    <input type="checkbox" checked id="toggle-rule-coupling" />
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Compliance Scorecard Impact Preview -->
+            <div class="compliance-preview-box">
+              <div class="preview-box-header">Live Benchmark Compliance Impact</div>
+              <div class="preview-stats-grid">
+                <div class="preview-stat">
+                  <span class="lbl">Compliance Rating</span>
+                  <span class="val text-green" id="preview-compliance-score">88/100</span>
+                </div>
+                <div class="preview-stat">
+                  <span class="lbl">Affected PRs</span>
+                  <span class="val text-rose" id="preview-affected-prs">2 Open</span>
+                </div>
+                <div class="preview-stat">
+                  <span class="lbl">Risk Reduction</span>
+                  <span class="val text-blue">▲ 14.8%</span>
+                </div>
+              </div>
+              <div class="preview-chart-row">
+                <span class="preview-chart-desc">Extrapolated impact on production rollbacks:</span>
+                <span class="preview-chart-val text-green font-weight-bold">✓ Minimal Incident Chance</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ PANEL 4: AI BEHAVIOR CONTROLS ═══════════════ -->
+          <section class="se-section-panel" id="ai-behavior">
+            <div class="se-panel-header">
+              <h2 class="se-panel-title">AI Review Behavior & Communication</h2>
+              <p class="se-panel-desc">Tune the strictness, verbosity levels, and communicative empathy profiles of the review agent.</p>
+            </div>
+
+            <!-- Behavior Sliders -->
+            <div class="sliders-container">
+              <div class="slider-row">
+                <div class="slider-info">
+                  <span class="slider-title">AI Review Strictness</span>
+                  <span class="slider-desc">Low checks formatting only; High blocks logic race hazards.</span>
+                </div>
+                <div class="slider-control-wrap">
+                  <input type="range" min="1" max="100" value="75" class="se-slider" id="slider-strictness" />
+                  <span class="slider-value font-mono" id="val-strictness">75%</span>
+                </div>
+              </div>
+
+              <div class="slider-row">
+                <div class="slider-info">
+                  <span class="slider-title">Review Empathy & Tone</span>
+                  <span class="slider-desc">Configures how constructively reviews are formatted.</span>
+                </div>
+                <div class="slider-control-wrap">
+                  <input type="range" min="1" max="3" value="2" class="se-slider" id="slider-empathy" />
+                  <span class="slider-value font-mono" id="val-empathy">Collaborative</span>
+                </div>
+              </div>
+
+              <div class="slider-row">
+                <div class="slider-info">
+                  <span class="slider-title">Explanation Verbosity</span>
+                  <span class="slider-desc">Control length and architectural detail of reviews.</span>
+                </div>
+                <div class="slider-control-wrap">
+                  <input type="range" min="1" max="100" value="60" class="se-slider" id="slider-verbosity" />
+                  <span class="slider-value font-mono" id="val-verbosity">Detailed</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Review Tone Preview Box -->
+            <div class="tone-preview-box">
+              <div class="tone-preview-header">Live Review Commentary Preview</div>
+              <div class="tone-preview-body font-mono">
+                <div class="preview-avatar">RR</div>
+                <div class="preview-bubble">
+                  <div class="bubble-header-meta">
+                    <span class="badge-critical">Critical Finding</span>
+                    <span>Line 62: apps/api/billing.ts</span>
+                  </div>
+                  <p id="tone-comment-text" class="bubble-body-text">
+                    “This billing transaction logic is clean, though concurrent calls might trigger a race condition hazard. Consider wrapping the query block in findUniqueWithLock.”
+                  </p>
+                  <p class="bubble-sub-text">
+                    <strong>Reasoning:</strong> Prevents subscriber database ledgers from duplicate allocations.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Floating Guidance Card 2 -->
+          <div class="floating-ai-guidance">
+            <span class="ai-guidance-badge">AI INSIGHT</span>
+            <p class="ai-guidance-text">“Setting AI strictness to 75% or higher enables deep static-analysis logic checking, catching database race hazards before CI/CD tests run.”</p>
+          </div>
+
+          <!-- ═══════════════ PANEL 5: TEAM MANAGEMENT ═══════════════ -->
+          <section class="se-section-panel" id="team">
+            <div class="se-panel-header">
+              <h2 class="se-panel-title">Team Management</h2>
+              <p class="se-panel-desc">Manage team membership, access policies, ownership roles, and participation metrics.</p>
+            </div>
+
+            <!-- Team Members list -->
+            <div class="team-list">
+              <!-- Team Member 1 -->
+              <div class="team-member-card">
+                <div class="member-profile">
+                  <div class="member-avatar bg-rose">AK</div>
+                  <div class="member-info">
+                    <span class="member-name">Afroz Khan</span>
+                    <span class="member-email font-mono">afroz@rosereview.ai</span>
+                  </div>
+                </div>
+                <div class="member-stats">
+                  <div class="stat-group">
+                    <span class="lbl font-mono">Ownership</span>
+                    <span class="val font-weight-bold text-rose">apps/api, billing</span>
+                  </div>
+                  <div class="stat-group">
+                    <span class="lbl font-mono">Participation</span>
+                    <span class="val text-blue">96%</span>
+                  </div>
+                </div>
+                <div class="member-role">
+                  <span class="role-badge role--owner">Workspace Owner</span>
+                </div>
+              </div>
+
+              <!-- Team Member 2 -->
+              <div class="team-member-card">
+                <div class="member-profile">
+                  <div class="member-avatar bg-blue">MD</div>
+                  <div class="member-info">
+                    <span class="member-name">Moby Dev</span>
+                    <span class="member-email font-mono">moby@rosereview.ai</span>
+                  </div>
+                </div>
+                <div class="member-stats">
+                  <div class="stat-group">
+                    <span class="lbl font-mono">Ownership</span>
+                    <span class="val text-secondary">packages/shared, docs</span>
+                  </div>
+                  <div class="stat-group">
+                    <span class="lbl font-mono">Participation</span>
+                    <span class="val text-blue">84%</span>
+                  </div>
+                </div>
+                <div class="member-role">
+                  <span class="role-badge role--member">Maintainer</span>
+                </div>
+              </div>
+
+              <!-- Team Member 3 -->
+              <div class="team-member-card">
+                <div class="member-profile">
+                  <div class="member-avatar bg-purple">SR</div>
+                  <div class="member-info">
+                    <span class="member-name">Sara Reviewer</span>
+                    <span class="member-email font-mono">sara@rosereview.ai</span>
+                  </div>
+                </div>
+                <div class="member-stats">
+                  <div class="stat-group">
+                    <span class="lbl font-mono">Ownership</span>
+                    <span class="val text-secondary">apps/web</span>
+                  </div>
+                  <div class="stat-group">
+                    <span class="lbl font-mono">Participation</span>
+                    <span class="val text-blue">91%</span>
+                  </div>
+                </div>
+                <div class="member-role">
+                  <span class="role-badge role--member">Developer</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="team-actions-row">
+              <button class="btn btn--primary btn--sm" id="btn-invite-member">Invite Team Member</button>
+            </div>
+          </section>
+
+          <!-- ═══════════════ PANEL 6: NOTIFICATION PREFERENCES ═══════════════ -->
+          <section class="se-section-panel" id="notifications">
+            <div class="se-panel-header">
+              <h2 class="se-panel-title">Notification Preferences</h2>
+              <p class="se-panel-desc">Configure webhook ingestion, slack hooks, and email report boundaries.</p>
+            </div>
+
+            <!-- Notifications Config checkboxes -->
+            <div class="notifications-checklist-box">
+              <label class="check-row">
+                <input type="checkbox" checked id="notif-critical" />
+                <span class="checkbox-box"></span>
+                <div class="check-text">
+                  <span class="check-title">Critical Logic Vulnerability Alerts</span>
+                  <p class="check-sub">Fires instant notifications when database concurrency or token verification failures are indexed.</p>
+                </div>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" checked id="notif-merges" />
+                <span class="checkbox-box"></span>
+                <div class="check-text">
+                  <span class="check-title">Merge Stability & Collision Warnings</span>
+                  <p class="check-sub">Notify when overlapping commits from multiple branches create a >75% collision risk in the deployment queue.</p>
+                </div>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" id="notif-reports" />
+                <span class="checkbox-box"></span>
+                <div class="check-text">
+                  <span class="check-title">Weekly Engineering Quality Digest Reports</span>
+                  <p class="check-sub">Deliver compliance scorecard progress aggregates directly to organization owners.</p>
+                </div>
+              </label>
+            </div>
+
+            <!-- Dynamic Notification Card Example -->
+            <div class="notif-preview-card" id="notif-preview-box">
+              <span class="notif-card-lbl font-mono">Real-time Ingest Preview Example:</span>
+              <div class="notif-item unread">
+                <span class="notif-dot"></span>
+                <div class="notif-content">
+                  <span class="notif-title" id="notif-preview-title">Critical Logic Alert</span>
+                  <span class="notif-desc" id="notif-preview-desc">Security verification bypassed on billing.ts. Syncing patch suggests.</span>
+                  <span class="notif-time">Just now</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ PANEL 7: SECURITY & COMPLIANCE ═══════════════ -->
+          <section class="se-section-panel" id="security">
+            <div class="se-panel-header">
+              <h2 class="se-panel-title">Security & Compliance</h2>
+              <p class="se-panel-desc">Revoke access keys, configure token permissions, and review audit trail operations.</p>
+            </div>
+
+            <!-- API Access Token Management -->
+            <div class="se-security-box">
+              <span class="sec-box-title font-mono">Workspace API Access Keys</span>
+              <p class="sec-box-desc">Use this secret key to bind local repository Git pre-commit hooks to the RoseReview scanner.</p>
+              
+              <div class="token-generation-box">
+                <div class="token-display-input">
+                  <input type="password" value="rose_sk_live_9a2f10283bd7824ac0f92d8bc983c21a" class="token-field font-mono" id="api-token-field" readonly />
+                  <button class="token-action-btn" id="btn-reveal-token">Reveal</button>
+                  <button class="token-action-btn" id="btn-copy-token">Copy</button>
+                </div>
+                <span class="token-copied-toast" id="token-copied-toast font-mono">Token copied! ✓</span>
+              </div>
+            </div>
+
+            <!-- Audit trail logs -->
+            <div class="audit-trail-section">
+              <span class="sec-box-title font-mono">Audit Operations Log</span>
+              
+              <div class="audit-table-wrap">
+                <table class="audit-table font-mono">
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Operator</th>
+                      <th>Operation Event</th>
+                      <th>Target Asset</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-secondary">12:15:02</td>
+                      <td>Afroz Khan</td>
+                      <td class="text-blue">TOKEN_CREATED</td>
+                      <td>Pre-Commit Hook Auth Key</td>
+                    </tr>
+                    <tr>
+                      <td class="text-secondary">09:42:14</td>
+                      <td>Moby Dev</td>
+                      <td class="text-rose">RULE_MODIFIED</td>
+                      <td>TESTING_COVERAGE_CEILING</td>
+                    </tr>
+                    <tr>
+                      <td class="text-secondary">08:12:05</td>
+                      <td>System Daemon</td>
+                      <td class="text-green">WEBHOOK_ROTATED</td>
+                      <td>GitHub Hook Endpoint</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ PANEL 8: WORKSPACE PERSONALIZATION ═══════════════ -->
+          <section class="se-section-panel" id="personalization">
+            <div class="se-panel-header">
+              <h2 class="se-panel-title">Workspace Customization</h2>
+              <p class="se-panel-desc">Personalize dashboard themes, compact views, layouts, and shortcuts.</p>
+            </div>
+
+            <!-- Theme Picker -->
+            <div class="personalization-grid">
+              <div class="theme-selection-box">
+                <span class="theme-box-title font-mono">Theme Presets</span>
+                
+                <div class="themes-row">
+                  <button class="theme-btn active" data-theme="dark" style="background-color: #06060b;">
+                    <span>Classic Dark</span>
+                  </button>
+                  <button class="theme-btn" data-theme="ambient" style="background-color: #090212;">
+                    <span>Ambient Glow</span>
+                  </button>
+                  <button class="theme-btn" data-theme="terminal" style="background-color: #030a05;">
+                    <span>Matrix Green</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Preferences layout -->
+              <div class="layout-toggles-box">
+                <span class="theme-box-title font-mono">Layout Options</span>
+                
+                <label class="toggle-row">
+                  <span>Enable Compact View Mode</span>
+                  <label class="se-switch">
+                    <input type="checkbox" id="toggle-compact-mode" />
+                    <span class="switch-slider"></span>
+                  </label>
+                </label>
+
+                <label class="toggle-row">
+                  <span>Display Mini Charts on Metric Cards</span>
+                  <label class="se-switch">
+                    <input type="checkbox" checked />
+                    <span class="switch-slider"></span>
+                  </label>
+                </label>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="/src/settings.js"></script>
+</body>
+</html>
