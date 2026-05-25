@@ -4,8 +4,6 @@
 
 **RoseReview AI** is a next-generation, repository-aware code review platform that acts like a senior developer on your team. It delivers high-signal pull request reviews, identifies deployment risks, evaluates code health, and integrates directly with GitHub—all wrapped in a stunning, premium dark-mode interface.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-org%2Frosereview)
-
 ---
 
 ## 🌟 Key Features
@@ -72,16 +70,6 @@ RoseReview doesn't just output generic bot feedback. It generates reviews that f
 
 3. **Open the Dashboard:**
    Navigate to the local server URL provided by Vite (usually `http://localhost:5173`) in your browser to interact with the dashboard.
-
-### 🚀 Deploying to Vercel (Unified Deployment)
-
-This project is pre-configured for a **full unified deployment to Vercel**. Vercel will automatically build the Vite frontend as static files, and compile the Fastify backend as a Serverless Node.js Function!
-
-1. Import the repository into your Vercel dashboard.
-2. Ensure the **Framework Preset** is set to `Vite`.
-3. Vercel will automatically detect the `vercel.json` and the root `api/` directory.
-4. Add your API Environment Variables in Vercel (`GROQ_API_KEY`, `GITHUB_TOKEN`, `DATABASE_URL`, `REDIS_URL`).
-5. Click **Deploy**. Vercel handles both the frontend builds and backend proxying instantly!
 
 ---
 
