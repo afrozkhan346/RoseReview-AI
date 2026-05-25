@@ -25,3 +25,4 @@ yarn-error.log*
 Thumbs.db
 .idea/
 .vscode/
+apps/api/prisma/dev.db
