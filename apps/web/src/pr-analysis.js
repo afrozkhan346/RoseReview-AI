@@ -1,4 +1,5 @@
 import './pr-analysis.css';
+import './responsive.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // ─────────────────────────────────────────────

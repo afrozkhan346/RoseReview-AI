@@ -1,3 +1,5 @@
+@import './responsive.css';
+
 :root {
   --bg-primary: #06060b;
   --bg-secondary: #0c0c14;

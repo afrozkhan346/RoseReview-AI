@@ -1,4 +1,5 @@
 import './auth.css';
+import './responsive.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const isLoginPage = document.body.classList.contains('auth-page--login');

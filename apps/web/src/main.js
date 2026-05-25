@@ -1,4 +1,5 @@
 import './styles.css';
+import './responsive.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // ─────────────────────────────────────────────

@@ -1,4 +1,5 @@
 import './dashboard.css';
+import './responsive.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // ─────────────────────────────────────────────

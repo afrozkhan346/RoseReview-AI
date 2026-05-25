@@ -1,4 +1,5 @@
 import './analytics.css';
+import './responsive.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // ─────────────────────────────────────────────
