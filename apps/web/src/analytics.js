@@ -1,5 +1,6 @@
 import './analytics.css';
 import './responsive.js';
+import { initRepoState } from './repo-state.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // ─────────────────────────────────────────────
@@ -26,48 +27,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // ─────────────────────────────────────────────
   // 2. Dropdown Menus (Repo Switcher, Notifications, Profile)
   // ─────────────────────────────────────────────
-  const repoSwitcher = document.getElementById('repo-switcher');
-  const repoDropdown = document.getElementById('repo-dropdown');
-  const profileToggle = document.getElementById('profile-toggle');
-  const profileDropdown = document.getElementById('profile-dropdown');
-  const notificationToggle = document.getElementById('notification-toggle');
-  const notificationDropdown = document.getElementById('notification-dropdown');
+  // Initialize Repo State for the header
+  initRepoState();
 
-  const toggleDropdown = (trigger, dropdown) => {
-    if (trigger && dropdown) {
-      trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdown.classList.toggle('open');
-        // Close others
-        [repoDropdown, profileDropdown, notificationDropdown].forEach(d => {
-          if (d && d !== dropdown) d.classList.remove('open');
-        });
-      });
+  // Listen for global repo changes
+  window.addEventListener('repoChanged', (e) => {
+    const { fullName } = e.detail;
+    
+    const pageTitle = document.querySelector('.hero-welcome-desc');
+    if (pageTitle) {
+      pageTitle.innerHTML = `Analyzing <strong class="text-blue">${fullName}</strong> performance, debt, and quality metrics across the last 30 days.`;
     }
-  };
 
-  toggleDropdown(repoSwitcher, repoDropdown);
-  toggleDropdown(profileToggle, profileDropdown);
-  toggleDropdown(notificationToggle, notificationDropdown);
+    // Shift data pseudo-randomly
+    let hash = 0;
+    for (let i = 0; i < fullName.length; i++) {
+      hash = fullName.charCodeAt(i) + ((hash << 5) - hash);
+    }
 
-  // Close dropdowns on outside clicks
-  document.addEventListener('click', () => {
-    [repoDropdown, profileDropdown, notificationDropdown].forEach(d => {
-      if (d) d.classList.remove('open');
-    });
-  });
+    const healthCounter = document.getElementById('counter-health');
+    if (healthCounter) healthCounter.textContent = String(80 + (Math.abs(hash) % 20));
 
-  // Handle repo options selector
-  const repoOptions = document.querySelectorAll('.repo-option');
-  const currentRepoText = document.querySelector('.current-repo');
-  repoOptions.forEach(opt => {
-    opt.addEventListener('click', () => {
-      repoOptions.forEach(o => o.classList.remove('active'));
-      opt.classList.add('active');
-      if (currentRepoText) {
-        currentRepoText.textContent = opt.textContent;
-      }
-    });
+    const deployCounter = document.getElementById('counter-deploy');
+    if (deployCounter) deployCounter.textContent = String(75 + (Math.abs(hash >> 2) % 25));
+
+    const riskNum = document.getElementById('risk-val-number');
+    if (riskNum) riskNum.textContent = String(5 + (Math.abs(hash >> 4) % 15)) + '%';
   });
 
   // ─────────────────────────────────────────────

@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "framework": "vite",
+  "buildCommand": "pnpm --filter @rosereview/web build",
+  "outputDirectory": "apps/web/dist",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://your-production-api.up.railway.app/api/$1"
+    }
+  ]
+}

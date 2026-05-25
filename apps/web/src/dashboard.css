@@ -1830,3 +1830,42 @@ body.dash-layout-body {
     grid-template-columns: 1fr;
   }
 }
+/* Skeleton Loading State */
+.dash-skeleton-mode .dash-hero-banner,
+.dash-skeleton-mode .dash-layout-grid {
+  pointer-events: none !important;
+}
+.dash-skeleton-mode .dash-hero-banner *,
+.dash-skeleton-mode .dash-layout-grid * {
+  color: transparent !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  animation: skeleton-pulse 1.5s infinite ease-in-out !important;
+  background-image: none !important;
+}
+
+.dash-skeleton-mode .dash-hero-banner svg,
+.dash-skeleton-mode .dash-layout-grid svg,
+.dash-skeleton-mode .dash-hero-banner img,
+.dash-skeleton-mode .dash-layout-grid img {
+  opacity: 0 !important;
+}
+
+@keyframes skeleton-pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+/* Exclusions for skeleton loader */
+.dash-skeleton-mode .dash-hero-banner .ai-analyzing-card,
+.dash-skeleton-mode .dash-hero-banner .ai-analyzing-card *,
+.dash-skeleton-mode .dash-layout-grid .ai-analyzing-card,
+.dash-skeleton-mode .dash-layout-grid .ai-analyzing-card * {
+  animation: none !important;
+  color: unset !important;
+  background-color: unset !important;
+  border-color: unset !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}

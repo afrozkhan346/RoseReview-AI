@@ -13,13 +13,27 @@ import { detectSignals } from "./github.utils";
 export class GitHubService {
   private client: GitHubClient;
 
-  constructor(private logger: FastifyBaseLogger) {
-    this.client = new GitHubClient(logger);
+  constructor(private logger: FastifyBaseLogger, token?: string) {
+    this.client = new GitHubClient(logger, token);
   }
 
   async fetchPullRequest(ref: GitHubPullRequestRef) {
     const res = await this.client.retrySafe("pulls.get", async () =>
       this.client.rest.pulls.get({ owner: ref.owner, repo: ref.repo, pull_number: ref.number })
+    );
+    return res.data;
+  }
+
+  async fetchUserRepositories() {
+    const res = await this.client.retrySafe("repos.listForAuthenticatedUser", async () =>
+      this.client.rest.repos.listForAuthenticatedUser({ sort: "updated", per_page: 50 })
+    );
+    return res.data;
+  }
+
+  async fetchRepositoryPullRequests(owner: string, repo: string) {
+    const res = await this.client.retrySafe("pulls.list", async () =>
+      this.client.rest.pulls.list({ owner, repo, state: "open", sort: "updated", direction: "desc", per_page: 10 })
     );
     return res.data;
   }

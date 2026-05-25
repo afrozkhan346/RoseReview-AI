@@ -135,10 +135,7 @@
           
           <!-- Dropdown -->
           <div class="repo-dropdown" id="repo-dropdown">
-            <div class="repo-option active">RoseReview-AI</div>
-            <div class="repo-option">payments-microservice</div>
-            <div class="repo-option">auth-gateway</div>
-            <div class="repo-option">docs-website</div>
+            <div class="repo-option" style="color: var(--text-secondary); font-style: italic;">Paste a PR URL above to add a repo</div>
           </div>
         </div>
 
@@ -150,11 +147,10 @@
 
       <!-- Search, Notifications, Profile -->
       <div class="header-right">
-        <!-- Global Search -->
-        <div class="global-search">
-          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" placeholder="Search pull requests, metrics, benchmarks..." aria-label="Search" />
-          <span class="search-kbd">⌘K</span>
+        <!-- Global Search / Manual PR Input -->
+        <div class="global-search manual-pr-input-group" style="display: flex; gap: 8px; align-items: center; border: none; background: transparent; padding: 0;">
+          <input type="text" id="manual-pr-input" placeholder="Paste full PR URL to track repo & analyze" style="padding: 8px 14px; border: 1px solid var(--border-color); border-radius: 8px; background: rgba(0,0,0,0.2); color: var(--text-primary); font-size: 14px; width: 320px; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease;" onfocus="this.style.borderColor='var(--accent-rose)'; this.style.boxShadow='0 0 0 2px rgba(244,63,94,0.1)'" onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none'" />
+          <button id="manual-pr-btn" class="btn btn--primary" style="white-space: nowrap; padding: 8px 16px; border-radius: 8px;">Analyze PR</button>
         </div>
 
         <!-- Quick Action Trigger -->
@@ -173,21 +169,21 @@
           <div class="notification-dropdown" id="notification-dropdown">
             <div class="notif-header">Notifications <span class="notif-clear">Clear all</span></div>
             <div class="notif-list">
-              <div class="notif-item unread">
+              <a href="#ai-insights" class="notif-item unread" style="text-decoration: none; color: inherit;">
                 <span class="notif-dot"></span>
                 <div class="notif-content">
                   <span class="notif-title">Critical Security Bug Patched</span>
                   <span class="notif-desc">AI auto-generated a patch for billing handler validation error.</span>
                   <span class="notif-time">2 mins ago</span>
                 </div>
-              </div>
-              <div class="notif-item">
+              </a>
+              <a href="#pull-requests" class="notif-item" style="text-decoration: none; color: inherit;">
                 <div class="notif-content">
                   <span class="notif-title">PR #126 Merged Successfully</span>
                   <span class="notif-desc">Risk confidence score was 94%. Uptime remained stable.</span>
                   <span class="notif-time">1 hr ago</span>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>
@@ -195,12 +191,12 @@
         <!-- Profile Dropdown -->
         <div class="profile-menu">
           <button class="profile-btn" id="profile-toggle" aria-label="Profile Menu">
-            <div class="profile-avatar">AK</div>
+            <div class="profile-avatar" id="profile-avatar-btn">AK</div>
           </button>
           <div class="profile-dropdown" id="profile-dropdown">
             <div class="profile-header">
-              <span class="profile-name">Afroz Khan</span>
-              <span class="profile-email">afroz@rosereview.ai</span>
+              <span class="profile-name" id="profile-name">Afroz Khan</span>
+              <span class="profile-email" id="profile-email">afroz@rosereview.ai</span>
             </div>
             <a href="#" class="profile-link">Account Settings</a>
             <a href="#" class="profile-link">API Keys</a>
@@ -335,189 +331,9 @@
                 <span class="panel-count">4 open</span>
               </div>
 
-              <div class="prs-list">
-                <!-- PR 1: Critical Risk -->
-                <div class="pr-card" id="pr-billing">
-                  <div class="pr-card-main">
-                    <div class="pr-info">
-                      <div class="pr-title-row">
-                        <span class="pr-number">#129</span>
-                        <h3 class="pr-title">Implement concurrent handling inside billing gateway</h3>
-                      </div>
-                      <div class="pr-meta">
-                        <div class="author-avatar-sm">AK</div>
-                        <span class="pr-repo font-mono">apps/api</span>
-                        <span class="pr-time">Updated 3 mins ago</span>
-                      </div>
-                    </div>
-                    
-                    <div class="pr-metrics">
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Risk</span>
-                        <span class="pr-metric-val risk-tag tag--high">High</span>
-                      </div>
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Confidence</span>
-                        <span class="pr-metric-val text-blue">62%</span>
-                      </div>
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Readiness</span>
-                        <span class="pr-metric-val text-amber">48%</span>
-                      </div>
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Findings</span>
-                        <span class="pr-metric-val text-rose font-weight-bold">3 AI comments</span>
-                      </div>
-                    </div>
-                    
-                    <button class="pr-expand-btn" aria-label="Expand details">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                  </div>
-                  
-                  <!-- Expandable details -->
-                  <div class="pr-card-details">
-                    <div class="pr-details-grid">
-                      <div class="pr-details-col">
-                        <h4>Affected Services</h4>
-                        <div class="details-badges">
-                          <span class="d-badge">billing-service</span>
-                          <span class="d-badge">auth-gateway</span>
-                          <span class="d-badge">events-pipeline</span>
-                        </div>
-                      </div>
-                      <div class="pr-details-col">
-                        <h4>Compliance Scores</h4>
-                        <div class="details-compliance-bars">
-                          <div class="c-bar-row"><span>Security</span><div class="c-bar-track"><div class="c-bar-fill bg-red" style="width:40%"></div></div><span class="c-bar-num text-red">40%</span></div>
-                          <div class="c-bar-row"><span>Testing</span><div class="c-bar-track"><div class="c-bar-fill bg-green" style="width:90%"></div></div><span class="c-bar-num text-green">90%</span></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="pr-details-action-row">
-                      <a href="#ai-insights" class="btn btn--secondary btn--sm">Jump to AI Insights</a>
-                      <button class="btn btn--primary btn--sm">Approve Auto-Patch</button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- PR 2: Low Risk -->
-                <div class="pr-card" id="pr-docs">
-                  <div class="pr-card-main">
-                    <div class="pr-info">
-                      <div class="pr-title-row">
-                        <span class="pr-number">#128</span>
-                        <h3 class="pr-title">Update API endpoint documentation and schema mappings</h3>
-                      </div>
-                      <div class="pr-meta">
-                        <div class="author-avatar-sm avatar--blue">MD</div>
-                        <span class="pr-repo font-mono">packages/shared</span>
-                        <span class="pr-time">Updated 2 hrs ago</span>
-                      </div>
-                    </div>
-                    
-                    <div class="pr-metrics">
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Risk</span>
-                        <span class="pr-metric-val risk-tag tag--low">Low</span>
-                      </div>
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Confidence</span>
-                        <span class="pr-metric-val text-green">98%</span>
-                      </div>
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Readiness</span>
-                        <span class="pr-metric-val text-green">100%</span>
-                      </div>
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Findings</span>
-                        <span class="pr-metric-val text-secondary">0 findings</span>
-                      </div>
-                    </div>
-                    
-                    <button class="pr-expand-btn" aria-label="Expand details">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                  </div>
-                  
-                  <div class="pr-card-details">
-                    <div class="pr-details-grid">
-                      <div class="pr-details-col">
-                        <h4>Affected Services</h4>
-                        <div class="details-badges">
-                          <span class="d-badge">docs-gateway</span>
-                        </div>
-                      </div>
-                      <div class="pr-details-col">
-                        <h4>Compliance Scores</h4>
-                        <div class="details-compliance-bars">
-                          <div class="c-bar-row"><span>Security</span><div class="c-bar-track"><div class="c-bar-fill bg-green" style="width:100%"></div></div><span class="c-bar-num text-green">100%</span></div>
-                          <div class="c-bar-row"><span>Testing</span><div class="c-bar-track"><div class="c-bar-fill bg-green" style="width:100%"></div></div><span class="c-bar-num text-green">100%</span></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="pr-details-action-row">
-                      <button class="btn btn--primary btn--sm">Merge PR (Instant)</button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- PR 3: Moderate Risk -->
-                <div class="pr-card" id="pr-auth">
-                  <div class="pr-card-main">
-                    <div class="pr-info">
-                      <div class="pr-title-row">
-                        <span class="pr-number">#127</span>
-                        <h3 class="pr-title">Refactor auth JWT cookie session encryption</h3>
-                      </div>
-                      <div class="pr-meta">
-                        <div class="author-avatar-sm avatar--purple">SR</div>
-                        <span class="pr-repo font-mono">apps/api</span>
-                        <span class="pr-time">Updated 4 hrs ago</span>
-                      </div>
-                    </div>
-                    
-                    <div class="pr-metrics">
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Risk</span>
-                        <span class="pr-metric-val risk-tag tag--med">Medium</span>
-                      </div>
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Confidence</span>
-                        <span class="pr-metric-val text-amber">74%</span>
-                      </div>
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Readiness</span>
-                        <span class="pr-metric-val text-amber">81%</span>
-                      </div>
-                      <div class="pr-metric">
-                        <span class="pr-metric-lbl">Findings</span>
-                        <span class="pr-metric-val text-amber">1 warning</span>
-                      </div>
-                    </div>
-                    
-                    <button class="pr-expand-btn" aria-label="Expand details">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                  </div>
-                  
-                  <div class="pr-card-details">
-                    <div class="pr-details-grid">
-                      <div class="pr-details-col">
-                        <h4>Affected Services</h4>
-                        <div class="details-badges">
-                          <span class="d-badge">auth-service</span>
-                        </div>
-                      </div>
-                      <div class="pr-details-col">
-                        <h4>Compliance Scores</h4>
-                        <div class="details-compliance-bars">
-                          <div class="c-bar-row"><span>Security</span><div class="c-bar-track"><div class="c-bar-fill bg-amber" style="width:78%"></div></div><span class="c-bar-num text-amber">78%</span></div>
-                          <div class="c-bar-row"><span>Testing</span><div class="c-bar-track"><div class="c-bar-fill bg-green" style="width:85%"></div></div><span class="c-bar-num text-green">85%</span></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div class="prs-list" id="pr-list-container">
+                <div style="padding: 24px; text-align: center; color: var(--text-secondary);">
+                  Loading pull requests...
                 </div>
               </div>
             </section>

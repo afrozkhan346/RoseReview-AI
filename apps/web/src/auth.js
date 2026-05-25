@@ -400,11 +400,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const originalHtml = btn.innerHTML;
       btn.innerHTML = '<span class="auth-spinner" style="width:14px;height:14px;margin-right:8px;border-width:2px;display:inline-block;animation:authSpin 0.6s linear infinite;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;"></span> Connecting...';
       btn.style.opacity = '0.8';
-      setTimeout(() => {
-        btn.innerHTML = originalHtml;
-        btn.style.opacity = '1';
-        alert('OAuth flow simulated');
-      }, 1000);
+      
+      // Redirect to the real backend OAuth endpoint
+      window.location.href = 'http://localhost:3001/api/v1/auth/github';
     });
   });
 
