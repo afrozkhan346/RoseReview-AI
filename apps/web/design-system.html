@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design System & UI Components — RoseReview</title>
+  <meta name="description" content="RoseReview Enterprise UI Design System and Component Library. Reusable styles, tokens, buttons, cards, diff viewers, and accessibility guidelines." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles.css" />
+  <link rel="stylesheet" href="/src/dashboard.css" />
+  <link rel="stylesheet" href="/src/design-system.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🌹</text></svg>" />
+</head>
+<body class="dash-layout-body ds-layout-body">
+
+  <!-- Ambient Gradient Background Orbs -->
+  <div class="dash-ambient-bg">
+    <div class="dash-orb dash-orb--rose"></div>
+    <div class="dash-orb dash-orb--purple"></div>
+    <div class="dash-orb dash-orb--blue"></div>
+  </div>
+
+  <!-- ═══════════════ Collapsible Sidebar Navigation ═══════════════ -->
+  <aside class="dash-sidebar" id="dash-sidebar">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-logo">
+        <svg class="sidebar-logo-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2C8 2 4 6.5 4 11c0 5 4 8 6 10s4 5 4 5 2-3 4-5 6-5 6-10c0-4.5-4-9-10-9z" fill="url(#slogo-grad-ds)" opacity="0.9"/>
+          <path d="M14 6c-3 0-5.5 2.5-5.5 5.5 0 3 2 4.5 3.5 6s2 3 2 3 .5-1.5 2-3 3.5-3 3.5-6C19.5 8.5 17 6 14 6z" fill="url(#slogo-grad2-ds)" opacity="0.7"/>
+          <defs>
+            <linearGradient id="slogo-grad-ds" x1="4" y1="2" x2="24" y2="26" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#f43f5e"/><stop offset="1" stop-color="#e11d48"/>
+            </linearGradient>
+            <linearGradient id="slogo-grad2-ds" x1="8.5" y1="6" x2="19.5" y2="20" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#fb7185"/><stop offset="1" stop-color="#f43f5e"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="sidebar-logo-text">RoseReview</span>
+      </a>
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul class="nav-menu">
+        <li>
+          <a href="/dashboard.html" class="nav-menu-item" data-nav-target="dashboard">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span class="nav-menu-label">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/dashboard.html#pull-requests" class="nav-menu-item" data-nav-target="prs">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-6a2 2 0 00-2-2H4"/><path d="M6 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M18 22a3 3 0 100-6 3 3 0 000 6z"/><path d="M6 14v2a2 2 0 002 2h8"/></svg>
+            <span class="nav-menu-label">Pull Requests</span>
+            <span class="nav-badge">4</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html#risk-center" class="nav-menu-item" data-nav-target="risk">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span class="nav-menu-label">Risk Center</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html" class="nav-menu-item" data-nav-target="intelligence">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            <span class="nav-menu-label">Repo Intelligence</span>
+          </a>
+        </li>
+        <li>
+          <a href="/design-system.html" class="nav-menu-item active" data-nav-target="design-system">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <span class="nav-menu-label">Design System</span>
+          </a>
+        </li>
+        <li>
+          <a href="/settings.html" class="nav-menu-item" data-nav-target="settings">
+            <svg class="nav-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83-2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <span class="nav-menu-label">Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-avatar">RR</div>
+      <div class="sidebar-user-info">
+        <span class="user-name">Acme Dev Team</span>
+        <span class="user-role">Premium Plan</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════════════ Main Content Viewport ═══════════════ -->
+  <main class="dash-main-container">
+
+    <!-- Floating Top Navigation -->
+    <header class="dash-header">
+      <div class="header-left">
+        <div class="repo-breadcrumbs font-mono">
+          <a href="/dashboard.html" class="breadcrumb-link">RoseReview</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current text-rose font-weight-bold">Design System Showcase</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <a href="/dashboard.html" class="btn btn--secondary btn--sm">Back to Dashboard</a>
+      </div>
+    </header>
+
+    <!-- Scrollable Workspace container -->
+    <div class="dash-scroll-view">
+      <div class="ds-view-wrapper">
+
+        <!-- Sticky Sidebar Navigation menu -->
+        <aside class="ds-nav-pane">
+          <div class="ds-sticky-nav-card">
+            <div class="ds-nav-header font-mono">Design System</div>
+            <ul class="ds-nav-list" id="ds-nav">
+              <li><a href="#philosophy" class="ds-nav-item active">Philosophy & Tokens</a></li>
+              <li><a href="#buttons" class="ds-nav-item">Core Buttons</a></li>
+              <li><a href="#cards" class="ds-nav-item">Layered Cards</a></li>
+              <li><a href="#menus" class="ds-nav-item">Inputs & Dropdowns</a></li>
+              <li><a href="#ai-language" class="ds-nav-item">AI Interaction Language</a></li>
+              <li><a href="#charts" class="ds-nav-item">Telemetry & Charts</a></li>
+              <li><a href="#code" class="ds-nav-item">Code Diff Viewer</a></li>
+              <li><a href="#overlays" class="ds-nav-item">Overlays & Dialogs</a></li>
+              <li><a href="#accessibility" class="ds-nav-item">Access & Accessibility</a></li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Right Pane: Component Showcase Areas -->
+        <div class="ds-content-pane">
+
+          <!-- ═══════════════ SECTION 1: PHILOSOPHY & TOKENS ═══════════════ -->
+          <section class="ds-section-panel" id="philosophy">
+            <div class="ds-panel-header">
+              <h2 class="ds-panel-title">Philosophy & Design Tokens</h2>
+              <p class="ds-panel-subtitle font-mono">ROSEREVIEW PRINCIPLES • INTER & GEIST TYPOGRAPHY</p>
+            </div>
+
+            <!-- Philosophy Intro -->
+            <div class="ds-philosophy-card">
+              <p class="phil-title text-rose font-weight-bold">Developer Experience (DX) Design Philosophy</p>
+              <p class="phil-desc">
+                RoseReview's design language aims to reduce **reviewer fatigue**, **cognitive overload**, **PR merge anxiety**, and **deployment uncertainty** while instilling **trust**, **operational clarity**, and **collaboration comfort** within engineering teams. We combine Datadog's density with Stripe's calm minimalism and Linear's responsive motion.
+              </p>
+            </div>
+
+            <!-- Color Palette Swatches -->
+            <div class="ds-tokens-block">
+              <span class="ds-sub-title font-mono">Accent & State Colors</span>
+              <div class="ds-color-grid">
+                <div class="color-swatch-box" style="background-color: var(--accent-rose);">
+                  <span class="sw-name font-mono">--accent-rose</span>
+                  <span class="sw-val font-mono">#F43F5E</span>
+                  <span class="sw-desc">Primary Accent / Brand Logo</span>
+                </div>
+                <div class="color-swatch-box" style="background-color: var(--accent-blue);">
+                  <span class="sw-name font-mono">--accent-blue</span>
+                  <span class="sw-val font-mono">#3B82F6</span>
+                  <span class="sw-desc">AI Intelligence Glow / Code Added</span>
+                </div>
+                <div class="color-swatch-box" style="background-color: var(--accent-purple);">
+                  <span class="sw-name font-mono">--accent-purple</span>
+                  <span class="sw-val font-mono">#8B5CFC</span>
+                  <span class="sw-desc">Security / Encryption / Tags</span>
+                </div>
+                <div class="color-swatch-box" style="background-color: var(--accent-green);">
+                  <span class="sw-name font-mono">--accent-green</span>
+                  <span class="sw-val font-mono">#22C55E</span>
+                  <span class="sw-desc">Success State / Compliance Indicators</span>
+                </div>
+                <div class="color-swatch-box" style="background-color: var(--accent-amber);">
+                  <span class="sw-name font-mono">--accent-amber</span>
+                  <span class="sw-val font-mono">#F59E0B</span>
+                  <span class="sw-desc">Warning / Technical Debt Indicator</span>
+                </div>
+                <div class="color-swatch-box" style="background-color: var(--accent-red);">
+                  <span class="sw-name font-mono">--accent-red</span>
+                  <span class="sw-val font-mono">#EF4444</span>
+                  <span class="sw-desc">Critical Bug / High Deployment Risk</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ SECTION 2: CORE BUTTONS ═══════════════ -->
+          <section class="ds-section-panel" id="buttons">
+            <div class="ds-panel-header">
+              <h2 class="ds-panel-title">Core Buttons Library</h2>
+              <p class="ds-panel-subtitle">Standardized actions detailing custom lifts, linear animations, and spring physics transitions.</p>
+            </div>
+
+            <div class="ds-component-display">
+              <div class="btn-group-row">
+                <!-- Primary Button -->
+                <div class="btn-demo-box">
+                  <span class="demo-lbl font-mono">btn--primary</span>
+                  <button class="btn btn--primary">Apply Changes</button>
+                </div>
+
+                <!-- Secondary Button -->
+                <div class="btn-demo-box">
+                  <span class="demo-lbl font-mono">btn--secondary</span>
+                  <button class="btn btn--secondary">Cancel Route</button>
+                </div>
+
+                <!-- Ghost Button -->
+                <div class="btn-demo-box">
+                  <span class="demo-lbl font-mono">btn--ghost</span>
+                  <button class="btn btn--ghost">Settings</button>
+                </div>
+
+                <!-- Destructive Button -->
+                <div class="btn-demo-box">
+                  <span class="demo-lbl font-mono">btn--destructive</span>
+                  <button class="btn btn--destructive">Revoke Webhook</button>
+                </div>
+              </div>
+
+              <!-- Premium AI action button -->
+              <div class="btn-group-row margin-top-20">
+                <div class="btn-demo-box flex-2">
+                  <span class="demo-lbl font-mono">btn--ai-spark (Glow/Hover Border highlight)</span>
+                  <button class="btn btn-ai-spark">
+                    <svg class="spark-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <span>Generate AI Code Review Patch</span>
+                  </button>
+                </div>
+
+                <!-- Icon button -->
+                <div class="btn-demo-box">
+                  <span class="demo-lbl font-mono">icon-btn</span>
+                  <button class="icon-btn" aria-label="Quick Actions">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ SECTION 3: LAYERED CARDS ═══════════════ -->
+          <section class="ds-section-panel" id="cards">
+            <div class="ds-panel-header">
+              <h2 class="ds-panel-title">Layered Surface Cards</h2>
+              <p class="ds-panel-subtitle">Glassmorphic containers built with rgba borders, inner shadows, and dynamic gradient glowing underlays.</p>
+            </div>
+
+            <div class="ds-component-display grid-2-columns">
+              <!-- Card: Pulse Rose -->
+              <div class="an-card an-card--pulse-rose min-height-140">
+                <div class="an-card-glow-bg bg-glow-rose"></div>
+                <div class="an-card-header">
+                  <span class="an-card-label font-mono">RISK INDICATOR</span>
+                  <span class="an-card-pulse pulse-rose"></span>
+                </div>
+                <div class="an-card-body">
+                  <span class="card-demo-value font-weight-bold">90% Collision Risk</span>
+                  <p class="card-demo-desc">Overlapping changes mapped inside billing.ts database controllers.</p>
+                </div>
+              </div>
+
+              <!-- Card: Pulse Blue -->
+              <div class="an-card an-card--pulse-blue min-height-140">
+                <div class="an-card-glow-bg bg-glow-blue"></div>
+                <div class="an-card-header">
+                  <span class="an-card-label font-mono">DEPLOYMENT READINESS</span>
+                  <span class="an-card-pulse pulse-blue"></span>
+                </div>
+                <div class="an-card-body">
+                  <span class="card-demo-value font-weight-bold">89% Safety Index</span>
+                  <p class="card-demo-desc">All static-analysis compliance parameters are within SLAs.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ SECTION 4: CONTROLS & DROPDOWNS ═══════════════ -->
+          <section class="ds-section-panel" id="menus">
+            <div class="ds-panel-header">
+              <h2 class="ds-panel-title">Inputs, Selector Menus, & Toggles</h2>
+              <p class="ds-panel-subtitle">Calming interactive inputs, dropdown items, and customized check toggle switches.</p>
+            </div>
+
+            <div class="ds-component-display">
+              <div class="controls-grid">
+                <!-- Dropdown Switcher mockup -->
+                <div class="control-sample-box">
+                  <span class="demo-lbl font-mono">Selector Switcher Dropdown</span>
+                  <div class="repo-switcher ds-sample-dropdown" id="ds-repo-switcher">
+                    <span class="current-repo">payments-microservice</span>
+                    <svg class="chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    
+                    <div class="repo-dropdown open" id="ds-repo-dropdown">
+                      <div class="repo-option active font-mono">payments-microservice</div>
+                      <div class="repo-option font-mono">auth-gateway</div>
+                      <div class="repo-option font-mono">docs-website</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Toggle switches and badges -->
+                <div class="control-sample-box">
+                  <span class="demo-lbl font-mono">State Toggles & Status Badges</span>
+                  
+                  <div class="sample-item-row margin-bottom-14">
+                    <span class="sample-label">Enable strict checks</span>
+                    <label class="se-switch">
+                      <input type="checkbox" checked />
+                      <span class="switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="sample-item-row flex-wrap gap-10">
+                    <span class="badge-critical">Critical Findings</span>
+                    <span class="severity-badge-large badge-critical">Severe Hazard</span>
+                    <span class="int-status-badge badge-active"><span class="status-pulse-green"></span>Active Webhook</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ SECTION 5: AI INTERACTION LANGUAGE ═══════════════ -->
+          <section class="ds-section-panel" id="ai-language">
+            <div class="ds-panel-header">
+              <h2 class="ds-panel-title">AI Interaction Language System</h2>
+              <p class="ds-panel-subtitle">Visual feedback indicators representing indexing file structures, scanning hooks, and patch logic generations.</p>
+            </div>
+
+            <div class="ds-component-display">
+              <!-- Scanner Animation component -->
+              <div class="ai-interaction-card" id="ai-inter-card">
+                <div class="ai-card-header-top">
+                  <div class="ai-card-badge-wrap">
+                    <span class="ai-status-pulse"></span>
+                    <span class="font-mono text-rose text-uppercase font-weight-bold">RoseReview Scanner Active</span>
+                  </div>
+                  <span class="font-mono text-secondary text-xs">Ingest daemon port: 9091</span>
+                </div>
+
+                <!-- Telemetry Scanner track -->
+                <div class="ai-scanner-track-wrap margin-top-20">
+                  <div class="scanner-track-bar">
+                    <div class="scanner-fill-line" id="scanner-line-bar"></div>
+                  </div>
+                  <div class="scanner-status-text font-mono margin-top-10 text-center" id="scanner-text-indicator">Scanning code modules: apps/api/src/billing.ts (78%)</div>
+                </div>
+
+                <div class="scanner-action-btn-row margin-top-20">
+                  <button class="btn btn--secondary btn--sm" id="btn-trigger-scan">Pause Ingest Scan</button>
+                </div>
+              </div>
+
+              <!-- Recommendation Comment Card -->
+              <div class="inline-comment-wrapper card-alert-glow margin-top-20">
+                <div class="comment-header-row">
+                  <span class="comment-avatar">RR</span>
+                  <div class="comment-author-info">
+                    <span class="comment-author-name font-weight-bold">RoseReview AI</span>
+                    <span class="comment-author-role text-secondary">Senior AI Reviewer</span>
+                  </div>
+                  <span class="comment-severity badge-critical">Critical Finding</span>
+                </div>
+                <div class="comment-body">
+                  <p class="comment-text">
+                    “This billing logic bypasses database locks inside the async connection flow. Concurrent payments will result in duplicate balance debits.”
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Floating Guidance Card 3 -->
+          <div class="floating-ai-guidance">
+            <span class="ai-guidance-badge">AI CONFIGURATION TIP</span>
+            <p class="ai-guidance-text">“Setting AI verbosity to detailed ensures review suggestions include complete, compilable pre-commit patch scripts directly inside diff comments.”</p>
+          </div>
+
+          <!-- ═══════════════ SECTION 6: TELEMETRY & CHARTS ═══════════════ -->
+          <section class="ds-section-panel" id="charts">
+            <div class="ds-panel-header">
+              <h2 class="ds-panel-title">Telemetry & Observability Charts</h2>
+              <p class="ds-panel-subtitle">Datadog-style inline SVG metrics plotting, progression scoring meters, and confidence gauges.</p>
+            </div>
+
+            <div class="ds-component-display grid-2-columns">
+              <!-- Gauge Meter Component -->
+              <div class="gauge-card">
+                <span class="gauge-title font-mono text-uppercase font-weight-bold text-secondary">Deployment Safety Gauge</span>
+                <div class="gauge-visual-wrap margin-top-14">
+                  <svg viewBox="0 0 100 55" class="gauge-svg">
+                    <path d="M10,50 A40,40 0 0,1 90,50" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="6" stroke-linecap="round"/>
+                    <path d="M10,50 A40,40 0 0,1 90,50" fill="none" stroke="var(--accent-rose)" stroke-width="6" stroke-linecap="round" stroke-dasharray="100 126" class="gauge-fill-anim"/>
+                  </svg>
+                  <div class="gauge-num font-mono">89%</div>
+                </div>
+                <span class="gauge-lbl text-green text-xs font-weight-bold">Optimal Release Safety</span>
+              </div>
+
+              <!-- Compliance Progress Ring Component -->
+              <div class="benchmark-score-card justify-content-center">
+                <div class="progress-ring-wrap">
+                  <svg class="compliance-ring" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="6"/>
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent-blue)" stroke-width="6" stroke-dasharray="235 263" />
+                  </svg>
+                  <div class="progress-ring-percentage text-blue font-mono">88%</div>
+                </div>
+                <div class="benchmark-card-info">
+                  <span class="benchmark-item-title font-weight-bold">Compliance Standard</span>
+                  <p class="benchmark-item-desc">Overall repository testing, dependency security, and design styling metrics.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ SECTION 7: CODE DIFF VIEWER ═══════════════ -->
+          <section class="ds-section-panel" id="code">
+            <div class="ds-panel-header">
+              <h2 class="ds-panel-title">Code Diff & Telemetry viewers</h2>
+              <p class="ds-panel-subtitle">Monaco-style split code visualizers highlighting original versus proposed AI refactoring lines.</p>
+            </div>
+
+            <div class="ds-component-display">
+              <div class="code-diff-viewer" id="ds-code-diff">
+                <!-- Original Code pane -->
+                <div class="diff-column column-original">
+                  <div class="column-header font-mono">Original Line Mappings</div>
+                  <div class="code-editor-lines font-mono">
+                    <div class="editor-line"><span class="line-no">61</span>  const db = await getDbConnection();</div>
+                    <div class="editor-line line-removed"><span class="line-no">62</span>  const account = await db.account.findUnique({ id });</div>
+                    <div class="editor-line line-removed"><span class="line-no">63</span>  await processCharge(account, amount);</div>
+                  </div>
+                </div>
+
+                <!-- Proposed Code pane -->
+                <div class="diff-column column-proposed">
+                  <div class="column-header font-mono">Proposed AI Patch Changes</div>
+                  <div class="code-editor-lines font-mono">
+                    <div class="editor-line"><span class="line-no">61</span>  const db = await getDbConnection();</div>
+                    <div class="editor-line line-added"><span class="line-no">62</span>  const account = await db.account.findUniqueWithLock({ id });</div>
+                    <div class="editor-line line-added"><span class="line-no">63</span>  if (account.transactionPending) throw new Error();</div>
+                    <div class="editor-line line-added"><span class="line-no">64</span>  await processChargeWithLock(account, amount);</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ SECTION 8: OVERLAYS & DIALOGS ═══════════════ -->
+          <section class="ds-section-panel" id="overlays">
+            <div class="ds-panel-header">
+              <h2 class="ds-panel-title">Overlays, Modals, & Toast notifications</h2>
+              <p class="ds-panel-subtitle">Interactive overlays demonstrating screen blocks, notifications stack, and copy confirmation triggers.</p>
+            </div>
+
+            <div class="ds-component-display">
+              <div class="btn-group-row">
+                <button class="btn btn--primary" id="btn-trigger-modal">Open Simulation Modal</button>
+                <button class="btn btn--secondary" id="btn-trigger-toast">Push Simulation Toast</button>
+              </div>
+
+              <!-- Static Overlay Dialog Mockup (Hidden by default, triggered by JS) -->
+              <div class="ds-modal-backdrop" id="sample-modal-frame">
+                <div class="ds-modal-box">
+                  <div class="ds-modal-header font-weight-bold">
+                    <span>Transactional Lock boundary override</span>
+                    <button class="modal-close-x" id="btn-close-modal">×</button>
+                  </div>
+                  <div class="ds-modal-body">
+                    <p class="text-secondary text-sm margin-bottom-14">
+                      Are you sure you want to override the database concurrency rule in `apps/api/src/billing.ts`? Merging this change with missing locks can cause rollback loops.
+                    </p>
+                    <div class="modal-btn-row">
+                      <button class="btn btn--ghost btn--sm" id="btn-modal-cancel">Cancel</button>
+                      <button class="btn btn--destructive btn--sm" id="btn-modal-confirm">Confirm Override</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Static Notification Toast Mockup -->
+              <div class="ds-toast-notification-wrapper" id="sample-toast-box">
+                <div class="notif-item unread pointer-events-none">
+                  <span class="notif-dot"></span>
+                  <div class="notif-content">
+                    <span class="notif-title">System Action Success</span>
+                    <span class="notif-desc">Database webhook transaction parameters re-indexed successfully.</span>
+                    <span class="notif-time">Just now</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════ SECTION 9: ACCESS & ACCESSIBILITY ═══════════════ -->
+          <section class="ds-section-panel" id="accessibility">
+            <div class="ds-panel-header">
+              <h2 class="ds-panel-title">Access & Accessibility Compliance</h2>
+              <p class="ds-panel-subtitle">Enforcing semantic guidelines, ARIA specifications, and visual contrast criteria.</p>
+            </div>
+
+            <!-- Accessibility table guidelines -->
+            <div class="ds-access-rules-card">
+              <ul class="ds-access-list font-mono text-sm">
+                <li><span class="text-rose font-weight-bold">WCAG Contrast:</span> All text content HSL tokens maintain a minimum contrast boundary rating of 4.5:1 against surfaces.</li>
+                <li><span class="text-blue font-weight-bold">Keyboard Navigation:</span> Custom buttons and toggle switches support tab outline focus boundaries using native elements.</li>
+                <li><span class="text-green font-weight-bold">Reduced Motion:</span> CSS transitions respect `prefers-reduced-motion` media queries, defaulting parameters to instant loops.</li>
+                <li><span class="text-cyan font-weight-bold">Semantic Structure:</span> HTML elements use explicit semantic landmarks (e.g. <code>main</code>, <code>aside</code>, <code>nav</code>, <code>section</code>) with matching ARIA labels.</li>
+              </ul>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="/src/design-system.js"></script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+/* ============================================================
+   RoseReview — Enterprise Design System CSS
+   ============================================================ */
+
+/* ─────────────────────────────────────────────
+   1. VIEWPORT LAYOUT & STICKY PANEL
+   ───────────────────────────────────────────── */
+body.ds-layout-body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.ds-view-wrapper {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  width: 100%;
+  align-items: start;
+}
+
+@media (max-width: 950px) {
+  .ds-view-wrapper {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .ds-nav-pane {
+    position: static;
+    width: 100%;
+  }
+}
+
+.ds-nav-pane {
+  position: sticky;
+  top: 88px;
+  z-index: 10;
+}
+
+.ds-sticky-nav-card {
+  background: rgba(16, 16, 28, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+
+.ds-nav-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 10px;
+}
+
+.ds-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ds-nav-item {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  border-left: 2px solid transparent;
+}
+
+.ds-nav-item:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ds-nav-item.active {
+  color: white;
+  background: rgba(244, 63, 94, 0.08);
+  border-left-color: var(--accent-rose);
+  font-weight: 600;
+}
+
+/* Sections Content */
+.ds-content-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.ds-section-panel {
+  background: rgba(16, 16, 28, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 28px;
+  scroll-margin-top: 88px;
+  transition: border-color var(--transition-base);
+}
+
+.ds-section-panel:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.ds-panel-header {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+}
+
+.ds-panel-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.ds-panel-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Philosophy */
+.ds-philosophy-card {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.05) 0%, rgba(139, 92, 246, 0.02) 100%);
+  border: 1px solid rgba(244, 63, 94, 0.15);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  margin-bottom: 24px;
+}
+
+.phil-title {
+  font-size: 0.88rem;
+  margin-bottom: 6px;
+}
+
+.phil-desc {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+/* ─────────────────────────────────────────────
+   2. CORE TOKENS & COLOR SWATCHES
+   ───────────────────────────────────────────── */
+.ds-tokens-block {
+  margin-top: 20px;
+}
+
+.ds-sub-title {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.ds-color-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 650px) {
+  .ds-color-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.color-swatch-box {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 120px;
+  justify-content: flex-end;
+  box-shadow: var(--shadow-sm);
+  color: white;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+.sw-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.sw-val {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.sw-desc {
+  font-size: 0.65rem;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+/* ─────────────────────────────────────────────
+   3. COMPONENTS CORE DISPLAY
+   ───────────────────────────────────────────── */
+.ds-component-display {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+
+.btn-group-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.margin-top-20 { margin-top: 20px; }
+.margin-bottom-14 { margin-bottom: 14px; }
+.flex-2 { flex: 2; }
+.min-height-140 { min-height: 140px !important; }
+
+.btn-demo-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.demo-lbl {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+/* Premium AI action button overrides */
+.btn-ai-spark {
+  background: linear-gradient(135deg, var(--accent-rose), var(--accent-purple));
+  color: white !important;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(244, 63, 94, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.btn-ai-spark:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 63, 94, 0.25), 0 0 15px rgba(139, 92, 246, 0.1);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.btn-ai-spark:active {
+  transform: translateY(0);
+}
+
+.spark-icon {
+  animation: spark-rotate 4s infinite linear;
+}
+
+@keyframes spark-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ─────────────────────────────────────────────
+   4. CONTROLS, DROPDOWNS & BADGES
+   ───────────────────────────────────────────── */
+.controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .controls-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.control-sample-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(255,255,255,0.01);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.ds-sample-dropdown {
+  width: 100% !important;
+  max-width: 280px;
+}
+
+.sample-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sample-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.flex-wrap { flex-wrap: wrap; }
+.gap-10 { gap: 10px; }
+
+/* ─────────────────────────────────────────────
+   5. AI INTERACTION LANGUAGE PREVIEWS
+   ───────────────────────────────────────────── */
+.ai-interaction-card {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(244, 63, 94, 0.12);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.ai-card-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-card-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-scanner-track-wrap {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.scanner-track-bar {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  height: 6px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.scanner-fill-line {
+  height: 100%;
+  width: 78%;
+  background: linear-gradient(90deg, var(--accent-rose), var(--accent-blue));
+  border-radius: inherit;
+  transition: width 0.4s ease;
+  position: relative;
+}
+
+/* Scanner sweeping shimmer animation */
+.scanner-fill-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 40px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: scan-sweep 2s infinite linear;
+}
+
+@keyframes scan-sweep {
+  0% { transform: translateX(-150px); }
+  100% { transform: translateX(50px); }
+}
+
+.scanner-status-text {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.scanner-action-btn-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ─────────────────────────────────────────────
+   6. OVERLAYS, MODALS & TOAST TILES
+   ───────────────────────────────────────────── */
+/* Dialog Backdrop cover overlay */
+.ds-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 6, 11, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ds-modal-backdrop.open {
+  display: flex;
+  opacity: 1;
+}
+
+.ds-modal-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 440px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: modal-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modal-enter {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.ds-modal-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.modal-close-x {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-close-x:hover {
+  color: white;
+}
+
+.ds-modal-body {
+  padding: 18px;
+}
+
+.modal-btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Toast Floating Notifications Stack */
+.ds-toast-notification-wrapper {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 990;
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+.ds-toast-notification-wrapper.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────────
+   7. ACCESS CARDS
+   ───────────────────────────────────────────── */
+.ds-access-rules-card {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.ds-access-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ds-access-list li {
+  line-height: 1.5;
+}
+
+/* ─────────────────────────────────────────────
+   8. REDUCED MOTION PREFERENCES SUPPORT
+   ───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  .scanner-fill-line::after {
+    display: none;
+  }
+}
