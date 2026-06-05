@@ -5,6 +5,19 @@
 **A next-generation, repository-aware AI code review platform**
 
 ![RoseReview AI](https://dummyimage.com/1200x300/06060b/f43f5e&text=RoseReview+AI+-+AI-Powered+Code+Reviews)
+<div align="center">
+
+
+![License MIT](https://img.shields.io/badge/LICENSE-MIT-0EA5E9?style=for-the-badge)
+![Node.js](https://img.shields.io/badge/NODE.JS-22+-22C55E?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Fastify](https://img.shields.io/badge/FASTIFY-5-000000?style=for-the-badge&logo=fastify&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/POSTGRESQL-14+-3b82f6?style=for-the-badge&logo=postgresql&logoColor=white)
+![Vanilla CSS](https://img.shields.io/badge/VANILLA_CSS-3-3b82f6?style=for-the-badge&logo=css3&logoColor=white)
+![Vite](https://img.shields.io/badge/VITE-8-8b5cf6?style=for-the-badge&logo=vite&logoColor=white)
+![Render](https://img.shields.io/badge/RENDER-DEPLOY-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+![Vercel](https://img.shields.io/badge/VERCEL-DEPLOY-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+</div>
 
 **RoseReview AI** acts like a senior developer on your team — delivering high-signal pull request reviews, identifying deployment risks, evaluating code health, and integrating directly with GitHub. All wrapped in a stunning, premium dark-mode interface.
 
