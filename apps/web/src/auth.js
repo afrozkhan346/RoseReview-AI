@@ -361,11 +361,10 @@ document.addEventListener('DOMContentLoaded', () => {
         btnConnect.innerHTML = '<span class="auth-spinner" style="width:14px;height:14px;margin-right:8px;border-width:2px;display:inline-block;animation:authSpin 0.6s linear infinite;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;"></span> Opening GitHub...';
         btnConnect.disabled = true;
 
-        // Build real GitHub OAuth URL
+        // Build real GitHub OAuth URL (no redirect_uri — uses registered default)
         const clientId = 'Ov23liarYizusohYEor6';
-        const redirectUri = encodeURIComponent('http://localhost:3001/api/v1/auth/github/callback');
         const scope = encodeURIComponent('read:user user:email repo');
-        const ghUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
+        const ghUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=${scope}`;
 
         const popup = window.open(ghUrl, 'GitHubAuth', 'width=600,height=700,left=400,top=100');
 
@@ -432,9 +431,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- OAuth Buttons (GitHub Sign In / Sign Up) ---
   const GITHUB_CLIENT_ID = 'Ov23liarYizusohYEor6';
-  const GITHUB_CALLBACK  = 'http://localhost:3001/api/v1/auth/github/callback';
   const GITHUB_SCOPE     = 'read:user user:email repo';
-  const githubOAuthUrl   = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(GITHUB_CALLBACK)}&scope=${encodeURIComponent(GITHUB_SCOPE)}`;
+  // No redirect_uri — GitHub uses the registered default callback from OAuth App settings
+  const githubOAuthUrl   = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${encodeURIComponent(GITHUB_SCOPE)}`;
 
   document.querySelectorAll('.auth-oauth-btn').forEach(btn => {
     btn.addEventListener('click', () => {

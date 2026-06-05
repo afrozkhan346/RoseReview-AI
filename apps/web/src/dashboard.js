@@ -814,9 +814,9 @@ The architectural boundaries have been tightened up. We're now correctly using t
           btnConnect.textContent = 'Connecting...';
           
           const ghClientId = 'Ov23liarYizusohYEor6';
-          const ghCallback = encodeURIComponent('http://localhost:3001/api/v1/auth/github/callback');
           const ghScope = encodeURIComponent('read:user user:email repo');
-          const ghUrl = `https://github.com/login/oauth/authorize?client_id=${ghClientId}&redirect_uri=${ghCallback}&scope=${ghScope}`;
+          // No redirect_uri — uses registered default from GitHub OAuth App settings
+          const ghUrl = `https://github.com/login/oauth/authorize?client_id=${ghClientId}&scope=${ghScope}`;
           const popup = window.open(ghUrl, 'GitHubAuth', 'width=600,height=700,left=400,top=100');
           
           const checkClosed = setInterval(() => {
