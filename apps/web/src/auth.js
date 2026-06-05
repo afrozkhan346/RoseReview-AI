@@ -341,6 +341,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnConnect = document.getElementById('btn-connect-github');
     if (btnConnect) {
       btnConnect.addEventListener('click', () => {
+        // Open GitHub OAuth in a popup window
+        window.open('http://localhost:3001/api/v1/auth/github', 'GitHubAuth', 'width=600,height=700');
+        
+        // Update the UI to show it's connected
         btnConnect.textContent = 'Connected ✓';
         btnConnect.disabled = true;
         btnConnect.style.background = 'var(--accent-green)';
