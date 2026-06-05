@@ -73,15 +73,38 @@ RoseReview doesn't just output generic bot feedback. It generates reviews that f
 3. **Open the Dashboard:**
    Navigate to the local server URL provided by Vite (usually `http://localhost:5173`) in your browser to interact with the dashboard.
 
-### 🚀 Deploying to Vercel (Unified Deployment)
+### 🚀 Production Deployment (Vercel + Render + Supabase)
 
-This project is pre-configured for a **full unified deployment to Vercel**. Vercel will automatically build the Vite frontend as static files, and compile the Fastify backend as a Serverless Node.js Function!
+This project is configured for a split deployment:
+1. **Frontend (Vite)** is hosted on **Vercel** as a static application.
+2. **Backend (Fastify)** is hosted on **Render** as a web service.
+3. **Database (Prisma)** is hosted on **Supabase** (PostgreSQL).
 
-1. Import the repository into your Vercel dashboard.
-2. Ensure the **Framework Preset** is set to `Vite`.
-3. Vercel will automatically detect the `vercel.json` and the root `api/` directory.
-4. Add your API Environment Variables in Vercel (`GROQ_API_KEY`, `GITHUB_TOKEN`, `DATABASE_URL`, `REDIS_URL`).
-5. Click **Deploy**. Vercel handles both the frontend builds and backend proxying instantly!
+#### 1. Setup Supabase
+- Spin up a PostgreSQL database on Supabase.
+- Copy your **Connection Pooler URL** (Port 6543, with transaction mode `?pgbouncer=true`) and **Direct URL** (Port 5432).
+
+#### 2. Deploy Backend on Render
+- Create a new **Web Service** on Render pointing to your repository.
+- Root Directory: `RoseReview-AI`
+- Build Command: `pnpm install; pnpm run build:api`
+- Start Command: `pnpm --filter @rosereview/api start`
+- Environment Variables:
+  - `DATABASE_URL`: *Your Supabase Pooler URL*
+  - `DIRECT_URL`: *Your Supabase Direct URL*
+  - `PORT`: `3001`
+  - `GROQ_API_KEY`: *Your Groq API key*
+  - `GITHUB_TOKEN`: *Your GitHub PAT*
+  - `CORS_ORIGIN`: *Your Vercel deployment URL*
+
+#### 3. Deploy Frontend on Vercel
+- Update `vercel.json` in your repository root so the `/api` rewrites point to your Render service URL (e.g. `https://rosereview-ai.onrender.com/api/$1`).
+- Import the project into Vercel.
+- Root Directory: `RoseReview-AI`
+- Framework Preset: `Other`
+- Build Command: `pnpm run build:web`
+- Output Directory: `apps/web/dist`
+- Install Command: `pnpm install`
 
 ---
 
