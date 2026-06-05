@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import { RegisterInput, LoginInput } from "./auth.schemas";
 import { env } from "../../infrastructure/env";
+import { encrypt } from "../../utils/encryption";
 
 export class AuthService {
   async register(input: RegisterInput) {
@@ -138,7 +139,7 @@ export class AuthService {
         where: { id: existingUser.id },
         data: {
           githubId: String(githubUser.id),
-          githubToken: accessToken,
+          githubToken: encrypt(accessToken),
           avatarUrl: githubUser.avatar_url,
           name: existingUser.name || githubUser.name || githubUser.login,
         },
@@ -154,7 +155,7 @@ export class AuthService {
           email,
           name: githubUser.name || githubUser.login,
           githubId: String(githubUser.id),
-          githubToken: accessToken,
+          githubToken: encrypt(accessToken),
           avatarUrl: githubUser.avatar_url,
         },
         select: {
