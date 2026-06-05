@@ -364,18 +364,23 @@ document.addEventListener('DOMContentLoaded', () => {
         // Open GitHub OAuth in a popup window
         const popup = window.open('http://localhost:3001/api/v1/auth/github', 'GitHubAuth', 'width=600,height=700');
         
-        // Simulate checking if connected after a delay
-        setTimeout(() => {
-           if (popup && !popup.closed) popup.close(); // auto close for simulation
-           // Update the UI to show it's connected
-           btnConnect.textContent = 'Connected ✓';
-           btnConnect.disabled = true;
-           btnConnect.style.background = 'var(--accent-green)';
-           btnConnect.style.borderColor = 'var(--accent-green)';
-           btnConnect.style.color = 'white';
-           const container = document.getElementById('github-connect');
-           if(container) container.style.borderColor = 'var(--accent-green)';
-        }, 2500);
+        // Wait until popup is closed to mark as connected
+        const checkClosed = setInterval(() => {
+           if (popup && popup.closed) {
+             clearInterval(checkClosed);
+             // Update the UI to show it's connected
+             btnConnect.textContent = 'Connected ✓';
+             btnConnect.disabled = true;
+             btnConnect.style.background = 'var(--accent-green)';
+             btnConnect.style.borderColor = 'var(--accent-green)';
+             btnConnect.style.color = 'white';
+             const container = document.getElementById('github-connect');
+             if(container) container.style.borderColor = 'var(--accent-green)';
+             
+             // Save connection state for later
+             localStorage.setItem('isGithubConnected', 'true');
+           }
+        }, 500);
       });
     }
 

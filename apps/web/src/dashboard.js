@@ -792,6 +792,40 @@ The architectural boundaries have been tightened up. We're now correctly using t
       if (e.key === 'Enter') handleAnalyze();
     });
   }
+
+  // --- GitHub Connect Modal Check ---
+  const isGithubConnected = localStorage.getItem('isGithubConnected');
+  if (isGithubConnected !== 'true') {
+    const modal = document.getElementById('github-connect-modal');
+    if (modal) {
+      modal.style.display = 'block';
+      
+      const btnClose = document.getElementById('btn-close-github-modal');
+      const btnConnect = document.getElementById('btn-connect-github-modal');
+      
+      if (btnClose) {
+        btnClose.addEventListener('click', () => {
+          modal.style.display = 'none';
+        });
+      }
+      
+      if (btnConnect) {
+        btnConnect.addEventListener('click', () => {
+          btnConnect.textContent = 'Connecting...';
+          const popup = window.open('http://localhost:3001/api/v1/auth/github', 'GitHubAuth', 'width=600,height=700');
+          
+          const checkClosed = setInterval(() => {
+             if (popup && popup.closed) {
+               clearInterval(checkClosed);
+               localStorage.setItem('isGithubConnected', 'true');
+               modal.style.display = 'none';
+               alert('GitHub Connected Successfully!');
+             }
+          }, 500);
+        });
+      }
+    }
+  }
 }
 
 if (document.readyState === 'loading') {

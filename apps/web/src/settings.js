@@ -333,4 +333,53 @@ document.addEventListener('DOMContentLoaded', () => {
   [criticalToggle, mergesToggle].forEach(ch => {
     if (ch) ch.addEventListener('change', updateNotificationPreview);
   });
+
+  // --- GitHub Connection Status Check ---
+  const checkGithubStatus = () => {
+    const isGithubConnected = localStorage.getItem('isGithubConnected') === 'true';
+    const badge = document.getElementById('gh-status-badge');
+    const pulse = document.getElementById('gh-pulse');
+    const statusText = document.getElementById('gh-status-text');
+    const metaConnected = document.getElementById('gh-metadata-connected');
+    const metaDisconnected = document.getElementById('gh-metadata-disconnected');
+
+    if (badge && metaConnected && metaDisconnected) {
+      if (isGithubConnected) {
+        badge.classList.add('badge-active');
+        badge.style.background = '';
+        badge.style.color = '';
+        if (pulse) pulse.style.display = 'inline-block';
+        if (statusText) statusText.textContent = 'Active Sync';
+        metaConnected.style.display = 'flex';
+        metaDisconnected.style.display = 'none';
+      } else {
+        badge.classList.remove('badge-active');
+        badge.style.background = 'rgba(255, 255, 255, 0.1)';
+        badge.style.color = 'var(--text-secondary)';
+        if (pulse) pulse.style.display = 'none';
+        if (statusText) statusText.textContent = 'Not Connected';
+        metaConnected.style.display = 'none';
+        metaDisconnected.style.display = 'flex';
+      }
+    }
+  };
+
+  checkGithubStatus();
+
+  const btnSettingsConnectGh = document.getElementById('btn-settings-connect-github');
+  if (btnSettingsConnectGh) {
+    btnSettingsConnectGh.addEventListener('click', () => {
+      btnSettingsConnectGh.textContent = 'Connecting...';
+      const popup = window.open('http://localhost:3001/api/v1/auth/github', 'GitHubAuth', 'width=600,height=700');
+      
+      const checkClosed = setInterval(() => {
+         if (popup && popup.closed) {
+           clearInterval(checkClosed);
+           localStorage.setItem('isGithubConnected', 'true');
+           checkGithubStatus();
+           alert('GitHub Connected Successfully!');
+         }
+      }, 500);
+    });
+  }
 });
