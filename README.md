@@ -1,130 +1,251 @@
-# RoseReview AI
+<div align="center">
 
-![RoseReview Dashboard Banner](https://dummyimage.com/1200x300/06060b/f43f5e&text=RoseReview+AI)
+# 🌹 RoseReview AI
 
-**RoseReview AI** is a next-generation, repository-aware code review platform that acts like a senior developer on your team. It delivers high-signal pull request reviews, identifies deployment risks, evaluates code health, and integrates directly with GitHub—all wrapped in a stunning, premium dark-mode interface.
+**A next-generation, repository-aware AI code review platform**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-org%2Frosereview)
+![RoseReview AI](https://dummyimage.com/1200x300/06060b/f43f5e&text=RoseReview+AI+-+AI-Powered+Code+Reviews)
 
----
-
-## 🌟 Key Features
-
-### 1. Smart PR Analysis & GitHub Integration
-- **Manual PR Tracking:** Paste any GitHub Pull Request URL into the global search bar to instantly track the repository and fetch real PR data.
-- **Dynamic Context Switching:** Seamlessly switch between tracked repositories. The entire dashboard—including active PRs, analytics, and risk metrics—synchronizes instantly using a robust global state management system.
-- **One-Click GitHub Commenting:** Generate comprehensive, senior-developer-styled markdown reviews directly in the dashboard, and post them directly to the GitHub PR thread with a single click.
-
-### 2. Humanized "Senior Developer" AI Reviews
-RoseReview doesn't just output generic bot feedback. It generates reviews that feel empathetic yet strict, analyzing:
-- **Overall Health Score** (Security, Performance, Maintainability)
-- **Blast Radius & Deployment Risk**
-- **Architecture Boundaries & Dependency Coupling**
-- **Specific line-level suggestions**
-
-### 3. Premium User Experience
-- **Sleek Dark Mode Aesthetics:** Designed with deep space backgrounds, glowing ambient orbs (`var(--accent-rose)`, `var(--accent-purple)`), and glassmorphism.
-- **Skeleton Loading States:** When an AI analysis is running, the dashboard elegantly shifts into a pulsating skeleton loader, while the active "Analysis in progress" card remains highlighted.
-- **Micro-animations & Interactive UI:** Smooth hover states, custom dropdowns, and highly responsive components built with vanilla CSS.
+**RoseReview AI** acts like a senior developer on your team — delivering high-signal pull request reviews, identifying deployment risks, evaluating code health, and integrating directly with GitHub. All wrapped in a stunning, premium dark-mode interface.
 
 ---
 
-## 🛠️ Tech Stack
+### 📋 Project Badges
+
+![License MIT](https://img.shields.io/badge/LICENSE-MIT-0EA5E9?style=for-the-badge)
+![PRs Welcome](https://img.shields.io/badge/PRs-WELCOME-22C55E?style=for-the-badge)
+![Maintained](https://img.shields.io/badge/MAINTAINED-YES-6366f1?style=for-the-badge)
+
+---
+
+### 🛠️ Tech Stack
 
 **Frontend**
-- Vanilla HTML5 / CSS3 / ES6 Modules
-- Custom Design System (CSS Variables, Flexbox/Grid)
-- Zero framework overhead for maximum performance
+
+![Vanilla JS](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-Semantic-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![Vanilla CSS](https://img.shields.io/badge/CSS3-Vanilla-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![Vite](https://img.shields.io/badge/VITE-8-8b5cf6?style=for-the-badge&logo=vite&logoColor=white)
 
 **Backend**
-- Fastify (High-performance Node.js web framework)
-- TypeScript
-- GitHub REST API Integrations (Octokit)
+
+![Node.js](https://img.shields.io/badge/NODE.JS-22+-22C55E?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Fastify](https://img.shields.io/badge/FASTIFY-5-000000?style=for-the-badge&logo=fastify&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+
+**Database & ORM**
+
+![PostgreSQL](https://img.shields.io/badge/POSTGRESQL-14+-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Supabase](https://img.shields.io/badge/SUPABASE-3ECF8E?style=for-the-badge&logo=supabase&logoColor=black)
+![Prisma](https://img.shields.io/badge/PRISMA-ORM-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+
+**AI & Integrations**
+
+![Groq](https://img.shields.io/badge/GROQ-AI-F55036?style=for-the-badge&logo=groq&logoColor=white)
+![GitHub API](https://img.shields.io/badge/GITHUB-REST%20API-181717?style=for-the-badge&logo=github&logoColor=white)
+
+**Deployment**
+
+![Render](https://img.shields.io/badge/RENDER-BACKEND-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+![Vercel](https://img.shields.io/badge/VERCEL-FRONTEND-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+</div>
 
 ---
 
-## 🚀 Getting Started
+## ✨ Key Features
+
+### 1. 🤖 Humanized "Senior Developer" AI Reviews (Powered by Groq)
+RoseReview generates empathetic, strict, and actionable reviews — not generic bot feedback. Powered by **Groq's ultra-fast LLM inference**, each analysis covers:
+- **Overall Health Score** — Security, Performance, Maintainability
+- **Blast Radius & Deployment Risk** — Identify what could break in production
+- **Architecture Boundaries & Dependency Coupling** — Structural red flags
+- **Line-level Suggestions** — Precise, actionable code feedback
+
+### 2. 🔗 Smart PR Analysis & GitHub Integration
+- **Manual PR Tracking** — Paste any GitHub PR URL to instantly fetch real PR data
+- **Dynamic Context Switching** — Switch between tracked repos; the entire dashboard syncs instantly
+- **One-Click GitHub Commenting** — Post AI-generated markdown reviews directly to the GitHub PR thread
+
+### 3. 🔐 Authentication
+- **OAuth via GitHub** — Seamlessly authenticate using your GitHub account
+- **Google Sign-In** — Sign in with Google for quick access
+- **JWT-based Sessions** — Secure, stateless authentication with refresh token support
+
+### 4. 💎 Premium User Experience
+- **Sleek Dark Mode Aesthetics** — Deep space backgrounds, glowing ambient orbs, and glassmorphism
+- **Skeleton Loading States** — Elegant pulsating skeleton loaders during AI analysis
+- **Micro-animations & Interactive UI** — Smooth hover states, custom dropdowns, responsive components
+
+---
+
+## 🏗️ Project Architecture
+
+This is a **pnpm monorepo** with a clean separation of concerns:
+
+```
+RoseReview-AI/
+├── apps/
+│   ├── api/          # Fastify backend (TypeScript, Prisma, Groq AI)
+│   └── web/          # Vite frontend (Vanilla JS/HTML/CSS)
+├── packages/         # Shared utilities and types
+├── pnpm-workspace.yaml
+└── package.json
+```
+
+**Deployment Architecture:**
+```
+Browser → Vercel (Frontend) → Render (API) → Supabase (PostgreSQL)
+                                           ↘ Groq (AI Inference)
+                                           ↘ GitHub REST API
+```
+
+---
+
+## 🚀 Getting Started (Local Development)
 
 ### Prerequisites
-- Node.js (v18+)
-- pnpm (v9+)
-- A GitHub Personal Access Token (PAT)
+- **Node.js** v18 or higher
+- **pnpm** v9 or higher
+- A **GitHub Personal Access Token (PAT)**
+- A **Groq API Key** ([get one free at console.groq.com](https://console.groq.com))
+- A **Supabase** project with a PostgreSQL database
 
-### Installation & Setup
+### 1. Clone & Install
 
-1. **Clone the repository and install dependencies:**
-   ```bash
-   pnpm install
-   ```
+```bash
+git clone https://github.com/afrozkhan346/RoseReview-AI.git
+cd RoseReview-AI
+pnpm install
+```
 
-2. **Start the Development Servers:**
-   The project is structured as a monorepo. You can run the backend and frontend separately:
+### 2. Configure Environment Variables
 
-   *Start the Backend API:*
-   ```bash
-   pnpm run dev:api
-   ```
+**Backend** — create `apps/api/.env`:
+```env
+DATABASE_URL="postgresql://..."       # Supabase Pooler URL (port 6543)
+DIRECT_URL="postgresql://..."         # Supabase Direct URL (port 5432)
+GROQ_API_KEY="gsk_..."               # Groq API key
+GITHUB_TOKEN="ghp_..."               # GitHub Personal Access Token
+GITHUB_CLIENT_ID="..."               # GitHub OAuth App Client ID
+GITHUB_CLIENT_SECRET="..."           # GitHub OAuth App Client Secret
+GOOGLE_CLIENT_ID="..."               # Google OAuth Client ID
+GOOGLE_CLIENT_SECRET="..."           # Google OAuth Client Secret
+JWT_SECRET="your-secret-key"
+CORS_ORIGIN="http://localhost:5173"
+PORT=3001
+```
 
-   *Start the Frontend Web Server:*
-   ```bash
-   pnpm run dev:web
-   ```
+**Frontend** — create `apps/web/.env`:
+```env
+VITE_API_URL="http://localhost:3001"
+```
 
-3. **Open the Dashboard:**
-   Navigate to the local server URL provided by Vite (usually `http://localhost:5173`) in your browser to interact with the dashboard.
+### 3. Set Up the Database
 
-### 🚀 Production Deployment (Vercel + Render + Supabase)
+```bash
+pnpm --filter @rosereview/api prisma migrate dev
+```
 
-This project is configured for a split deployment:
-1. **Frontend (Vite)** is hosted on **Vercel** as a static application.
-2. **Backend (Fastify)** is hosted on **Render** as a web service.
-3. **Database (Prisma)** is hosted on **Supabase** (PostgreSQL).
+### 4. Run Development Servers
 
-#### 1. Setup Supabase
-- Spin up a PostgreSQL database on Supabase.
-- Copy your **Connection Pooler URL** (Port 6543, with transaction mode `?pgbouncer=true`) and **Direct URL** (Port 5432).
+```bash
+# Start backend API (http://localhost:3001)
+pnpm run dev:api
 
-#### 2. Deploy Backend on Render
-- Create a new **Web Service** on Render pointing to your repository.
-- Root Directory: `RoseReview-AI`
-- Build Command: `pnpm install; pnpm run build:api`
-- Start Command: `pnpm --filter @rosereview/api start`
-- Environment Variables:
-  - `DATABASE_URL`: *Your Supabase Pooler URL*
-  - `DIRECT_URL`: *Your Supabase Direct URL*
-  - `PORT`: `3001`
-  - `GROQ_API_KEY`: *Your Groq API key*
-  - `GITHUB_TOKEN`: *Your GitHub PAT*
-  - `CORS_ORIGIN`: *Your Vercel deployment URL*
-
-#### 3. Deploy Frontend on Vercel
-- Update `vercel.json` in your repository root so the `/api` rewrites point to your Render service URL (e.g. `https://rosereview-ai.onrender.com/api/$1`).
-- Import the project into Vercel.
-- Root Directory: `RoseReview-AI`
-- Framework Preset: `Other`
-- Build Command: `pnpm run build:web`
-- Output Directory: `apps/web/dist`
-- Install Command: `pnpm install`
+# Start frontend (http://localhost:5173)
+pnpm run dev:web
+```
 
 ---
 
-## 💡 How to use the AI Analysis Feature
+## ☁️ Production Deployment
 
-1. Open the RoseReview Dashboard.
-2. In the top navigation bar, paste a real GitHub PR URL (e.g., `owner/repo#123` or `https://github.com/owner/repo/pull/123`).
-3. Click **"Analyze PR"**.
-4. Watch as the dashboard transitions into a skeleton loading state while the AI Agent simulates fetching files and evaluating code.
-5. Once complete, expand the generated review card to view the senior-developer styled markdown payload.
-6. Click **"Post to GitHub & Redirect"** to physically publish the comment to GitHub and open the PR!
+This project uses a split deployment strategy:
+- 🌐 **Frontend** → [Vercel](https://vercel.com) (Static Vite App)
+- ⚙️ **Backend** → [Render](https://render.com) (Node.js Web Service)
+- 🗄️ **Database** → [Supabase](https://supabase.com) (Managed PostgreSQL)
+- 🤖 **AI** → [Groq](https://console.groq.com) (LLM Inference API)
+
+### Step 1 — Supabase (Database)
+1. Create a new project on [supabase.com](https://supabase.com)
+2. Go to **Settings → Database** and copy:
+   - **Pooler URL** (Port `6543`, transaction mode) → `DATABASE_URL`
+   - **Direct URL** (Port `5432`) → `DIRECT_URL`
+
+### Step 2 — Render (Backend API)
+1. Create a new **Web Service** pointing to your GitHub repo
+2. Set the following configuration:
+
+| Setting | Value |
+|---|---|
+| **Root Directory** | `RoseReview-AI` |
+| **Build Command** | `pnpm install; pnpm run build:api` |
+| **Start Command** | `pnpm --filter @rosereview/api start` |
+
+3. Add these **Environment Variables**:
+
+| Variable | Description |
+|---|---|
+| `DATABASE_URL` | Supabase Pooler URL |
+| `DIRECT_URL` | Supabase Direct URL |
+| `GROQ_API_KEY` | Your Groq API key |
+| `GITHUB_TOKEN` | Your GitHub PAT |
+| `GITHUB_CLIENT_ID` | GitHub OAuth App Client ID |
+| `GITHUB_CLIENT_SECRET` | GitHub OAuth App Client Secret |
+| `GOOGLE_CLIENT_ID` | Google OAuth Client ID |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth Client Secret |
+| `JWT_SECRET` | A strong random secret |
+| `CORS_ORIGIN` | Your Vercel frontend URL |
+| `PORT` | `3001` |
+
+### Step 3 — Vercel (Frontend)
+1. Update `vercel.json` — set `/api` rewrites to point to your Render URL
+2. Import project on [vercel.com](https://vercel.com)
+
+| Setting | Value |
+|---|---|
+| **Root Directory** | `RoseReview-AI` |
+| **Framework Preset** | `Other` |
+| **Build Command** | `pnpm run build:web` |
+| **Output Directory** | `apps/web/dist` |
+| **Install Command** | `pnpm install` |
+
+3. Add environment variable: `VITE_API_URL` → your Render service URL
+
+---
+
+## 💡 How to Use AI Review
+
+1. Open the **RoseReview Dashboard**
+2. Paste a GitHub PR URL in the top search bar (e.g., `https://github.com/owner/repo/pull/123`)
+3. Click **"Analyze PR"**
+4. The dashboard transitions into a skeleton loading state while **Groq AI** fetches and evaluates the code
+5. Expand the generated review card to see the senior-developer styled analysis
+6. Click **"Post to GitHub & Redirect"** to publish the comment directly to the GitHub PR thread
 
 ---
 
 ## 🤝 Contributing
 
-This project was built during the AI Hackathon for Builders. Contributions, feature requests, and UI/UX improvements are highly encouraged! Feel free to open an issue or submit a pull request.
+Contributions, feature requests, and UI/UX improvements are always welcome!
+
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feat/your-feature-name`
+3. Commit your changes: `git commit -m "feat: add your feature"`
+4. Push to the branch: `git push origin feat/your-feature-name`
+5. Open a **Pull Request** targeting `main`
+
+Please ensure your changes do not break the build before submitting a PR.
 
 ---
 
 ## 📜 License
 
-MIT License. See `LICENSE` for more information.
+This project is licensed under the **MIT License**. See [`LICENSE`](./LICENSE) for more information.
+
+---
+
+<div align="center">
+  Built with ❤️ for the AI Hackathon for Builders
+</div>
