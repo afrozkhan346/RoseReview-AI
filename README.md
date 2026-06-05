@@ -4,7 +4,21 @@
 
 **RoseReview AI** is a next-generation, repository-aware code review platform that acts like a senior developer on your team. It delivers high-signal pull request reviews, identifies deployment risks, evaluates code health, and integrates directly with GitHub—all wrapped in a stunning, premium dark-mode interface.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyour-org%2Frosereview)
+<div align="center">
+
+![GSSoC 2026](https://img.shields.io/badge/GSSOC-2026-F97316?style=for-the-badge)
+![License MIT](https://img.shields.io/badge/LICENSE-MIT-0EA5E9?style=for-the-badge)
+![PRs Welcome](https://img.shields.io/badge/PRS-WELCOME-22C55E?style=for-the-badge)
+
+![Node.js](https://img.shields.io/badge/NODE.JS-22+-22C55E?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Fastify](https://img.shields.io/badge/FASTIFY-5-000000?style=for-the-badge&logo=fastify&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/POSTGRESQL-14+-3b82f6?style=for-the-badge&logo=postgresql&logoColor=white)
+![Vanilla CSS](https://img.shields.io/badge/VANILLA_CSS-3-3b82f6?style=for-the-badge&logo=css3&logoColor=white)
+![Vite](https://img.shields.io/badge/VITE-8-8b5cf6?style=for-the-badge&logo=vite&logoColor=white)
+![Render](https://img.shields.io/badge/RENDER-DEPLOY-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+![Vercel](https://img.shields.io/badge/VERCEL-DEPLOY-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+</div>
 
 ---
 
