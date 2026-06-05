@@ -1,14 +1,14 @@
 {
   "version": 2,
   "framework": "vite",
-  "buildCommand": "pnpm --filter @rosereview/api prisma:generate && pnpm --filter @rosereview/web build",
+  "buildCommand": "pnpm run build:web",
   "outputDirectory": "apps/web/dist",
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index"
+      "destination": "https://rosereview-api.onrender.com/api/$1"
     }
   ]
 }

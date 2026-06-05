@@ -3,13 +3,15 @@
   "private": true,
   "version": "0.1.0",
   "packageManager": "pnpm@9",
- "workspaces": [
+  "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
     "dev:web": "pnpm --filter @rosereview/web dev",
     "dev:api": "pnpm --filter @rosereview/api dev",
+    "build:web": "pnpm --filter @rosereview/web build",
+    "build:api": "pnpm --filter @rosereview/api prisma:generate && pnpm --filter @rosereview/api build",
     "install:all": "pnpm install"
   }
 }
