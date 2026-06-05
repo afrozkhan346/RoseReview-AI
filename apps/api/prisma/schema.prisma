@@ -70,6 +70,7 @@ model Repository {
   activities   ActivityEvent[]
 
   @@unique([workspaceId, owner, name])
+  @@index([owner, name])
 }
 
 model PullRequest {
@@ -83,7 +84,7 @@ model PullRequest {
   status                      String?
   createdAt                   DateTime                         @default(now())
   updatedAt                   DateTime                         @updatedAt
-  repository                  Repository                       @relation(fields: [repositoryId], references: [id])
+  repository                  Repository                       @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
   reviews                     Review[]
   deploymentRisks             DeploymentRisk[]
   architectureImpactSummaries ArchitectureImpactSummary[]
@@ -105,8 +106,8 @@ model Review {
   status              String                   @default("completed")
   createdAt           DateTime                 @default(now())
   updatedAt           DateTime                 @updatedAt
-  repository          Repository               @relation(fields: [repositoryId], references: [id])
-  pullRequest         PullRequest              @relation(fields: [pullRequestId], references: [id])
+  repository          Repository               @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  pullRequest         PullRequest              @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
   findings            Finding[]
   comments            ReviewComment[]
   generatedPatch      GeneratedPatch?
@@ -128,7 +129,7 @@ model Finding {
   severity    String
   suggestion  String?
   createdAt   DateTime @default(now())
-  review      Review   @relation(fields: [reviewId], references: [id])
+  review      Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model GeneratedPatch {
@@ -142,7 +143,7 @@ model GeneratedPatch {
   benchmarkImprovements      String?
   architectureConsiderations String?
   createdAt                  DateTime @default(now())
-  review                     Review   @relation(fields: [reviewId], references: [id])
+  review                     Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model GeneratedTest {
@@ -153,7 +154,7 @@ model GeneratedTest {
   framework String?
   testType  String?
   createdAt DateTime @default(now())
-  review    Review   @relation(fields: [reviewId], references: [id])
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model ReviewComment {
@@ -172,7 +173,7 @@ model ReviewComment {
   published       Boolean  @default(false)
   githubCommentId String?
   createdAt       DateTime @default(now())
-  review          Review   @relation(fields: [reviewId], references: [id])
+  review          Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model ExplanationMetadata {
@@ -185,7 +186,7 @@ model ExplanationMetadata {
   benchmarkSummary      String
   dependencySummary     String
   createdAt             DateTime @default(now())
-  review                Review   @relation(fields: [reviewId], references: [id])
+  review                Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model PublishedReview {
@@ -198,7 +199,7 @@ model PublishedReview {
   githubReviewUrl String?
   summaryBody     String
   publishedAt     DateTime @default(now())
-  review          Review   @relation(fields: [reviewId], references: [id])
+  review          Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model ReviewPublicationStatus {
@@ -209,7 +210,7 @@ model ReviewPublicationStatus {
   lastError       String?
   attempts        Int       @default(0)
   updatedAt       DateTime  @updatedAt
-  review          Review    @relation(fields: [reviewId], references: [id])
+  review          Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model DashboardSyncEvent {
@@ -219,7 +220,7 @@ model DashboardSyncEvent {
   status   String
   details  String?
   syncedAt DateTime @default(now())
-  review   Review   @relation(fields: [reviewId], references: [id])
+  review   Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model ReviewLifecycleEvent {
@@ -229,7 +230,7 @@ model ReviewLifecycleEvent {
   reason    String?
   metadata  String?
   createdAt DateTime @default(now())
-  review    Review   @relation(fields: [reviewId], references: [id])
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model ReviewRegenerationHistory {
@@ -249,7 +250,7 @@ model DeploymentRisk {
   level         String
   rationale     String
   createdAt     DateTime    @default(now())
-  pullRequest   PullRequest @relation(fields: [pullRequestId], references: [id])
+  pullRequest   PullRequest @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
 }
 
 model ArchitectureImpactSummary {
@@ -260,7 +261,7 @@ model ArchitectureImpactSummary {
   impactedModules  String
   affectedServices String
   createdAt        DateTime    @default(now())
-  pullRequest      PullRequest @relation(fields: [pullRequestId], references: [id])
+  pullRequest      PullRequest @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
 }
 
 model BenchmarkReport {
@@ -270,7 +271,7 @@ model BenchmarkReport {
   violatedStandards String
   recommendations   String
   createdAt         DateTime    @default(now())
-  pullRequest       PullRequest @relation(fields: [pullRequestId], references: [id])
+  pullRequest       PullRequest @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
 }
 
 model MergeReadinessReport {
@@ -282,7 +283,7 @@ model MergeReadinessReport {
   requiredImprovements String
   deploymentCautions   String
   createdAt            DateTime    @default(now())
-  pullRequest          PullRequest @relation(fields: [pullRequestId], references: [id])
+  pullRequest          PullRequest @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
 }
 
 model RepositoryIntelligenceMetadata {
@@ -292,7 +293,7 @@ model RepositoryIntelligenceMetadata {
   prioritizedFindings        String
   engineeringRecommendations String
   createdAt                  DateTime    @default(now())
-  pullRequest                PullRequest @relation(fields: [pullRequestId], references: [id])
+  pullRequest                PullRequest @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
 }
 
 model DependencyAnalysisResult {
@@ -306,7 +307,7 @@ model DependencyAnalysisResult {
   serviceCouplingImpact       String
   infrastructureRippleEffects String
   createdAt                   DateTime    @default(now())
-  pullRequest                 PullRequest @relation(fields: [pullRequestId], references: [id])
+  pullRequest                 PullRequest @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
 }
 
 model Notification {
