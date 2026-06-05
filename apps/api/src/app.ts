@@ -11,7 +11,7 @@ import { repositoryRoutes } from "./modules/repositories/repository.routes";
 import { notificationRoutes } from "./modules/notifications/notification.routes";
 import { activityRoutes } from "./modules/activity/activity.routes";
 import { timelineRoutes } from "./modules/timeline/timeline.routes";
-import { demoRoutes } from "./demo/demo.routes";
+
 import { githubRoutes } from "./modules/github/github.routes";
 import { githubWebhookRoutes } from "./modules/github/github.webhook.routes";
 
@@ -66,7 +66,7 @@ export function buildApp(): FastifyInstance {
     api.register(workspaceRoutes, { prefix: "/workspaces" });
     api.register(repositoryRoutes, { prefix: "/repositories" });
     api.register(notificationRoutes, { prefix: "/notifications" });
-    api.register(demoRoutes, { prefix: "/demo" });
+
     api.register(githubWebhookRoutes, { prefix: "/github" });
     api.register(githubRoutes, { prefix: "/github" });
   }, { prefix: "/api/v1" });

@@ -81,32 +81,6 @@ importers:
         specifier: ^6.0.0
         version: 6.4.2(@types/node@25.9.1)
 
-  packages/ai:
-    dependencies:
-      groq:
-        specifier: ^1.0.0
-        version: 1.150.1
-    devDependencies:
-      typescript:
-        specifier: ^5.4.0
-        version: 5.9.3
-
-  packages/github:
-    dependencies:
-      '@octokit/rest':
-        specifier: ^19.0.0
-        version: 19.0.13
-    devDependencies:
-      typescript:
-        specifier: ^5.4.0
-        version: 5.9.3
-
-  packages/shared:
-    devDependencies:
-      typescript:
-        specifier: ^5.4.0
-        version: 5.9.3
-
 packages:
 
   '@babel/code-frame@7.29.7':
@@ -385,11 +359,6 @@ packages:
     peerDependencies:
       '@octokit/core': '>=4'
 
-  '@octokit/plugin-request-log@1.0.4':
-    resolution: {integrity: sha512-mLUsMkgP7K/cnFEw07kWqXGF5LKrOkD+lhCrKvPHXWDywAwuDUeDwWBpc69XK3pNX0uKiVt8g5z96PJ6z9xCFA==}
-    peerDependencies:
-      '@octokit/core': '>=3'
-
   '@octokit/plugin-rest-endpoint-methods@7.2.3':
     resolution: {integrity: sha512-I5Gml6kTAkzVlN7KCtjOM+Ruwe/rQppp0QU372K1GP7kNOYEKe8Xn5BW4sE62JAHdwpq95OQK/qGNyKQMUzVgA==}
     engines: {node: '>= 14'}
@@ -414,10 +383,6 @@ packages:
 
   '@octokit/request@6.2.8':
     resolution: {integrity: sha512-ow4+pkVQ+6XVVsekSYBzJC0VTVvh/FCTUUgTsboGq+DTeWdyIFV8WSCdo0RIxk6wSkBTHqIK1mYuY7nOBXOchw==}
-    engines: {node: '>= 14'}
-
-  '@octokit/rest@19.0.13':
-    resolution: {integrity: sha512-/EzVox5V9gYGdbAI+ovYj3nXQT1TtTHRT+0eZPcuC05UFSWO3mdO9UY1C0i2eLF9Un1ONJkAk+IEtYGAC+TahA==}
     engines: {node: '>= 14'}
 
   '@octokit/tsconfig@1.0.2':
@@ -1089,10 +1054,6 @@ packages:
 
   groq-sdk@0.30.0:
     resolution: {integrity: sha512-9PowoybiGkq1GpvkC7ikvT+WIFu6zAkeXF8p4eqNEYgGnEcf70fBWuwWqU1KIPQgTMw5sfausvJWzzPbYdHfCQ==}
-
-  groq@1.150.1:
-    resolution: {integrity: sha512-ADRdASSSZFLddt945addd3gNZAV1rr6kqhvBoCuSr0WaXGbTqdy7hHw5AsuFdTP0VrVkYxjPBUWGaGz4QM2Rsg==}
-    engines: {node: '>=6'}
 
   has-symbols@1.1.0:
     resolution: {integrity: sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==}
@@ -1969,10 +1930,6 @@ snapshots:
       '@octokit/tsconfig': 1.0.2
       '@octokit/types': 9.3.2
 
-  '@octokit/plugin-request-log@1.0.4(@octokit/core@4.2.4)':
-    dependencies:
-      '@octokit/core': 4.2.4
-
   '@octokit/plugin-rest-endpoint-methods@7.2.3(@octokit/core@4.2.4)':
     dependencies:
       '@octokit/core': 4.2.4
@@ -2004,15 +1961,6 @@ snapshots:
       is-plain-object: 5.0.0
       node-fetch: 2.7.0
       universal-user-agent: 6.0.1
-    transitivePeerDependencies:
-      - encoding
-
-  '@octokit/rest@19.0.13':
-    dependencies:
-      '@octokit/core': 4.2.4
-      '@octokit/plugin-paginate-rest': 6.1.2(@octokit/core@4.2.4)
-      '@octokit/plugin-request-log': 1.0.4(@octokit/core@4.2.4)
-      '@octokit/plugin-rest-endpoint-methods': 7.2.3(@octokit/core@4.2.4)
     transitivePeerDependencies:
       - encoding
 
@@ -2642,8 +2590,6 @@ snapshots:
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
-
-  groq@1.150.1: {}
 
   has-symbols@1.1.0: {}
 

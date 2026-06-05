@@ -1,8 +1,8 @@
 import { FastifyPluginAsync } from "fastify";
 import crypto from "crypto";
-import { env } from "../../../infrastructure/env";
-import { WebhookProcessingService } from "../../../services/webhook-processing.service";
-import { errorResponse } from "../../../infrastructure/api-response";
+import { env } from "../../infrastructure/env";
+import { WebhookProcessingService } from "../../services/webhook-processing.service";
+import { errorResponse } from "../../infrastructure/api-response";
 
 export const githubWebhookRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.post("/webhook", async (request, reply) => {
