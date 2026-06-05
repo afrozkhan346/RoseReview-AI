@@ -3,6 +3,7 @@ import { GitHubService } from "../../integrations/github/github.service";
 import { prisma } from "../../lib/prisma";
 import { errorResponse, successResponse } from "../../infrastructure/api-response";
 import { logger } from "../../infrastructure/logger";
+import { decrypt } from "../../utils/encryption";
 
 export class GithubController {
   async getRepositories(request: FastifyRequest, reply: FastifyReply) {
@@ -14,7 +15,7 @@ export class GithubController {
     }
 
     try {
-      const githubService = new GitHubService(logger, user.githubToken);
+      const githubService = new GitHubService(logger, decrypt(user.githubToken));
       const repos = await githubService.fetchUserRepositories();
       return reply.send(successResponse(repos, "Fetched repositories successfully", undefined, request.id));
     } catch (error: any) {
@@ -42,7 +43,7 @@ export class GithubController {
     }
 
     try {
-      const githubService = new GitHubService(logger, user.githubToken);
+      const githubService = new GitHubService(logger, decrypt(user.githubToken));
       const pr = await githubService.fetchPullRequest({ owner, repo, number: prNumber });
       return reply.send(successResponse(pr, "Fetched pull request successfully", undefined, request.id));
     } catch (error: any) {
@@ -64,7 +65,7 @@ export class GithubController {
     }
 
     try {
-      const githubService = new GitHubService(logger, user.githubToken);
+      const githubService = new GitHubService(logger, decrypt(user.githubToken));
       const prs = await githubService.fetchRepositoryPullRequests(owner, repo);
       return reply.send(successResponse(prs, "Fetched pull requests successfully", undefined, request.id));
     } catch (error: any) {
@@ -92,7 +93,7 @@ export class GithubController {
     }
 
     try {
-      const githubService = new GitHubService(logger, user.githubToken);
+      const githubService = new GitHubService(logger, decrypt(user.githubToken));
       const comment = await githubService.postPullRequestComment({ owner, repo, number: prNumber }, body);
       return reply.send(successResponse(comment, "Comment posted successfully", undefined, request.id));
     } catch (error: any) {

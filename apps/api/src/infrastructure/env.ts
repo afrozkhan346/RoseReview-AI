@@ -18,6 +18,7 @@ const envSchema = z.object({
   
   // Database Configuration
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
+  REDIS_URL: z.string().url("REDIS_URL must be a valid URL").optional(),
   
   // External APIs
   GROQ_API_KEY: z.string().min(1, "GROQ_API_KEY is required").optional(),
@@ -35,6 +36,7 @@ const envSchema = z.object({
   
   // Security
   JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters long").default("fallback_secret_for_development_do_not_use_in_prod_123!"),
+  ENCRYPTION_KEY: z.string().length(64, "ENCRYPTION_KEY must be a 64 character hex string (32 bytes)").default("a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a1b2c3d4e5f6"),
   WEBHOOK_SECRET: z.string().min(1, "WEBHOOK_SECRET is required").optional(),
   
   // Logging Configuration
