@@ -14,11 +14,16 @@ function init() {
     return;
   }
 
-  // GitHub OAuth Callback Handler
+  // Handle GitHub OAuth redirect
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('github_auth') === 'success') {
-    localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('isGithubConnected', 'true');
+    localStorage.setItem('isAuthenticated', 'true');
+    if (window.opener) {
+      window.opener.location.href = '/dashboard.html';
+      window.close();
+      return; // Stop execution in the popup
+    }
     window.history.replaceState({}, document.title, '/dashboard.html');
   }
 
