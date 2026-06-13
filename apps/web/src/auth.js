@@ -5,7 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const isLoginPage = document.body.classList.contains('auth-page--login');
   const isSignupPage = document.body.classList.contains('auth-page--signup');
 
-  // --- Utility Functions ---
+  // ── If already logged in, skip auth pages and go to dashboard ──
+  const alreadyAuthed =
+    localStorage.getItem('isAuthenticated') === 'true' ||
+    sessionStorage.getItem('isAuthenticated') === 'true';
+  if (alreadyAuthed && (isLoginPage || isSignupPage)) {
+    window.location.replace('/dashboard.html');
+    return;
+  }
+
+  // ── Utility Functions ──
   const showError = (fieldId, message) => {
     const field = document.getElementById(fieldId);
     if (!field) return;
@@ -38,30 +47,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const card = document.getElementById(cardId);
     if (!card) return;
     card.classList.remove('auth-shake');
-    void card.offsetWidth; // trigger reflow
+    void card.offsetWidth;
     card.classList.add('auth-shake');
     setTimeout(() => card.classList.remove('auth-shake'), 500);
   };
 
-  // --- Password Toggles ---
+  // ── Password Toggles ──
   document.querySelectorAll('.auth-toggle-pw').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', () => {
       const input = btn.previousElementSibling;
       const showIcon = btn.querySelector('.pw-icon-show');
       const hideIcon = btn.querySelector('.pw-icon-hide');
       if (input.type === 'password') {
         input.type = 'text';
-        if(showIcon) showIcon.style.display = 'none';
-        if(hideIcon) hideIcon.style.display = 'block';
+        if (showIcon) showIcon.style.display = 'none';
+        if (hideIcon) hideIcon.style.display = 'block';
       } else {
         input.type = 'password';
-        if(showIcon) showIcon.style.display = 'block';
-        if(hideIcon) hideIcon.style.display = 'none';
+        if (showIcon) showIcon.style.display = 'block';
+        if (hideIcon) hideIcon.style.display = 'none';
       }
     });
   });
 
-  // --- Input Focus Effects & Smooth Validation ---
+  // ── Input Focus Effects ──
   document.querySelectorAll('.auth-input').forEach(input => {
     const field = input.closest('.auth-field');
     input.addEventListener('focus', () => {
@@ -71,28 +80,28 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('blur', () => {
       field?.classList.remove('auth-field--focused');
       if (input.type === 'email' && input.value) {
-        if (!validateEmail(input.value)) {
-          showError(field?.id, 'Please enter a valid email address');
-        } else {
-          setSuccess(field?.id);
-        }
+        if (!validateEmail(input.value)) showError(field?.id, 'Please enter a valid email address');
+        else setSuccess(field?.id);
       }
     });
   });
 
-  // --- Login Specific ---
+  // ══════════════════════════════════════════════
+  // LOGIN PAGE
+  // ══════════════════════════════════════════════
   if (isLoginPage) {
+    // Auto-fill email from URL param (after signup redirect)
     const urlParams = new URLSearchParams(window.location.search);
     const emailParam = urlParams.get('email');
     if (emailParam) {
       const emailInput = document.getElementById('login-email');
       if (emailInput) {
-         emailInput.value = emailParam;
-         setTimeout(() => emailInput.focus(), 100);
+        emailInput.value = emailParam;
+        setTimeout(() => emailInput.focus(), 100);
       }
     }
 
-    // Spinner Animation
+    // Spinner animation on left panel
     const spinnerEl = document.querySelector('.auth-term-spinner');
     if (spinnerEl) {
       const chars = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
@@ -101,23 +110,23 @@ document.addEventListener('DOMContentLoaded', () => {
         spinnerEl.textContent = chars[i];
         i = (i + 1) % chars.length;
       }, 80);
-
       setTimeout(() => {
         clearInterval(interval);
         spinnerEl.textContent = '✓';
         spinnerEl.classList.remove('auth-term-spinner');
         spinnerEl.classList.add('auth-term-ok');
         const activeLine = document.querySelector('.auth-term-active');
-        if(activeLine) activeLine.innerHTML = '<span class="auth-term-pre">▸</span> Review complete — 6 findings <span class="auth-term-ok">✓</span>';
+        if (activeLine) activeLine.innerHTML = '<span class="auth-term-pre">▸</span> Review complete — 6 findings <span class="auth-term-ok">✓</span>';
       }, 4000);
     }
 
+    // Login form submit
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
       loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         let isValid = true;
-        
+
         const email = document.getElementById('login-email').value;
         if (!email || !validateEmail(email)) {
           showError('field-email', 'Valid email is required');
@@ -130,38 +139,40 @@ document.addEventListener('DOMContentLoaded', () => {
           isValid = false;
         }
 
-        if (isValid) {
-          const btn = document.getElementById('btn-login');
-          if(btn) {
-              const text = btn.querySelector('.auth-btn-text');
-              const loader = btn.querySelector('.auth-btn-loader');
-              if(text) text.style.display = 'none';
-              if(loader) loader.style.display = 'flex';
-              btn.disabled = true;
-          }
-          setTimeout(() => {
-            const rememberMe = document.getElementById('remember-me')?.checked;
-            if (rememberMe) {
-              localStorage.setItem('isAuthenticated', 'true');
-            } else {
-              sessionStorage.setItem('isAuthenticated', 'true');
-            }
-            alert('Login successful!');
-            window.location.href = '/dashboard.html';
-          }, 2000);
-        } else {
-          shakeCard('login-card');
+        if (!isValid) { shakeCard('login-card'); return; }
+
+        const btn = document.getElementById('btn-login');
+        if (btn) {
+          const text = btn.querySelector('.auth-btn-text');
+          const loader = btn.querySelector('.auth-btn-loader');
+          if (text) text.style.display = 'none';
+          if (loader) loader.style.display = 'flex';
+          btn.disabled = true;
         }
+
+        setTimeout(() => {
+          const rememberMe = document.getElementById('remember-me')?.checked;
+          if (rememberMe) {
+            localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('userEmail', email);
+          } else {
+            sessionStorage.setItem('isAuthenticated', 'true');
+            sessionStorage.setItem('userEmail', email);
+          }
+          window.location.href = '/dashboard.html';
+        }, 1500);
       });
     }
   }
 
-  // --- Signup Specific ---
+  // ══════════════════════════════════════════════
+  // SIGNUP PAGE
+  // ══════════════════════════════════════════════
   if (isSignupPage) {
     const passInput = document.getElementById('signup-password');
     const confInput = document.getElementById('signup-confirm-password');
-    
-    // Password Strength
+
+    // Password strength meter
     if (passInput) {
       passInput.addEventListener('input', () => {
         const val = passInput.value;
@@ -174,34 +185,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const fill = document.getElementById('pw-strength-fill');
         const text = document.getElementById('pw-strength-text');
-        
+
         if (val.length === 0) {
-            if(fill) fill.style.width = '0%';
-            if(text) text.textContent = '';
-            return;
+          if (fill) fill.style.width = '0%';
+          if (text) text.textContent = '';
+          return;
         }
 
         let width, color, label;
-        if (score <= 1) { width = '25%'; color = 'var(--accent-red)'; label = 'Weak'; }
-        else if (score === 2) { width = '50%'; color = 'var(--accent-amber)'; label = 'Fair'; }
-        else if (score >= 3 && score <= 4) { width = '75%'; color = 'var(--accent-blue)'; label = 'Good'; }
-        else { width = '100%'; color = 'var(--accent-green)'; label = 'Strong'; }
+        if (score <= 1)      { width = '25%';  color = 'var(--accent-red)';    label = 'Weak'; }
+        else if (score === 2){ width = '50%';  color = 'var(--accent-amber)';  label = 'Fair'; }
+        else if (score <= 4) { width = '75%';  color = 'var(--accent-blue)';   label = 'Good'; }
+        else                  { width = '100%'; color = 'var(--accent-green)';  label = 'Strong'; }
 
-        if(fill) {
-            fill.style.width = width;
-            fill.style.backgroundColor = color;
-        }
-        if(text) {
-            text.textContent = label;
-            text.style.color = color;
-        }
-        
-        // check confirm pass match real-time
+        if (fill) { fill.style.width = width; fill.style.backgroundColor = color; }
+        if (text) { text.textContent = label; text.style.color = color; }
+
         if (confInput && confInput.value) {
           if (val === confInput.value) setSuccess('field-confirm-password');
           else showError('field-confirm-password', 'Passwords do not match');
         }
-        updateSteps();
       });
     }
 
@@ -212,204 +215,37 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           showError('field-confirm-password', 'Passwords do not match');
         }
-        updateSteps();
       });
     }
 
-    // Onboarding Wizard State & Logic
-    let activeStep = 1;
-
-    const showStep = (stepNum) => {
-      activeStep = stepNum;
-
-      // Hide all step content panes and show the active one
-      document.querySelectorAll('[data-step-pane]').forEach(pane => {
-        pane.classList.remove('active');
-        if (parseInt(pane.dataset.stepPane, 10) === stepNum) {
-          pane.classList.add('active');
-        }
-      });
-
-      // Update top progress indicators
-      const step1 = document.querySelector('[data-step="1"]');
-      const step2 = document.querySelector('[data-step="2"]');
-      const step3 = document.querySelector('[data-step="3"]');
-      const lines = document.querySelectorAll('.auth-step-line');
-
-      [step1, step2, step3].forEach(s => s?.classList.remove('auth-step--active', 'auth-step--completed'));
-      lines.forEach(l => l.classList.remove('auth-step-line--active'));
-
-      if (stepNum === 1) {
-        step1?.classList.add('auth-step--active');
-      } else if (stepNum === 2) {
-        step1?.classList.add('auth-step--completed');
-        step2?.classList.add('auth-step--active');
-        if (lines[0]) lines[0].classList.add('auth-step-line--active');
-      } else if (stepNum === 3) {
-        step1?.classList.add('auth-step--completed');
-        step2?.classList.add('auth-step--completed');
-        step3?.classList.add('auth-step--active');
-        if (lines[0]) lines[0].classList.add('auth-step-line--active');
-        if (lines[1]) lines[1].classList.add('auth-step-line--active');
-      }
-    };
-
-    const validateStep1 = () => {
-      let isValid = true;
-
-      const name = document.getElementById('signup-fullname')?.value?.trim();
-      if (!name || name.length < 2) {
-        showError('field-fullname', 'Full name is required');
-        isValid = false;
-      } else {
-        setSuccess('field-fullname');
-      }
-
-      const email = document.getElementById('signup-email')?.value?.trim();
-      if (!email || !validateEmail(email)) {
-        showError('field-work-email', 'Valid work email is required');
-        isValid = false;
-      } else {
-        setSuccess('field-work-email');
-      }
-
-      const pass = passInput?.value;
-      if (!pass || pass.length < 8) {
-        showError('field-signup-password', 'Password must be at least 8 characters');
-        isValid = false;
-      } else {
-        setSuccess('field-signup-password');
-      }
-
-      const conf = confInput?.value;
-      if (pass !== conf) {
-        showError('field-confirm-password', 'Passwords do not match');
-        isValid = false;
-      } else if (conf) {
-        setSuccess('field-confirm-password');
-      }
-
-      return isValid;
-    };
-
-    const validateStep2 = () => {
-      let isValid = true;
-      const role = document.getElementById('signup-role')?.value;
-      if (!role) {
-        showError('field-role', 'Please select your role');
-        isValid = false;
-      } else {
-        setSuccess('field-role');
-      }
-      return isValid;
-    };
-
-    const validateStep3 = () => {
-      let isValid = true;
-      const terms = document.getElementById('accept-terms');
-      if (!terms || !terms.checked) {
-        showError('field-terms', 'You must accept the terms of service to continue');
-        isValid = false;
-      } else {
-        setSuccess('field-terms');
-      }
-      return isValid;
-    };
-
-    // Next/Back Button Navigation Listeners
-    const nextToTeam = document.getElementById('btn-next-to-team');
-    if (nextToTeam) {
-      nextToTeam.addEventListener('click', () => {
-        if (validateStep1()) {
-          showStep(2);
-        } else {
-          shakeCard('signup-card');
-        }
-      });
-    }
-
-    const prevToAccount = document.getElementById('btn-prev-to-account');
-    if (prevToAccount) {
-      prevToAccount.addEventListener('click', () => {
-        showStep(1);
-      });
-    }
-
-    const nextToConnect = document.getElementById('btn-next-to-connect');
-    if (nextToConnect) {
-      nextToConnect.addEventListener('click', () => {
-        if (validateStep2()) {
-          showStep(3);
-        } else {
-          shakeCard('signup-card');
-        }
-      });
-    }
-
-    const prevToTeam = document.getElementById('btn-prev-to-team');
-    if (prevToTeam) {
-      prevToTeam.addEventListener('click', () => {
-        showStep(2);
-      });
-    }
-
-    // GitHub Connect (Step 3 of manual signup)
-    const btnConnect = document.getElementById('btn-connect-github');
-    if (btnConnect) {
-      btnConnect.addEventListener('click', () => {
-        // Show connecting state
-        btnConnect.innerHTML = '<span class="auth-spinner" style="width:14px;height:14px;margin-right:8px;border-width:2px;display:inline-block;animation:authSpin 0.6s linear infinite;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;"></span> Opening GitHub...';
-        btnConnect.disabled = true;
-
-        // Build real GitHub OAuth URL (no redirect_uri — uses registered default)
-        const clientId = 'Ov23liarYizusohYEor6';
-        const scope = encodeURIComponent('read:user user:email repo');
-        const ghUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=${scope}`;
-
-        const popup = window.open(ghUrl, 'GitHubAuth', 'width=600,height=700,left=400,top=100');
-
-        // Poll until popup closes
-        const checkClosed = setInterval(() => {
-          if (!popup || popup.closed) {
-            clearInterval(checkClosed);
-            btnConnect.textContent = 'Connected ✓';
-            btnConnect.disabled = true;
-            btnConnect.style.background = 'var(--accent-green)';
-            btnConnect.style.borderColor = 'var(--accent-green)';
-            btnConnect.style.color = 'white';
-            const container = document.getElementById('github-connect');
-            if (container) container.style.borderColor = 'var(--accent-green)';
-            localStorage.setItem('isGithubConnected', 'true');
-          }
-        }, 500);
-      });
-    }
-
+    // Signup form submit
     const signupForm = document.getElementById('signup-form');
     if (signupForm) {
       signupForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        // Full Validation Check
-        const s1 = validateStep1();
-        const s2 = validateStep2();
-        const s3 = validateStep3();
+        let isValid = true;
 
-        if (!s1) {
-          showStep(1);
-          shakeCard('signup-card');
-          return;
-        }
-        if (!s2) {
-          showStep(2);
-          shakeCard('signup-card');
-          return;
-        }
-        if (!s3) {
-          showStep(3);
-          shakeCard('signup-card');
-          return;
-        }
+        const name = document.getElementById('signup-fullname')?.value?.trim();
+        if (!name || name.length < 2) { showError('field-fullname', 'Full name is required'); isValid = false; }
+        else setSuccess('field-fullname');
+
+        const email = document.getElementById('signup-email')?.value?.trim();
+        if (!email || !validateEmail(email)) { showError('field-work-email', 'Valid work email is required'); isValid = false; }
+        else setSuccess('field-work-email');
+
+        const pass = passInput?.value;
+        if (!pass || pass.length < 8) { showError('field-signup-password', 'Password must be at least 8 characters'); isValid = false; }
+        else setSuccess('field-signup-password');
+
+        const conf = confInput?.value;
+        if (pass !== conf) { showError('field-confirm-password', 'Passwords do not match'); isValid = false; }
+        else if (conf) setSuccess('field-confirm-password');
+
+        const terms = document.getElementById('accept-terms');
+        if (!terms || !terms.checked) { showError('field-terms', 'You must accept the terms to continue'); isValid = false; }
+        else setSuccess('field-terms');
+
+        if (!isValid) { shakeCard('signup-card'); return; }
 
         const btn = document.getElementById('btn-signup');
         if (btn) {
@@ -419,47 +255,42 @@ document.addEventListener('DOMContentLoaded', () => {
           if (loader) loader.style.display = 'flex';
           btn.disabled = true;
         }
-        
+
         setTimeout(() => {
-          alert('Account created successfully!');
-          const email = document.getElementById('signup-email')?.value || '';
+          alert('Account created successfully! Please log in.');
           window.location.href = '/login.html?email=' + encodeURIComponent(email);
-        }, 2000);
+        }, 1500);
       });
     }
   }
 
-  // --- OAuth Buttons (GitHub Sign In / Sign Up) ---
+  // ══════════════════════════════════════════════
+  // GITHUB OAUTH BUTTONS (Sign In / Sign Up)
+  // ══════════════════════════════════════════════
   const GITHUB_CLIENT_ID = 'Ov23liarYizusohYEor6';
-  const GITHUB_SCOPE     = 'read:user user:email repo';
-  // No redirect_uri — GitHub uses the registered default callback from OAuth App settings
-  const githubOAuthUrl   = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${encodeURIComponent(GITHUB_SCOPE)}`;
+  const GITHUB_SCOPE = 'read:user user:email repo';
+  // No redirect_uri — uses the registered default from GitHub OAuth App settings
+  const githubOAuthUrl = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${encodeURIComponent(GITHUB_SCOPE)}`;
 
   document.querySelectorAll('.auth-oauth-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const originalHtml = btn.innerHTML;
       btn.innerHTML = '<span class="auth-spinner" style="width:14px;height:14px;margin-right:8px;border-width:2px;display:inline-block;animation:authSpin 0.6s linear infinite;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;"></span> Opening GitHub...';
       btn.disabled = true;
 
       // Open real GitHub OAuth in a popup
       const popup = window.open(githubOAuthUrl, 'GitHubOAuth', 'width=600,height=700,left=400,top=100');
 
-      // Poll until popup closes (user completes or cancels GitHub auth)
+      // Poll until popup closes
       const checkClosed = setInterval(() => {
         if (!popup || popup.closed) {
           clearInterval(checkClosed);
-
           if (isLoginPage) {
-            // Login flow: mark authenticated and go to dashboard
             localStorage.setItem('isAuthenticated', 'true');
             localStorage.setItem('isGithubConnected', 'true');
-            alert('GitHub login successful!');
             window.location.href = '/dashboard.html';
           } else if (isSignupPage) {
-            // Signup flow: account created via GitHub, go to dashboard
             localStorage.setItem('isAuthenticated', 'true');
             localStorage.setItem('isGithubConnected', 'true');
-            alert('Account created and GitHub connected!');
             window.location.href = '/dashboard.html';
           }
         }
@@ -467,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Form Field Entry Animation ---
+  // ── Field Entry Animations ──
   const fields = document.querySelectorAll('.auth-field');
   fields.forEach((field, index) => {
     field.style.opacity = '0';
