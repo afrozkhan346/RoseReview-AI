@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Login form submit
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
-      loginForm.addEventListener('submit', (e) => {
+      loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         let isValid = true;
 
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Signup form submit
     const signupForm = document.getElementById('signup-form');
     if (signupForm) {
-      signupForm.addEventListener('submit', (e) => {
+      signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         let isValid = true;
 
