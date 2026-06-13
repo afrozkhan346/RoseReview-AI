@@ -4,15 +4,21 @@ import { addTrackedRepo, renderRepoDropdown, selectRepo, parsePrUrl, initRepoSta
 
 function init() {
   // ─────────────────────────────────────────────
-  // 0. GitHub OAuth Callback Handler
+  // 0. Auth Guard — redirect to login if not authenticated
   // ─────────────────────────────────────────────
-  // When GitHub redirects back to /dashboard.html?github_auth=success,
-  // set auth state in localStorage so the session is persisted.
+  const isAuthed =
+    localStorage.getItem('isAuthenticated') === 'true' ||
+    sessionStorage.getItem('isAuthenticated') === 'true';
+  if (!isAuthed) {
+    window.location.replace('/login.html');
+    return;
+  }
+
+  // GitHub OAuth Callback Handler
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('github_auth') === 'success') {
     localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('isGithubConnected', 'true');
-    // Clean the URL without reloading
     window.history.replaceState({}, document.title, '/dashboard.html');
   }
 
@@ -71,6 +77,22 @@ function init() {
       if (d) d.classList.remove('open');
     });
   });
+
+  // ─────────────────────────────────────────────
+  // Sign Out
+  // ─────────────────────────────────────────────
+  const signOutBtn = document.getElementById('btn-signout');
+  if (signOutBtn) {
+    signOutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('isGithubConnected');
+      localStorage.removeItem('userEmail');
+      sessionStorage.removeItem('isAuthenticated');
+      sessionStorage.removeItem('userEmail');
+      window.location.href = '/login.html';
+    });
+  }
 
   // Handle repository selection option change
   const repoOptions = document.querySelectorAll('.repo-option');
@@ -581,15 +603,27 @@ The architectural boundaries have been tightened up. We're now correctly using t
     const handleAnalyze = async () => {
       const val = manualPrInput.value.trim();
       if (!val) return;
-      
+
+      // Try parsing as a PR URL first
       const parsed = parsePrUrl(val);
-      if (!parsed) {
-        alert('Please enter a valid GitHub PR URL.\nExample: https://github.com/owner/repo/pull/123\nOr: owner/repo#123');
-        return;
+
+      // If not a PR URL, try as a repo URL: github.com/owner/repo or owner/repo
+      let owner, repo, prNumber;
+      if (parsed) {
+        ({ owner, repo, prNumber } = parsed);
+      } else {
+        // Parse plain repo URL
+        const repoMatch = val.replace(/^https?:\/\/github\.com\//, '').replace(/^github\.com\//, '').match(/^([\w.-]+)\/([\w.-]+)/);
+        if (!repoMatch) {
+          alert('Please enter a valid GitHub repo URL or PR URL.\nExamples:\n  github.com/owner/repo\n  github.com/owner/repo/pull/123');
+          return;
+        }
+        owner = repoMatch[1];
+        repo = repoMatch[2];
+        prNumber = null;
       }
 
-      const { owner, repo, prNumber } = parsed;
-      
+
       const originalText = manualPrBtn.textContent;
       manualPrBtn.textContent = 'Fetching...';
       manualPrBtn.disabled = true;
@@ -806,45 +840,8 @@ The architectural boundaries have been tightened up. We're now correctly using t
     });
   }
 
-  // --- GitHub Connect Modal Check ---
-  const isGithubConnected = localStorage.getItem('isGithubConnected');
-  if (isGithubConnected !== 'true') {
-    const modal = document.getElementById('github-connect-modal');
-    if (modal) {
-      modal.style.display = 'block';
-      
-      const btnClose = document.getElementById('btn-close-github-modal');
-      const btnConnect = document.getElementById('btn-connect-github-modal');
-      
-      if (btnClose) {
-        btnClose.addEventListener('click', () => {
-          modal.style.display = 'none';
-        });
-      }
-      
-      if (btnConnect) {
-        btnConnect.addEventListener('click', () => {
-          btnConnect.textContent = 'Connecting...';
-          
-          const ghClientId = 'Ov23liarYizusohYEor6';
-          const ghScope = encodeURIComponent('read:user user:email repo');
-          // No redirect_uri — uses registered default from GitHub OAuth App settings
-          const ghUrl = `https://github.com/login/oauth/authorize?client_id=${ghClientId}&scope=${ghScope}`;
-          const popup = window.open(ghUrl, 'GitHubAuth', 'width=600,height=700,left=400,top=100');
-          
-          const checkClosed = setInterval(() => {
-             if (!popup || popup.closed) {
-               clearInterval(checkClosed);
-               localStorage.setItem('isGithubConnected', 'true');
-               modal.style.display = 'none';
-               alert('GitHub Connected Successfully!');
-             }
-          }, 500);
-        });
-      }
-    }
-  }
 }
+
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
