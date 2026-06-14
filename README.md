@@ -6,10 +6,11 @@
 
 ![RoseReview AI](https://dummyimage.com/1200x300/06060b/f43f5e&text=RoseReview+AI+-+AI-Powered+Code+Reviews)
 
-
 **RoseReview AI** acts like a senior developer on your team — delivering high-signal pull request reviews, identifying deployment risks, evaluating code health, and integrating directly with GitHub. All wrapped in a stunning, premium dark-mode interface.
 
 ---
+
+### 📋 Project Badges
 
 ![License MIT](https://img.shields.io/badge/LICENSE-MIT-0EA5E9?style=for-the-badge)
 ![PRs Welcome](https://img.shields.io/badge/PRs-WELCOME-22C55E?style=for-the-badge)
