@@ -64,11 +64,8 @@ export class AuthController {
   }
 
   async githubLogin(request: FastifyRequest, reply: FastifyReply) {
-    if (!env.GITHUB_CLIENT_ID) {
-      return reply.status(500).send(errorResponse("INTERNAL_SERVER_ERROR", "GitHub OAuth is not configured", null, request.id));
-    }
-    
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&scope=user:email,repo`;
+    const clientId = env.GITHUB_CLIENT_ID || "Ov23liarYizusohYEor6";
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user:email,repo`;
     return reply.redirect(githubAuthUrl);
   }
 

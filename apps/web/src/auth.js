@@ -477,15 +477,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- OAuth Buttons (GitHub Sign In / Sign Up) ---
-  const GITHUB_CLIENT_ID = 'Ov23liarYizusohYEor6';
-  const GITHUB_SCOPE     = 'read:user user:email repo';
-  // No redirect_uri — GitHub uses the registered default callback from OAuth App settings
-  const githubOAuthUrl   = `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&scope=${encodeURIComponent(GITHUB_SCOPE)}`;
-
   document.querySelectorAll('.auth-oauth-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const originalHtml = btn.innerHTML;
-      btn.innerHTML = '<span class="auth-spinner" style="width:14px;height:14px;margin-right:8px;border-width:2px;display:inline-block;animation:authSpin 0.6s linear infinite;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;"></span> Opening GitHub...';
+      btn.innerHTML = '<span class="auth-spinner" style="width:14px;height:14px;margin-right:8px;border-width:2px;display:inline-block;animation:authSpin 0.6s linear infinite;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;"></span> Redirecting to GitHub...';
       btn.disabled = true;
 
       // Open real GitHub OAuth in a popup
