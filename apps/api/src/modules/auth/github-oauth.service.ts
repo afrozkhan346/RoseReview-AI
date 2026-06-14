@@ -24,14 +24,43 @@ export class GitHubOAuthService {
    * Exchanges an authorization code for an access token.
    */
   async exchangeCodeForToken(code: string): Promise<string> {
-    logger.info({ code }, "Exchanging GitHub OAuth code for token");
+    logger.info("Exchanging GitHub OAuth code for token");
     
     if (process.env.NODE_ENV !== "production" && !process.env.GITHUB_CLIENT_SECRET) {
       // Mock implementation for local testing without real credentials
       return "mock_github_access_token_12345";
     }
 
-    throw new Error("GitHub OAuth exchange not fully implemented without credentials");
+    const clientId = process.env.GITHUB_CLIENT_ID || "Ov23liarYizusohYEor6";
+    const clientSecret = process.env.GITHUB_CLIENT_SECRET;
+
+    if (!clientSecret) {
+      throw new Error("GITHUB_CLIENT_SECRET is missing from environment variables");
+    }
+
+    const response = await fetch("https://github.com/login/oauth/access_token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        client_id: clientId,
+        client_secret: clientSecret,
+        code,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`GitHub token exchange failed: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    if (data.error) {
+      throw new Error(`GitHub token exchange error: ${data.error_description || data.error}`);
+    }
+
+    return data.access_token;
   }
 
   /**
@@ -47,7 +76,44 @@ export class GitHubOAuthService {
       };
     }
     
-    throw new Error("GitHub API integration requires valid access token");
+    const response = await fetch("https://api.github.com/user", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch GitHub profile: ${response.statusText}`);
+    }
+
+    const user = await response.json();
+
+    let email = user.email;
+    if (!email) {
+      const emailResponse = await fetch("https://api.github.com/user/emails", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Accept: "application/json",
+        },
+      });
+      if (emailResponse.ok) {
+        const emails = await emailResponse.json();
+        const primaryEmail = emails.find((e: any) => e.primary && e.verified);
+        if (primaryEmail) {
+          email = primaryEmail.email;
+        } else if (emails.length > 0) {
+          email = emails[0].email;
+        }
+      }
+    }
+
+    return {
+      id: String(user.id),
+      login: user.login,
+      email: email,
+      avatar_url: user.avatar_url,
+    };
   }
 }
 
