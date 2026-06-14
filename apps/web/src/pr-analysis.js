@@ -1,7 +1,11 @@
 import './pr-analysis.css';
 import './responsive.js';
+import { enforceAuth, handleSignOut } from './auth-guard.js';
+
+enforceAuth();
 
 document.addEventListener('DOMContentLoaded', () => {
+  handleSignOut();
   // ─────────────────────────────────────────────
   // 1. Collapsible Sidebar Navigation
   // ─────────────────────────────────────────────

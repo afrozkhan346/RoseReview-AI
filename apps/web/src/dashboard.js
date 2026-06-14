@@ -1,8 +1,12 @@
 import './dashboard.css';
 import './responsive.js';
 import { addTrackedRepo, renderRepoDropdown, selectRepo, parsePrUrl, initRepoState } from './repo-state.js';
+import { enforceAuth, handleSignOut } from './auth-guard.js';
+
+enforceAuth();
 
 function init() {
+  handleSignOut();
   // ─────────────────────────────────────────────
   // 1. Collapsible Sidebar Navigation
   // ─────────────────────────────────────────────

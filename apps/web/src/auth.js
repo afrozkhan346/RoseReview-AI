@@ -1,5 +1,8 @@
 import './auth.css';
 import './responsive.js';
+import { redirectIfAuth } from './auth-guard.js';
+
+redirectIfAuth();
 
 document.addEventListener('DOMContentLoaded', () => {
   const isLoginPage = document.body.classList.contains('auth-page--login');
