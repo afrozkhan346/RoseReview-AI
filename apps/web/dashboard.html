@@ -149,8 +149,8 @@
       <div class="header-right">
         <!-- Global Search / Manual PR Input -->
         <div class="global-search manual-pr-input-group" style="display: flex; gap: 8px; align-items: center; border: none; background: transparent; padding: 0;">
-          <input type="text" id="manual-pr-input" placeholder="Paste GitHub repo URL (e.g. github.com/owner/repo)" style="padding: 8px 14px; border: 1px solid var(--border-color); border-radius: 8px; background: rgba(0,0,0,0.2); color: var(--text-primary); font-size: 14px; width: 340px; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease;" onfocus="this.style.borderColor='var(--accent-rose)'; this.style.boxShadow='0 0 0 2px rgba(244,63,94,0.1)'" onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none'" />
-          <button id="manual-pr-btn" class="btn btn--primary" style="white-space: nowrap; padding: 8px 16px; border-radius: 8px;">Analyze</button>
+          <input type="text" id="manual-pr-input" placeholder="Paste full PR URL to track repo & analyze" style="padding: 8px 14px; border: 1px solid var(--border-color); border-radius: 8px; background: rgba(0,0,0,0.2); color: var(--text-primary); font-size: 14px; width: 320px; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease;" onfocus="this.style.borderColor='var(--accent-rose)'; this.style.boxShadow='0 0 0 2px rgba(244,63,94,0.1)'" onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none'" />
+          <button id="manual-pr-btn" class="btn btn--primary" style="white-space: nowrap; padding: 8px 16px; border-radius: 8px;">Analyze PR</button>
         </div>
 
         <!-- Quick Action Trigger -->
@@ -200,7 +200,7 @@
             </div>
             <a href="#" class="profile-link">Account Settings</a>
             <a href="#" class="profile-link">API Keys</a>
-            <a href="#" class="profile-link sign-out" id="btn-signout">Sign Out</a>
+            <a href="/" class="profile-link sign-out">Sign Out</a>
           </div>
         </div>
       </div>
@@ -624,6 +624,6 @@
     </div>
   </div>
 
-  <script type="module" src="/src/dashboard.js?v=2"></script>
+  <script type="module" src="/src/dashboard.js"></script>
 </body>
 </html>

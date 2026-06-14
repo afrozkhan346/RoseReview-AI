@@ -3,30 +3,6 @@ import './responsive.js';
 
 function init() {
   // ─────────────────────────────────────────────
-  // 0. Auth Check
-  // ─────────────────────────────────────────────
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true' || sessionStorage.getItem('isAuthenticated') === 'true';
-  if (isAuthenticated) {
-    const loginBtn = document.getElementById('btn-login');
-    if (loginBtn) {
-      loginBtn.textContent = 'Dashboard';
-      loginBtn.href = '/dashboard.html';
-      loginBtn.classList.remove('btn--ghost');
-      loginBtn.classList.add('btn--primary');
-    }
-    const heroBtn = document.getElementById('btn-hero-start');
-    if (heroBtn) {
-      heroBtn.href = '/dashboard.html';
-      heroBtn.innerHTML = 'Go to Dashboard <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
-    }
-    const finalBtn = document.getElementById('btn-final-start');
-    if (finalBtn) {
-      finalBtn.href = '/dashboard.html';
-      finalBtn.innerHTML = 'Go to Dashboard <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
-    }
-  }
-
-  // ─────────────────────────────────────────────
   // 1. Intersection Observer — Scroll Animations
   // ─────────────────────────────────────────────
 

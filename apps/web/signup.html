@@ -39,7 +39,7 @@
 
         <!-- Hero Text -->
         <div class="auth-left-hero">
-          <h1 class="auth-left-title">Start reviewing repos with<br/><span class="auth-gradient-text">AI engineering intelligence</span></h1>
+          <h1 class="auth-left-title">Start reviewing PRs with<br/><span class="auth-gradient-text">AI engineering intelligence</span></h1>
           <p class="auth-left-subtitle">Set up your account in under 60 seconds. Connect your repositories and let AI transform your review workflow.</p>
         </div>
 
@@ -54,6 +54,7 @@
               <p class="auth-feature-desc">Deep context from your codebase history, conventions, and architecture.</p>
             </div>
           </div>
+
           <div class="auth-feature-item">
             <div class="auth-feature-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -63,6 +64,7 @@
               <p class="auth-feature-desc">Know production impact before you merge using AI-powered blast-radius analysis.</p>
             </div>
           </div>
+
           <div class="auth-feature-item">
             <div class="auth-feature-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
@@ -72,6 +74,7 @@
               <p class="auth-feature-desc">AI that explains like a thoughtful senior engineer — with trade-offs and context.</p>
             </div>
           </div>
+
           <div class="auth-feature-item">
             <div class="auth-feature-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -121,80 +124,174 @@
             <p class="auth-card-subtitle">Start using AI-powered code reviews in under 60 seconds.</p>
           </div>
 
-          <!-- GitHub OAuth -->
-          <div class="auth-oauth-group">
-            <button class="auth-oauth-btn" id="btn-signup-github" type="button">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-              Continue with GitHub
-            </button>
+          <!-- Step Indicator -->
+          <div class="auth-steps" id="signup-steps">
+            <div class="auth-step auth-step--active" data-step="1">
+              <div class="auth-step-dot">1</div>
+              <span class="auth-step-label">Account</span>
+            </div>
+            <div class="auth-step-line auth-step-line--active"></div>
+            <div class="auth-step" data-step="2">
+              <div class="auth-step-dot">2</div>
+              <span class="auth-step-label">Team</span>
+            </div>
+            <div class="auth-step-line"></div>
+            <div class="auth-step" data-step="3">
+              <div class="auth-step-dot">3</div>
+              <span class="auth-step-label">Connect</span>
+            </div>
           </div>
 
-          <div class="auth-divider"><span>or sign up with email</span></div>
-
-          <!-- Manual Signup Form -->
           <form class="auth-form" id="signup-form" novalidate>
-            <div class="auth-field" id="field-fullname">
-              <label class="auth-label" for="signup-fullname">Full name</label>
-              <div class="auth-input-wrap">
-                <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <input class="auth-input" type="text" id="signup-fullname" placeholder="Jane Smith" autocomplete="name" required />
-              </div>
-              <span class="auth-field-error" id="fullname-error"></span>
-            </div>
-
-            <div class="auth-field" id="field-work-email">
-              <label class="auth-label" for="signup-email">Work email</label>
-              <div class="auth-input-wrap">
-                <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                <input class="auth-input" type="email" id="signup-email" placeholder="you@company.com" autocomplete="email" required />
-              </div>
-              <span class="auth-field-error" id="work-email-error"></span>
-            </div>
-
-            <div class="auth-field" id="field-signup-password">
-              <label class="auth-label" for="signup-password">Password</label>
-              <div class="auth-input-wrap">
-                <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-                <input class="auth-input" type="password" id="signup-password" placeholder="Create a strong password" autocomplete="new-password" required minlength="8" />
-                <button type="button" class="auth-toggle-pw" id="toggle-signup-password" aria-label="Toggle password visibility">
-                  <svg class="pw-icon-show" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                  <svg class="pw-icon-hide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            <!-- ================= Step 1: Account Setup ================= -->
+            <div class="auth-step-pane active" data-step-pane="1">
+              <!-- OAuth Buttons -->
+              <div class="auth-oauth-group">
+                <button class="auth-oauth-btn" id="btn-signup-github" type="button">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                  Sign up with GitHub
+                </button>
+                <button class="auth-oauth-btn" id="btn-signup-google" type="button">
+                  <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                  Sign up with Google
                 </button>
               </div>
-              <div class="auth-pw-strength" id="pw-strength">
-                <div class="auth-pw-strength-bar"><div class="auth-pw-strength-fill" id="pw-strength-fill"></div></div>
-                <span class="auth-pw-strength-text" id="pw-strength-text"></span>
+
+              <div class="auth-divider">
+                <span>or continue with email</span>
               </div>
-              <span class="auth-field-error" id="signup-password-error"></span>
-            </div>
 
-            <div class="auth-field" id="field-confirm-password">
-              <label class="auth-label" for="signup-confirm-password">Confirm password</label>
-              <div class="auth-input-wrap">
-                <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
-                <input class="auth-input" type="password" id="signup-confirm-password" placeholder="Re-enter your password" autocomplete="new-password" required />
+              <!-- Full Name -->
+              <div class="auth-field" id="field-fullname">
+                <label class="auth-label" for="signup-fullname">Full name</label>
+                <div class="auth-input-wrap">
+                  <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  <input class="auth-input" type="text" id="signup-fullname" placeholder="Jane Smith" autocomplete="name" required />
+                </div>
+                <span class="auth-field-error" id="fullname-error"></span>
               </div>
-              <span class="auth-field-error" id="confirm-password-error"></span>
+
+              <!-- Work Email -->
+              <div class="auth-field" id="field-work-email">
+                <label class="auth-label" for="signup-email">Work email</label>
+                <div class="auth-input-wrap">
+                  <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <input class="auth-input" type="email" id="signup-email" placeholder="you@company.com" autocomplete="email" required />
+                </div>
+                <span class="auth-field-error" id="work-email-error"></span>
+              </div>
+
+              <!-- Password -->
+              <div class="auth-field" id="field-signup-password">
+                <label class="auth-label" for="signup-password">Password</label>
+                <div class="auth-input-wrap">
+                  <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                  <input class="auth-input" type="password" id="signup-password" placeholder="Create a strong password" autocomplete="new-password" required minlength="8" />
+                  <button type="button" class="auth-toggle-pw" id="toggle-signup-password" aria-label="Toggle password visibility">
+                    <svg class="pw-icon-show" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="pw-icon-hide" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                  </button>
+                </div>
+                <!-- Password Strength -->
+                <div class="auth-pw-strength" id="pw-strength">
+                  <div class="auth-pw-strength-bar">
+                    <div class="auth-pw-strength-fill" id="pw-strength-fill"></div>
+                  </div>
+                  <span class="auth-pw-strength-text" id="pw-strength-text"></span>
+                </div>
+                <span class="auth-field-error" id="signup-password-error"></span>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="auth-field" id="field-confirm-password">
+                <label class="auth-label" for="signup-confirm-password">Confirm password</label>
+                <div class="auth-input-wrap">
+                  <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <input class="auth-input" type="password" id="signup-confirm-password" placeholder="Re-enter your password" autocomplete="new-password" required />
+                </div>
+                <span class="auth-field-error" id="confirm-password-error"></span>
+              </div>
+
+              <button type="button" class="btn--step-next" id="btn-next-to-team">Continue to Team details →</button>
             </div>
 
-            <div class="auth-field" id="field-terms">
-              <label class="auth-checkbox-wrap" for="accept-terms">
-                <input type="checkbox" id="accept-terms" class="auth-checkbox" required />
-                <span class="auth-checkmark"></span>
-                <span class="auth-checkbox-label">I agree to the <a href="#" class="auth-terms-link">Terms of Service</a> and <a href="#" class="auth-terms-link">Privacy Policy</a></span>
-              </label>
-              <span class="auth-field-error" id="terms-error"></span>
+            <!-- ================= Step 2: Team Details ================= -->
+            <div class="auth-step-pane" data-step-pane="2">
+              <!-- Company / Team -->
+              <div class="auth-field" id="field-company">
+                <label class="auth-label" for="signup-company">Company / Team name</label>
+                <div class="auth-input-wrap">
+                  <svg class="auth-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  <input class="auth-input" type="text" id="signup-company" placeholder="Acme Engineering" autocomplete="organization" />
+                </div>
+              </div>
+
+              <!-- Role Selector -->
+              <div class="auth-field" id="field-role">
+                <label class="auth-label" for="signup-role">Your role</label>
+                <div class="auth-select-wrap">
+                  <select class="auth-select" id="signup-role">
+                    <option value="" disabled selected>Select your role</option>
+                    <option value="engineer">Software Engineer</option>
+                    <option value="senior">Senior Engineer</option>
+                    <option value="lead">Tech Lead</option>
+                    <option value="staff">Staff Engineer</option>
+                    <option value="manager">Engineering Manager</option>
+                    <option value="director">Director of Engineering</option>
+                    <option value="vp">VP of Engineering</option>
+                    <option value="cto">CTO</option>
+                    <option value="devops">DevOps / SRE</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <svg class="auth-select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+
+              <div class="auth-step-actions">
+                <button type="button" class="btn--step-prev" id="btn-prev-to-account">Back</button>
+                <button type="button" class="btn--step-next" id="btn-next-to-connect">Continue →</button>
+              </div>
             </div>
 
-            <button type="submit" class="auth-submit-btn" id="btn-signup">
-              <span class="auth-btn-text">Create account</span>
-              <span class="auth-btn-loader" style="display:none">
-                <span class="auth-spinner"></span>
-                Creating account...
-              </span>
-            </button>
+            <!-- ================= Step 3: Connect & Complete ================= -->
+            <div class="auth-step-pane" data-step-pane="3">
+              <!-- GitHub Integration -->
+              <div class="auth-github-connect" id="github-connect">
+                <div class="auth-github-connect-left">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="auth-github-icon"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                  <div>
+                    <div class="auth-github-connect-title">Connect GitHub</div>
+                    <div class="auth-github-connect-desc">Import your repositories for AI-powered reviews</div>
+                  </div>
+                </div>
+                <button type="button" class="auth-github-connect-btn" id="btn-connect-github">Connect</button>
+              </div>
+
+              <!-- Terms -->
+              <div class="auth-field" id="field-terms">
+                <label class="auth-checkbox-wrap" for="accept-terms">
+                  <input type="checkbox" id="accept-terms" class="auth-checkbox" required />
+                  <span class="auth-checkmark"></span>
+                  <span class="auth-checkbox-label">I agree to the <a href="#" class="auth-terms-link">Terms of Service</a> and <a href="#" class="auth-terms-link">Privacy Policy</a></span>
+                </label>
+                <span class="auth-field-error" id="terms-error"></span>
+              </div>
+
+              <div class="auth-step-actions">
+                <button type="button" class="btn--step-prev" id="btn-prev-to-team">Back</button>
+                <!-- Submit -->
+                <button type="submit" class="auth-submit-btn" id="btn-signup">
+                  <span class="auth-btn-text">Create account</span>
+                  <span class="auth-btn-loader" style="display:none">
+                    <span class="auth-spinner"></span>
+                    Creating account...
+                  </span>
+                </button>
+              </div>
+            </div>
           </form>
 
+          <!-- Redirect -->
           <p class="auth-redirect">
             Already have an account? <a href="/login.html" class="auth-redirect-link">Sign in</a>
           </p>

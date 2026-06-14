@@ -4,30 +4,6 @@ import { addTrackedRepo, renderRepoDropdown, selectRepo, parsePrUrl, initRepoSta
 
 function init() {
   // ─────────────────────────────────────────────
-  // 0. Auth Guard — redirect to login if not authenticated
-  // ─────────────────────────────────────────────
-  const isAuthed =
-    localStorage.getItem('isAuthenticated') === 'true' ||
-    sessionStorage.getItem('isAuthenticated') === 'true';
-  if (!isAuthed) {
-    window.location.replace('/login.html');
-    return;
-  }
-
-  // Handle GitHub OAuth redirect
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('github_auth') === 'success') {
-    localStorage.setItem('isGithubConnected', 'true');
-    localStorage.setItem('isAuthenticated', 'true');
-    if (window.opener) {
-      window.opener.location.href = '/dashboard.html';
-      window.close();
-      return; // Stop execution in the popup
-    }
-    window.history.replaceState({}, document.title, '/dashboard.html');
-  }
-
-  // ─────────────────────────────────────────────
   // 1. Collapsible Sidebar Navigation
   // ─────────────────────────────────────────────
   const sidebar = document.getElementById('dash-sidebar');
@@ -82,22 +58,6 @@ function init() {
       if (d) d.classList.remove('open');
     });
   });
-
-  // ─────────────────────────────────────────────
-  // Sign Out
-  // ─────────────────────────────────────────────
-  const signOutBtn = document.getElementById('btn-signout');
-  if (signOutBtn) {
-    signOutBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      localStorage.removeItem('isAuthenticated');
-      localStorage.removeItem('isGithubConnected');
-      localStorage.removeItem('userEmail');
-      sessionStorage.removeItem('isAuthenticated');
-      sessionStorage.removeItem('userEmail');
-      window.location.href = '/login.html';
-    });
-  }
 
   // Handle repository selection option change
   const repoOptions = document.querySelectorAll('.repo-option');
@@ -608,53 +568,24 @@ The architectural boundaries have been tightened up. We're now correctly using t
     const handleAnalyze = async () => {
       const val = manualPrInput.value.trim();
       if (!val) return;
-
-      // Try parsing as a PR URL first
+      
       const parsed = parsePrUrl(val);
-
-      // If not a PR URL, try as a repo URL: github.com/owner/repo or owner/repo
-      let owner, repo, prNumber;
-      if (parsed) {
-        ({ owner, repo, prNumber } = parsed);
-      } else {
-        // Parse plain repo URL
-        const repoMatch = val.replace(/^https?:\/\/github\.com\//, '').replace(/^github\.com\//, '').match(/^([\w.-]+)\/([\w.-]+)/);
-        if (!repoMatch) {
-          alert('Please enter a valid GitHub repo URL or PR URL.\nExamples:\n  github.com/owner/repo\n  github.com/owner/repo/pull/123');
-          return;
-        }
-        owner = repoMatch[1];
-        repo = repoMatch[2];
-        prNumber = null;
+      if (!parsed) {
+        alert('Please enter a valid GitHub PR URL.\nExample: https://github.com/owner/repo/pull/123\nOr: owner/repo#123');
+        return;
       }
 
-
+      const { owner, repo, prNumber } = parsed;
+      
       const originalText = manualPrBtn.textContent;
       manualPrBtn.textContent = 'Fetching...';
       manualPrBtn.disabled = true;
       
       try {
-        if (!prNumber) {
-          // It's a repo URL, just track it and load its PRs
-          addTrackedRepo(owner, repo);
-          renderRepoDropdown();
-          selectRepo(owner, repo);
-          
-          manualPrInput.value = '';
-          manualPrBtn.textContent = 'Analyze';
-          manualPrBtn.disabled = false;
-          return;
-        }
-
         // Fetch real PR data
         const res = await fetch(`/api/v1/github/pull-requests/${prNumber}?owner=${owner}&repo=${repo}`);
         if (!res.ok) {
-          let errMsg = 'PR not found or inaccessible';
-          try {
-            const errData = await res.json();
-            if (errData && errData.message) errMsg = errData.message;
-          } catch(e) {}
-          throw new Error(errMsg);
+          throw new Error('PR not found or inaccessible');
         }
         const prData = await res.json();
         const pr = prData.data;
@@ -861,9 +792,7 @@ The architectural boundaries have been tightened up. We're now correctly using t
       if (e.key === 'Enter') handleAnalyze();
     });
   }
-
 }
-
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
