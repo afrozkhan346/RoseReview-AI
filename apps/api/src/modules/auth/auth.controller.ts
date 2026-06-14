@@ -91,7 +91,7 @@ export class AuthController {
         maxAge: 60 * 60 * 24 * 7, // 7 days
       });
 
-      return reply.redirect(`${env.FRONTEND_URL}/dashboard`);
+      return reply.redirect(`${env.FRONTEND_URL}/dashboard.html?auth=success`);
     } catch (error: any) {
       return reply.redirect(`${env.FRONTEND_URL}/login?error=${encodeURIComponent(error.message)}`);
     }
