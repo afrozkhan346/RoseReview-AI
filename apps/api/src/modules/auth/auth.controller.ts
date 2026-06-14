@@ -72,11 +72,20 @@ export class AuthController {
     return reply.redirect(githubAuthUrl);
   }
 
-  async githubCallback(request: FastifyRequest<{ Querystring: { code: string } }>, reply: FastifyReply) {
-    const { code } = request.query;
+  async githubCallback(request: FastifyRequest<{ Querystring: { code?: string; error?: string; error_description?: string } }>, reply: FastifyReply) {
+    const { code, error, error_description } = request.query;
 
-    if (!code) {
-      return reply.redirect(`${env.FRONTEND_URL}/login?error=missing_code`);
+    if (error || !code) {
+      const errMsg = error_description || error || "missing_code";
+      reply.type("text/html");
+      return reply.send(`
+        <script>
+          if (window.opener) {
+            window.opener.postMessage({ type: 'GITHUB_AUTH_ERROR', error: '${encodeURIComponent(errMsg)}' }, '*');
+          }
+          window.close();
+        </script>
+      `);
     }
 
     try {
@@ -91,9 +100,25 @@ export class AuthController {
         maxAge: 60 * 60 * 24 * 7, // 7 days
       });
 
-      return reply.redirect(`${env.FRONTEND_URL}/dashboard`);
-    } catch (error: any) {
-      return reply.redirect(`${env.FRONTEND_URL}/login?error=${encodeURIComponent(error.message)}`);
+      reply.type("text/html");
+      return reply.send(`
+        <script>
+          if (window.opener) {
+            window.opener.postMessage({ type: 'GITHUB_AUTH_SUCCESS' }, '*');
+          }
+          window.close();
+        </script>
+      `);
+    } catch (err: any) {
+      reply.type("text/html");
+      return reply.send(`
+        <script>
+          if (window.opener) {
+            window.opener.postMessage({ type: 'GITHUB_AUTH_ERROR', error: '${encodeURIComponent(err.message)}' }, '*');
+          }
+          window.close();
+        </script>
+      `);
     }
   }
 }

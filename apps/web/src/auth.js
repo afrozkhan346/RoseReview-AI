@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
-      loginForm.addEventListener('submit', (e) => {
+      loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         let isValid = true;
         
@@ -139,7 +139,19 @@ document.addEventListener('DOMContentLoaded', () => {
               if(loader) loader.style.display = 'flex';
               btn.disabled = true;
           }
-          setTimeout(() => {
+
+          try {
+            const res = await fetch('/api/v1/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password: pass })
+            });
+
+            if (!res.ok) {
+              const errData = await res.json().catch(() => null);
+              throw new Error(errData?.message || 'Invalid credentials');
+            }
+
             const rememberMe = document.getElementById('remember-me')?.checked;
             if (rememberMe) {
               localStorage.setItem('isAuthenticated', 'true');
@@ -148,7 +160,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             alert('Login successful!');
             window.location.href = '/dashboard.html';
-          }, 2000);
+          } catch (err) {
+            showError('field-password', err.message);
+            if (btn) {
+              const text = btn.querySelector('.auth-btn-text');
+              const loader = btn.querySelector('.auth-btn-loader');
+              if(text) text.style.display = 'inline-block';
+              if(loader) loader.style.display = 'none';
+              btn.disabled = false;
+            }
+          }
         } else {
           shakeCard('login-card');
         }
@@ -387,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const signupForm = document.getElementById('signup-form');
     if (signupForm) {
-      signupForm.addEventListener('submit', (e) => {
+      signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         // Full Validation Check
@@ -419,12 +440,35 @@ document.addEventListener('DOMContentLoaded', () => {
           if (loader) loader.style.display = 'flex';
           btn.disabled = true;
         }
-        
-        setTimeout(() => {
+
+        const email = document.getElementById('signup-email')?.value || '';
+        const pass = passInput?.value;
+        const name = document.getElementById('signup-fullname')?.value || '';
+
+        try {
+          const res = await fetch('/api/v1/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password: pass, name })
+          });
+
+          if (!res.ok) {
+            const errData = await res.json().catch(() => null);
+            throw new Error(errData?.message || 'Failed to create account');
+          }
+
           alert('Account created successfully!');
-          const email = document.getElementById('signup-email')?.value || '';
           window.location.href = '/login.html?email=' + encodeURIComponent(email);
-        }, 2000);
+        } catch (err) {
+          showError('field-signup-password', err.message);
+          if (btn) {
+            const text = btn.querySelector('.auth-btn-text');
+            const loader = btn.querySelector('.auth-btn-loader');
+            if (text) text.style.display = 'inline-block';
+            if (loader) loader.style.display = 'none';
+            btn.disabled = false;
+          }
+        }
       });
     }
   }
@@ -444,26 +488,34 @@ document.addEventListener('DOMContentLoaded', () => {
       // Open real GitHub OAuth in a popup
       const popup = window.open(githubOAuthUrl, 'GitHubOAuth', 'width=600,height=700,left=400,top=100');
 
-      // Poll until popup closes (user completes or cancels GitHub auth)
+      const handleMessage = (event) => {
+        if (event.origin !== window.location.origin) return;
+
+        if (event.data.type === 'GITHUB_AUTH_SUCCESS') {
+          window.removeEventListener('message', handleMessage);
+          localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('isGithubConnected', 'true');
+          alert('GitHub login successful!');
+          window.location.href = '/dashboard.html';
+        } else if (event.data.type === 'GITHUB_AUTH_ERROR') {
+          window.removeEventListener('message', handleMessage);
+          alert('GitHub login failed: ' + decodeURIComponent(event.data.error));
+          btn.innerHTML = originalHtml;
+          btn.disabled = false;
+        }
+      };
+
+      window.addEventListener('message', handleMessage);
+
+      // Poll in case popup is closed manually
       const checkClosed = setInterval(() => {
         if (!popup || popup.closed) {
           clearInterval(checkClosed);
-
-          if (isLoginPage) {
-            // Login flow: mark authenticated and go to dashboard
-            localStorage.setItem('isAuthenticated', 'true');
-            localStorage.setItem('isGithubConnected', 'true');
-            alert('GitHub login successful!');
-            window.location.href = '/dashboard.html';
-          } else if (isSignupPage) {
-            // Signup flow: account created via GitHub, go to dashboard
-            localStorage.setItem('isAuthenticated', 'true');
-            localStorage.setItem('isGithubConnected', 'true');
-            alert('Account created and GitHub connected!');
-            window.location.href = '/dashboard.html';
-          }
+          window.removeEventListener('message', handleMessage);
+          btn.innerHTML = originalHtml;
+          btn.disabled = false;
         }
-      }, 500);
+      }, 1000);
     });
   });
 
