@@ -1,4 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
+import "@fastify/oauth2";
 import { authService } from "./auth.service";
 import { RegisterSchema, LoginSchema } from "./auth.schemas";
 import { successResponse, errorResponse } from "../../infrastructure/api-response";
@@ -63,36 +64,19 @@ export class AuthController {
     return reply.send(successResponse(user, "User profile retrieved", undefined, request.id));
   }
 
-  async githubLogin(request: FastifyRequest, reply: FastifyReply) {
-    if (!env.GITHUB_CLIENT_ID) {
-      return reply.status(500).send(errorResponse("INTERNAL_SERVER_ERROR", "GitHub OAuth is not configured", null, request.id));
-    }
-    
-    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${env.GITHUB_CLIENT_ID}&scope=user:email,repo`;
-    return reply.redirect(githubAuthUrl);
-  }
-
-  async githubCallback(request: FastifyRequest<{ Querystring: { code?: string; error?: string; error_description?: string } }>, reply: FastifyReply) {
-    const { code, error, error_description } = request.query;
-
-    if (error || !code) {
-      const errMsg = error_description || error || "missing_code";
-      reply.type("text/html");
-      return reply.send(`
-        <script>
-          if (window.opener) {
-            window.opener.postMessage({ type: 'GITHUB_AUTH_ERROR', error: '${encodeURIComponent(errMsg)}' }, '*');
-          }
-          window.close();
-        </script>
-      `);
-    }
-
+  async githubCallback(request: FastifyRequest, reply: FastifyReply) {
     try {
-      const user = await authService.handleGithubCallback(code);
-      const token = await reply.jwtSign({ id: user.id, email: user.email, name: user.name });
+      // 1. Exchange code for access token using Fastify OAuth2
+      const { token } = await (request.server as any).githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
+      
+      const githubAccessToken = token.access_token;
 
-      reply.setCookie("rosereview_token", token, {
+      // 2. Fetch and upsert user
+      const user = await authService.handleGithubCallback(githubAccessToken);
+      const jwtToken = await reply.jwtSign({ id: user.id, email: user.email, name: user.name });
+
+      // 3. Set secure cookie
+      reply.setCookie("rosereview_token", jwtToken, {
         path: "/",
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -100,25 +84,11 @@ export class AuthController {
         maxAge: 60 * 60 * 24 * 7, // 7 days
       });
 
-      reply.type("text/html");
-      return reply.send(`
-        <script>
-          if (window.opener) {
-            window.opener.postMessage({ type: 'GITHUB_AUTH_SUCCESS' }, '*');
-          }
-          window.close();
-        </script>
-      `);
+      // 4. Redirect to dashboard
+      return reply.redirect(`${env.FRONTEND_URL}/dashboard.html`);
     } catch (err: any) {
-      reply.type("text/html");
-      return reply.send(`
-        <script>
-          if (window.opener) {
-            window.opener.postMessage({ type: 'GITHUB_AUTH_ERROR', error: '${encodeURIComponent(err.message)}' }, '*');
-          }
-          window.close();
-        </script>
-      `);
+      request.server.log.error(err);
+      return reply.redirect(`${env.FRONTEND_URL}/login.html?error=oauth_failed`);
     }
   }
 }
