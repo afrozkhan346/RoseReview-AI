@@ -245,3 +245,7 @@ Please ensure your changes do not break the build before submitting a PR.
 This project is licensed under the **MIT License**. See [`LICENSE`](./LICENSE) for more information.
 
 ---
+
+<div align="center">
+  Built with ❤️ for the AI Hackathon for Builders
+</div>
