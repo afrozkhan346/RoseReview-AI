@@ -31,6 +31,9 @@ import {
 } from "../../controllers/review/dashboard.controller";
 
 export async function reviewRoutes(app: FastifyInstance) {
+  // Ensure the user is authenticated for all review and dashboard routes
+  app.addHook("onRequest", app.authenticate);
+
   app.post("/review/analyze", analyzeReviewController);
   app.get("/review/:id", getReviewController);
   app.get("/review/:id/findings", getReviewFindingsController);
@@ -55,8 +58,8 @@ export async function reviewRoutes(app: FastifyInstance) {
   app.get("/dashboard/benchmark-compliance", dashboardBenchmarkComplianceController);
   app.get("/dashboard/review-metrics", dashboardReviewMetricsController);
 
-  app.get("/repositories", repositoriesListController);
-  app.get("/repositories/:id", repositoryByIdController);
-  app.get("/repositories/:id/pull-requests", repositoryPullRequestsController);
-  app.get("/repositories/:id/insights", repositoryInsightsController);
+  app.get("/dashboard/repositories", repositoriesListController);
+  app.get("/dashboard/repositories/:id", repositoryByIdController);
+  app.get("/dashboard/repositories/:id/pull-requests", repositoryPullRequestsController);
+  app.get("/dashboard/repositories/:id/insights", repositoryInsightsController);
 }

@@ -28,6 +28,7 @@ const envSchema = z.object({
   // GitHub OAuth
   GITHUB_CLIENT_ID: z.string().optional(),
   GITHUB_CLIENT_SECRET: z.string().optional(),
+  GITHUB_CALLBACK_URL: z.string().url().default("http://localhost:3001/api/v1/auth/github/callback"),
   FRONTEND_URL: z.string().url().default("http://localhost:5173"),
   
   // API Config
@@ -35,8 +36,8 @@ const envSchema = z.object({
   API_VERSION: z.string().default("v1"),
   
   // Security
-  JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters long").default("fallback_secret_for_development_do_not_use_in_prod_123!"),
-  ENCRYPTION_KEY: z.string().length(64, "ENCRYPTION_KEY must be a 64 character hex string (32 bytes)").default("a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a1b2c3d4e5f6"),
+  JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters long"),
+  ENCRYPTION_KEY: z.string().length(64, "ENCRYPTION_KEY must be a 64 character hex string (32 bytes)").default("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"),
   WEBHOOK_SECRET: z.string().min(1, "WEBHOOK_SECRET is required").optional(),
   
   // Logging Configuration

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setup your Space — RoseReview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🌹</text></svg>" />
+  <style>
+    :root {
+      --bg-dark: #09090b;
+      --bg-card: rgba(20, 20, 25, 0.6);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --primary: #f43f5e;
+      --primary-hover: #e11d48;
+      --accent-blue: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Orbs */
+    .ambient-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.15;
+    }
+    .orb-1 {
+      top: -10%;
+      left: 20%;
+      width: 400px;
+      height: 400px;
+      background: var(--primary);
+    }
+    .orb-2 {
+      bottom: -10%;
+      right: 15%;
+      width: 500px;
+      height: 500px;
+      background: var(--accent-blue);
+    }
+
+    /* Main Container */
+    .onboard-layout {
+      width: 100%;
+      max-width: 580px;
+      padding: 24px;
+      z-index: 2;
+    }
+
+    .onboard-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Header */
+    .onboard-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--text-primary);
+      text-decoration: none;
+      margin-bottom: 16px;
+    }
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* Progress Steps */
+    .steps-nav {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-bottom: 36px;
+      padding: 0 16px;
+    }
+    .steps-line {
+      position: absolute;
+      top: 15px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.06);
+      z-index: 1;
+    }
+    .steps-progress-fill {
+      position: absolute;
+      top: 15px;
+      left: 10%;
+      width: 0%;
+      height: 2px;
+      background: var(--primary);
+      z-index: 1;
+      transition: width 0.3s ease;
+    }
+    .step-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+      position: relative;
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #18181b;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-secondary);
+      transition: all 0.3s ease;
+    }
+    .step-node.active .step-circle {
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 12px rgba(244, 63, 94, 0.2);
+    }
+    .step-node.completed .step-circle {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .step-label {
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 8px;
+      color: var(--text-secondary);
+    }
+    .step-node.active .step-label {
+      color: var(--text-primary);
+    }
+
+    /* Form Panes */
+    .pane {
+      display: none;
+    }
+    .pane.active {
+      display: block;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Generic Fields */
+    .field-group {
+      margin-bottom: 24px;
+    }
+    .label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: var(--text-primary);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input:focus {
+      border-color: var(--primary);
+    }
+
+    /* Step 1 Persona Selection */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .persona-option {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-align: left;
+    }
+    .persona-option:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .persona-option.selected {
+      border-color: var(--primary);
+      background: rgba(244, 63, 94, 0.04);
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.08);
+    }
+    .persona-icon {
+      font-size: 24px;
+      background: rgba(255, 255, 255, 0.03);
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .persona-option.selected .persona-icon {
+      background: rgba(244, 63, 94, 0.1);
+    }
+    .persona-info {
+      flex: 1;
+    }
+    .persona-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    .persona-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Option Pill Groups */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .pill {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pill:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+    .pill.active {
+      background: rgba(244, 63, 94, 0.1);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Navigation Buttons */
+    .actions-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 36px;
+      gap: 12px;
+    }
+    .btn {
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      outline: none;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-primary);
+    }
+    .btn-primary {
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      color: #fff;
+      flex: 1;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <div class="onboard-layout">
+    <div class="onboard-card">
+      <div class="onboard-header">
+        <a href="#" class="logo">
+          <svg class="logo-icon" viewBox="0 0 28 28" fill="none">
+            <path d="M14 2C8 2 4 6.5 4 11c0 5 4 8 6 10s4 5 4 5 2-3 4-5 6-5 6-10c0-4.5-4-9-10-9z" fill="url(#lg)" opacity="0.9"/>
+            <defs>
+              <linearGradient id="lg" x1="4" y1="2" x2="24" y2="26" gradientUnits="userSpaceOnUse"><stop stop-color="#f43f5e"/><stop offset="1" stop-color="#e11d48"/></linearGradient>
+            </defs>
+          </svg>
+          <span>RoseReview</span>
+        </a>
+        <h2 class="title" id="page-title">Personalize your Workspace</h2>
+        <p class="subtitle" id="page-subtitle">Help us configure your automated review workspace.</p>
+      </div>
+
+      <!-- Steps Indicator -->
+      <div class="steps-nav">
+        <div class="steps-line"></div>
+        <div class="steps-progress-fill" id="progress-bar"></div>
+        
+        <div class="step-node active" id="node-1">
+          <div class="step-circle">1</div>
+          <span class="step-label">Role</span>
+        </div>
+        <div class="step-node" id="node-2">
+          <div class="step-circle">2</div>
+          <span class="step-label">Context</span>
+        </div>
+        <div class="step-node" id="node-3">
+          <div class="step-circle">3</div>
+          <span class="step-label">Connect</span>
+        </div>
+      </div>
+
+      <!-- Form Panes -->
+      <form id="onboarding-form">
+        <!-- ================= Screen 1: Who are you? ================= -->
+        <div class="pane active" id="pane-1">
+          <div class="field-group">
+            <label class="label">What best describes you?</label>
+            <div class="persona-grid">
+              <div class="persona-option selected" data-persona="solo">
+                <div class="persona-icon">🧑💻</div>
+                <div class="persona-info">
+                  <div class="persona-title">Solo Developer</div>
+                  <div class="persona-desc">For personal side-projects and contributions.</div>
+                </div>
+              </div>
+              <div class="persona-option" data-persona="team">
+                <div class="persona-icon">👥</div>
+                <div class="persona-info">
+                  <div class="persona-title">Small Team</div>
+                  <div class="persona-desc">Collaborate across 2–10 developers.</div>
+                </div>
+              </div>
+              <div class="persona-option" data-persona="company">
+                <div class="persona-icon">🏢</div>
+                <div class="persona-info">
+                  <div class="persona-title">Company / Startup</div>
+                  <div class="persona-desc">Enterprise governance for 10+ developers.</div>
+                </div>
+              </div>
+              <div class="persona-option" data-persona="open_source">
+                <div class="persona-icon">🌍</div>
+                <div class="persona-info">
+                  <div class="persona-title">Open Source Project</div>
+                  <div class="persona-desc">High volume public review automation.</div>
+                </div>
+              </div>
+              <div class="persona-option" data-persona="freelancer">
+                <div class="persona-icon">🔧</div>
+                <div class="persona-info">
+                  <div class="persona-title">Freelancer / Contractor</div>
+                  <div class="persona-desc">Switch seamlessly between client repos.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= Screen 2: Persona Context ================= -->
+        <div class="pane" id="pane-2">
+          <!-- Conditional Content Container -->
+          <div id="dynamic-context">
+            <!-- Will be dynamically populated via JS -->
+          </div>
+        </div>
+
+        <!-- ================= Screen 3: Workspace Connect ================= -->
+        <div class="pane" id="pane-3">
+          <div class="field-group">
+            <label class="label">Default Repo or Organization to Analyze (Optional)</label>
+            <input type="text" class="input" id="onboard-repo" placeholder="owner/repo (e.g. facebook/react)" />
+          </div>
+
+          <div class="field-group">
+            <label class="label">How did you hear about RoseReview AI?</label>
+            <div class="pill-group" id="referral-group">
+              <span class="pill" data-val="hackathon">Hackathon</span>
+              <span class="pill" data-val="github">GitHub</span>
+              <span class="pill" data-val="twitter">Twitter / X</span>
+              <span class="pill" data-val="friend">Friend / Colleague</span>
+              <span class="pill" data-val="other">Other</span>
+            </div>
+            <input type="hidden" id="onboard-referral" value="" />
+          </div>
+        </div>
+
+        <!-- Action Rows -->
+        <div class="actions-row">
+          <button type="button" class="btn btn-secondary" id="btn-back" style="display:none">Back</button>
+          <button type="button" class="btn btn-primary" id="btn-next">Continue →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/src/onboarding.js"></script>
+</body>
+</html>
