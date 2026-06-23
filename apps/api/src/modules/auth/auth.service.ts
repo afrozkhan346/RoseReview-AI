@@ -21,14 +21,11 @@ export class AuthService {
         email: input.email,
         passwordHash,
         name: input.name,
-        persona: input.persona,
       },
       select: {
         id: true,
         email: true,
         name: true,
-        persona: true,
-        isOnboarded: true,
         createdAt: true,
       },
     });
@@ -67,20 +64,36 @@ export class AuthService {
         name: true,
         avatarUrl: true,
         githubId: true,
-        isOnboarded: true,
-        persona: true,
-        onboardingData: true,
         createdAt: true,
       },
     });
   }
 
-  async handleGithubCallback(accessToken: string) {
+  async handleGithubCallback(code: string) {
     if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) {
       throw new Error("GitHub OAuth is not configured");
     }
 
+    // 1. Exchange code for access token
+    const tokenResponse = await fetch("https://github.com/login/oauth/access_token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        client_id: env.GITHUB_CLIENT_ID,
+        client_secret: env.GITHUB_CLIENT_SECRET,
+        code,
+      }),
+    });
 
+    const tokenData = await tokenResponse.json() as any;
+    if (tokenData.error) {
+      throw new Error(tokenData.error_description || "Failed to authenticate with GitHub");
+    }
+
+    const accessToken = tokenData.access_token;
 
     // 2. Fetch user profile
     const userResponse = await fetch("https://api.github.com/user", {

@@ -33,7 +33,7 @@ export class GitHubService {
 
   async fetchRepositoryPullRequests(owner: string, repo: string) {
     const res = await this.client.retrySafe("pulls.list", async () =>
-      this.client.rest.pulls.list({ owner, repo, state: "open", sort: "updated", direction: "desc", per_page: 50 })
+      this.client.rest.pulls.list({ owner, repo, state: "open", sort: "updated", direction: "desc", per_page: 10 })
     );
     return res.data;
   }
