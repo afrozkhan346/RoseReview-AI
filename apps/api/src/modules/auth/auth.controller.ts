@@ -1,5 +1,4 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import "@fastify/oauth2";
 import { authService } from "./auth.service";
 import { RegisterSchema, LoginSchema } from "./auth.schemas";
 import { successResponse, errorResponse } from "../../infrastructure/api-response";
@@ -87,17 +86,10 @@ export class AuthController {
     }
 
     try {
-      // 1. Exchange code for access token using Fastify OAuth2
-      const { token } = await (request.server as any).githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
-      
-      const githubAccessToken = token.access_token;
+      const user = await authService.handleGithubCallback(code);
+      const token = await reply.jwtSign({ id: user.id, email: user.email, name: user.name });
 
-      // 2. Fetch and upsert user
-      const user = await authService.handleGithubCallback(githubAccessToken);
-      const jwtToken = await reply.jwtSign({ id: user.id, email: user.email, name: user.name });
-
-      // 3. Set secure cookie
-      reply.setCookie("rosereview_token", jwtToken, {
+      reply.setCookie("rosereview_token", token, {
         path: "/",
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -105,11 +97,25 @@ export class AuthController {
         maxAge: 60 * 60 * 24 * 7, // 7 days
       });
 
-      // 4. Redirect to dashboard
-      return reply.redirect(`${env.FRONTEND_URL}/dashboard.html`);
+      reply.type("text/html");
+      return reply.send(`
+        <script>
+          if (window.opener) {
+            window.opener.postMessage({ type: 'GITHUB_AUTH_SUCCESS' }, '*');
+          }
+          window.close();
+        </script>
+      `);
     } catch (err: any) {
-      request.server.log.error(err);
-      return reply.redirect(`${env.FRONTEND_URL}/login.html?error=oauth_failed`);
+      reply.type("text/html");
+      return reply.send(`
+        <script>
+          if (window.opener) {
+            window.opener.postMessage({ type: 'GITHUB_AUTH_ERROR', error: '${encodeURIComponent(err.message)}' }, '*');
+          }
+          window.close();
+        </script>
+      `);
     }
   }
 }

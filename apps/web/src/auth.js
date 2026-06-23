@@ -316,20 +316,19 @@ document.addEventListener('DOMContentLoaded', () => {
       return isValid;
     };
 
-    // Role Pills toggling
-    const rolePills = document.querySelectorAll('.role-pill');
-    const signupPersonaInput = document.getElementById('signup-persona');
-    rolePills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        rolePills.forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-        if (signupPersonaInput) {
-          signupPersonaInput.value = pill.dataset.role;
-        }
-      });
-    });
+    const validateStep2 = () => {
+      let isValid = true;
+      const role = document.getElementById('signup-role')?.value;
+      if (!role) {
+        showError('field-role', 'Please select your role');
+        isValid = false;
+      } else {
+        setSuccess('field-role');
+      }
+      return isValid;
+    };
 
-    const validateTerms = () => {
+    const validateStep3 = () => {
       let isValid = true;
       const terms = document.getElementById('accept-terms');
       if (!terms || !terms.checked) {
@@ -341,6 +340,75 @@ document.addEventListener('DOMContentLoaded', () => {
       return isValid;
     };
 
+    // Next/Back Button Navigation Listeners
+    const nextToTeam = document.getElementById('btn-next-to-team');
+    if (nextToTeam) {
+      nextToTeam.addEventListener('click', () => {
+        if (validateStep1()) {
+          showStep(2);
+        } else {
+          shakeCard('signup-card');
+        }
+      });
+    }
+
+    const prevToAccount = document.getElementById('btn-prev-to-account');
+    if (prevToAccount) {
+      prevToAccount.addEventListener('click', () => {
+        showStep(1);
+      });
+    }
+
+    const nextToConnect = document.getElementById('btn-next-to-connect');
+    if (nextToConnect) {
+      nextToConnect.addEventListener('click', () => {
+        if (validateStep2()) {
+          showStep(3);
+        } else {
+          shakeCard('signup-card');
+        }
+      });
+    }
+
+    const prevToTeam = document.getElementById('btn-prev-to-team');
+    if (prevToTeam) {
+      prevToTeam.addEventListener('click', () => {
+        showStep(2);
+      });
+    }
+
+    // GitHub Connect (Step 3 of manual signup)
+    const btnConnect = document.getElementById('btn-connect-github');
+    if (btnConnect) {
+      btnConnect.addEventListener('click', () => {
+        // Show connecting state
+        btnConnect.innerHTML = '<span class="auth-spinner" style="width:14px;height:14px;margin-right:8px;border-width:2px;display:inline-block;animation:authSpin 0.6s linear infinite;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;"></span> Opening GitHub...';
+        btnConnect.disabled = true;
+
+        // Build real GitHub OAuth URL (no redirect_uri — uses registered default)
+        const clientId = 'Ov23liarYizusohYEor6';
+        const scope = encodeURIComponent('read:user user:email repo');
+        const ghUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=${scope}`;
+
+        const popup = window.open(ghUrl, 'GitHubAuth', 'width=600,height=700,left=400,top=100');
+
+        // Poll until popup closes
+        const checkClosed = setInterval(() => {
+          if (!popup || popup.closed) {
+            clearInterval(checkClosed);
+            btnConnect.textContent = 'Connected ✓';
+            btnConnect.disabled = true;
+            btnConnect.style.background = 'var(--accent-green)';
+            btnConnect.style.borderColor = 'var(--accent-green)';
+            btnConnect.style.color = 'white';
+            const container = document.getElementById('github-connect');
+            if (container) container.style.borderColor = 'var(--accent-green)';
+            localStorage.setItem('isGithubConnected', 'true');
+          }
+        }, 500);
+      });
+    }
+
     const signupForm = document.getElementById('signup-form');
     if (signupForm) {
       signupForm.addEventListener('submit', async (e) => {
@@ -348,9 +416,21 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Full Validation Check
         const s1 = validateStep1();
-        const sT = validateTerms();
+        const s2 = validateStep2();
+        const s3 = validateStep3();
 
-        if (!s1 || !sT) {
+        if (!s1) {
+          showStep(1);
+          shakeCard('signup-card');
+          return;
+        }
+        if (!s2) {
+          showStep(2);
+          shakeCard('signup-card');
+          return;
+        }
+        if (!s3) {
+          showStep(3);
           shakeCard('signup-card');
           return;
         }
@@ -367,13 +447,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('signup-email')?.value || '';
         const pass = passInput?.value;
         const name = document.getElementById('signup-fullname')?.value || '';
-        const persona = signupPersonaInput?.value || 'solo';
 
         try {
           const res = await fetch('/api/v1/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password: pass, name, persona })
+            body: JSON.stringify({ email, password: pass, name })
           });
 
           if (!res.ok) {
@@ -381,9 +460,8 @@ document.addEventListener('DOMContentLoaded', () => {
             throw new Error(errData?.message || 'Failed to create account');
           }
 
-          localStorage.setItem('isAuthenticated', 'true');
           alert('Account created successfully!');
-          window.location.href = '/onboarding.html';
+          window.location.href = '/login.html?email=' + encodeURIComponent(email);
         } catch (err) {
           showError('field-signup-password', err.message);
           if (btn) {
@@ -404,8 +482,37 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.innerHTML = '<span class="auth-spinner" style="width:14px;height:14px;margin-right:8px;border-width:2px;display:inline-block;animation:authSpin 0.6s linear infinite;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;"></span> Redirecting to GitHub...';
       btn.disabled = true;
 
-      // Redirect directly to backend Fastify OAuth2 endpoint
-      window.location.href = '/api/v1/auth/github';
+      // Open real GitHub OAuth in a popup
+      const popup = window.open(githubOAuthUrl, 'GitHubOAuth', 'width=600,height=700,left=400,top=100');
+
+      const handleMessage = (event) => {
+        if (event.origin !== window.location.origin) return;
+
+        if (event.data.type === 'GITHUB_AUTH_SUCCESS') {
+          window.removeEventListener('message', handleMessage);
+          localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('isGithubConnected', 'true');
+          alert('GitHub login successful!');
+          window.location.href = '/dashboard.html';
+        } else if (event.data.type === 'GITHUB_AUTH_ERROR') {
+          window.removeEventListener('message', handleMessage);
+          alert('GitHub login failed: ' + decodeURIComponent(event.data.error));
+          btn.innerHTML = originalHtml;
+          btn.disabled = false;
+        }
+      };
+
+      window.addEventListener('message', handleMessage);
+
+      // Poll in case popup is closed manually
+      const checkClosed = setInterval(() => {
+        if (!popup || popup.closed) {
+          clearInterval(checkClosed);
+          window.removeEventListener('message', handleMessage);
+          btn.innerHTML = originalHtml;
+          btn.disabled = false;
+        }
+      }, 1000);
     });
   });
 

@@ -15,7 +15,6 @@
     "@fastify/cookie": "^11.0.2",
     "@fastify/cors": "^10.0.2",
     "@fastify/jwt": "^10.1.0",
-    "@fastify/oauth2": "^8.2.0",
     "@fastify/rate-limit": "^10.3.0",
     "@prisma/client": "^5.0.0",
     "@types/bcryptjs": "^3.0.0",
@@ -28,9 +27,9 @@
     "ioredis": "^5.4.1",
     "octokit": "^2.0.0",
     "pino": "^9.9.4",
-    "prisma": "^5.0.0",
+    "zod": "^3.24.1",
     "typescript": "^5.4.0",
-    "zod": "^3.24.1"
+    "prisma": "^5.0.0"
   },
   "devDependencies": {
     "pino-pretty": "^13.1.2",

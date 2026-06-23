@@ -281,17 +281,9 @@ function init() {
     try {
       // 1. Fetch Profile
       const meRes = await fetch('/api/v1/auth/me');
-      if (!meRes.ok) {
-        window.location.href = '/login.html';
-        return;
-      }
       if (meRes.ok) {
         const data = await meRes.json();
         const user = data.data;
-        if (!user.isOnboarded) {
-          window.location.href = '/onboarding.html';
-          return;
-        }
         const nameEl = document.getElementById('profile-name');
         const emailEl = document.getElementById('profile-email');
         const avatarBtn = document.getElementById('profile-avatar-btn');
@@ -829,18 +821,6 @@ The architectural boundaries have been tightened up. We're now correctly using t
       }
     }
   }
-}
-
-// Logout logic
-const logoutBtn = document.getElementById('logout-btn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', async (e) => {
-    e.preventDefault();
-    await fetch('/api/v1/auth/logout', { method: 'POST' });
-    localStorage.removeItem('isAuthenticated');
-    sessionStorage.removeItem('isAuthenticated');
-    window.location.href = '/login.html';
-  });
 }
 
 if (document.readyState === 'loading') {

@@ -14,9 +14,6 @@ import { timelineRoutes } from "./modules/timeline/timeline.routes";
 
 import { githubRoutes } from "./modules/github/github.routes";
 import { githubWebhookRoutes } from "./modules/github/github.webhook.routes";
-import { oauthPlugin } from "./plugins/oauth";
-import { reviewRoutes } from "./routes/review/review.routes";
-import { userRoutes } from "./modules/user/user.routes";
 
 export function buildApp(): FastifyInstance {
   const app = fastify({
@@ -45,7 +42,6 @@ export function buildApp(): FastifyInstance {
   app.register(securityPlugin);
   app.register(rateLimitPlugin);
   app.register(jwtPlugin);
-  app.register(oauthPlugin);
 
   // Setup core observability and logging hooks
   app.addHook("onRequest", async (req, reply) => {
@@ -73,8 +69,6 @@ export function buildApp(): FastifyInstance {
 
     api.register(githubWebhookRoutes, { prefix: "/github" });
     api.register(githubRoutes, { prefix: "/github" });
-    api.register(reviewRoutes);
-    api.register(userRoutes, { prefix: "/user" });
   }, { prefix: "/api/v1" });
 
   app.register(async (api2) => {

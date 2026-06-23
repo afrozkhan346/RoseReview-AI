@@ -22,11 +22,6 @@ model User {
   workspaces    WorkspaceMember[]
   notifications Notification[]
   activities    ActivityEvent[]
-
-  // Progressive profiling & onboarding
-  isOnboarded    Boolean  @default(false)
-  persona        String?
-  onboardingData Json?
 }
 
 model Workspace {
