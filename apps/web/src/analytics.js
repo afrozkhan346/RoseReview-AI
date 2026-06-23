@@ -1,8 +1,12 @@
 import './analytics.css';
 import './responsive.js';
+import { enforceAuth, handleSignOut } from './auth-guard.js';
+
+enforceAuth();
 import { initRepoState } from './repo-state.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  handleSignOut();
   // ─────────────────────────────────────────────
   // 1. Collapsible Sidebar Navigation
   // ─────────────────────────────────────────────

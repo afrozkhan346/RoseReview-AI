@@ -64,7 +64,28 @@ export class AuthController {
     return reply.send(successResponse(user, "User profile retrieved", undefined, request.id));
   }
 
-  async githubCallback(request: FastifyRequest, reply: FastifyReply) {
+  async githubLogin(request: FastifyRequest, reply: FastifyReply) {
+    const clientId = env.GITHUB_CLIENT_ID || "Ov23liarYizusohYEor6";
+    const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user:email,repo`;
+    return reply.redirect(githubAuthUrl);
+  }
+
+  async githubCallback(request: FastifyRequest<{ Querystring: { code?: string; error?: string; error_description?: string } }>, reply: FastifyReply) {
+    const { code, error, error_description } = request.query;
+
+    if (error || !code) {
+      const errMsg = error_description || error || "missing_code";
+      reply.type("text/html");
+      return reply.send(`
+        <script>
+          if (window.opener) {
+            window.opener.postMessage({ type: 'GITHUB_AUTH_ERROR', error: '${encodeURIComponent(errMsg)}' }, '*');
+          }
+          window.close();
+        </script>
+      `);
+    }
+
     try {
       // 1. Exchange code for access token using Fastify OAuth2
       const { token } = await (request.server as any).githubOAuth2.getAccessTokenFromAuthorizationCodeFlow(request);
