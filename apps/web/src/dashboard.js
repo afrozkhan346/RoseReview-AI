@@ -1,8 +1,12 @@
 import './dashboard.css';
 import './responsive.js';
 import { addTrackedRepo, renderRepoDropdown, selectRepo, parsePrUrl, initRepoState } from './repo-state.js';
+import { enforceAuth, handleSignOut } from './auth-guard.js';
+
+enforceAuth();
 
 function init() {
+  handleSignOut();
   // ─────────────────────────────────────────────
   // 1. Collapsible Sidebar Navigation
   // ─────────────────────────────────────────────
@@ -277,17 +281,9 @@ function init() {
     try {
       // 1. Fetch Profile
       const meRes = await fetch('/api/v1/auth/me');
-      if (!meRes.ok) {
-        window.location.href = '/login.html';
-        return;
-      }
       if (meRes.ok) {
         const data = await meRes.json();
         const user = data.data;
-        if (!user.isOnboarded) {
-          window.location.href = '/onboarding.html';
-          return;
-        }
         const nameEl = document.getElementById('profile-name');
         const emailEl = document.getElementById('profile-email');
         const avatarBtn = document.getElementById('profile-avatar-btn');
@@ -854,37 +850,11 @@ The architectural boundaries have been tightened up. We're now correctly using t
       if (btnConnect) {
         btnConnect.addEventListener('click', () => {
           btnConnect.textContent = 'Connecting...';
-          
-          const ghClientId = 'Ov23liarYizusohYEor6';
-          const ghScope = encodeURIComponent('read:user user:email repo');
-          // No redirect_uri — uses registered default from GitHub OAuth App settings
-          const ghUrl = `https://github.com/login/oauth/authorize?client_id=${ghClientId}&scope=${ghScope}`;
-          const popup = window.open(ghUrl, 'GitHubAuth', 'width=600,height=700,left=400,top=100');
-          
-          const checkClosed = setInterval(() => {
-             if (!popup || popup.closed) {
-               clearInterval(checkClosed);
-               localStorage.setItem('isGithubConnected', 'true');
-               modal.style.display = 'none';
-               alert('GitHub Connected Successfully!');
-             }
-          }, 500);
+          window.location.href = '/api/v1/auth/github';
         });
       }
     }
   }
-}
-
-// Logout logic
-const logoutBtn = document.getElementById('logout-btn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', async (e) => {
-    e.preventDefault();
-    await fetch('/api/v1/auth/logout', { method: 'POST' });
-    localStorage.removeItem('isAuthenticated');
-    sessionStorage.removeItem('isAuthenticated');
-    window.location.href = '/login.html';
-  });
 }
 
 if (document.readyState === 'loading') {
