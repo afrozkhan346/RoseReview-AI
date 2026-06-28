@@ -302,6 +302,40 @@ function init() {
             avatarBtn.textContent = '';
           }
         }
+
+        // Dynamically update Team/Company name in the sidebar footer
+        const sidebarTeamName = document.getElementById('sidebar-team-name');
+        const sidebarTeamRole = document.getElementById('sidebar-team-role');
+        const sidebarAvatar = document.querySelector('.sidebar-avatar');
+
+        if (sidebarTeamName) {
+          let displayName = 'Solo Space';
+          let displayRole = 'Individual Plan';
+          const onboarding = user.onboardingData || {};
+
+          if (user.persona === 'team') {
+            displayName = onboarding.teamName || 'My Team';
+            displayRole = 'Team Plan';
+          } else if (user.persona === 'company') {
+            displayName = onboarding.companyName || 'My Company';
+            displayRole = 'Enterprise Plan';
+          } else if (user.persona === 'open_source') {
+            displayName = onboarding.projectName || 'OSS Project';
+            displayRole = 'Open Source Plan';
+          } else if (user.persona === 'freelancer') {
+            displayName = 'Freelance Workspace';
+            displayRole = 'Freelancer Plan';
+          } else {
+            displayName = user.name || 'Personal Workspace';
+          }
+
+          sidebarTeamName.textContent = displayName;
+          if (sidebarTeamRole) sidebarTeamRole.textContent = displayRole;
+
+          if (sidebarAvatar) {
+            sidebarAvatar.textContent = displayName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'RR';
+          }
+        }
       }
 
       // Initialize the global repo state for the dashboard
