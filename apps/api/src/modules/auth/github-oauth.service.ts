@@ -55,7 +55,7 @@ export class GitHubOAuthService {
       throw new Error(`GitHub token exchange failed: ${response.statusText}`);
     }
 
-    const data = await response.json();
+    const data = await response.json() as any;
     if (data.error) {
       throw new Error(`GitHub token exchange error: ${data.error_description || data.error}`);
     }
@@ -87,7 +87,7 @@ export class GitHubOAuthService {
       throw new Error(`Failed to fetch GitHub profile: ${response.statusText}`);
     }
 
-    const user = await response.json();
+    const user = await response.json() as any;
 
     let email = user.email;
     if (!email) {
@@ -98,7 +98,7 @@ export class GitHubOAuthService {
         },
       });
       if (emailResponse.ok) {
-        const emails = await emailResponse.json();
+        const emails = await emailResponse.json() as any;
         const primaryEmail = emails.find((e: any) => e.primary && e.verified);
         if (primaryEmail) {
           email = primaryEmail.email;
